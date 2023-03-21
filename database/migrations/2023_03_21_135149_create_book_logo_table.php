@@ -16,8 +16,8 @@ return new class extends Migration
         Schema::create('book_logo', function (Blueprint $table) {
             $table->unsignedBigInteger('book_id');
             $table->unsignedBigInteger('file_id');
-            $table->foreign('book_id', 'book_book_logo_fk')->on('book')->references('id');
-            $table->foreign('file_id', 'author_photo_file_fk')->on('files')->references('id');
+            $table->foreign('book_id', 'book_book_logo_fk')->on('books')->references('id');
+            $table->foreign('file_id', 'book_logo_file_fk')->on('files')->references('id');
             $table->timestamps();
         });
     }

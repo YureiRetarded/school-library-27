@@ -14,7 +14,7 @@ return new class extends Migration {
     {
         Schema::table('books', function (Blueprint $table) {
             $table->unsignedBigInteger('file_id');
-            $table->foreign('file_id', 'book_file_fk')->on('files')->on('id');
+            $table->foreign('file_id', 'book_file_fk')->on('files')->references('id');
         });
     }
 
