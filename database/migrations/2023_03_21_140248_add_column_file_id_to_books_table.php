@@ -12,14 +12,9 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('failed_jobs', function (Blueprint $table) {
-            $table->id();
-            $table->string('uuid')->unique();
-            $table->text('connection');
-            $table->text('queue');
-            $table->longText('payload');
-            $table->longText('exception');
-            $table->timestamp('failed_at')->useCurrent();
+        Schema::table('books', function (Blueprint $table) {
+            $table->unsignedBigInteger('file_id');
+            $table->foreign('file_id', 'book_file_fk')->on('files')->on('id');
         });
     }
 
@@ -30,6 +25,9 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('failed_jobs');
+        Schema::table('books', function (Blueprint $table) {
+            $table->dropForeign('book_file_fk');
+            $table->dropColumn('file_id');
+        });
     }
 };
