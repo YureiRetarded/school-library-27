@@ -17,9 +17,9 @@ return new class extends Migration {
             $table->string('name');
             $table->date('date_crated');
             $table->text('description');
-            $table->unsignedBigInteger('type_id');
-            $table->index('type_id', 'book_type_idx');
-            $table->foreign('type_id', 'book_type_fk')->on('types')->references('id');
+            $table->unsignedBigInteger('category_id');
+            $table->index('category_id', 'book_category_idx');
+            $table->foreign('category_id', 'book_category_fk')->on('categories')->references('id');
             $table->timestamps();
         });
     }
