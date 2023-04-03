@@ -12,14 +12,11 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
-            $table->id();
-            $table->string('first_name');
-            $table->string('second_name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+        Schema::create('author_photo', function (Blueprint $table) {
+            $table->unsignedBigInteger('author_id');
+            $table->unsignedBigInteger('file_id');
+            $table->foreign('author_id', 'author_author_photo_fk')->on('authors')->references('id');
+            $table->foreign('file_id', 'author_photo_file_fk')->on('files')->references('id');
             $table->timestamps();
         });
     }
@@ -31,6 +28,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('author_photo');
     }
 };

@@ -12,14 +12,14 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('books', function (Blueprint $table) {
             $table->id();
-            $table->string('first_name');
-            $table->string('second_name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+            $table->string('name');
+            $table->date('date_crated');
+            $table->text('description');
+            $table->unsignedBigInteger('category_id');
+            $table->index('category_id', 'book_category_idx');
+            $table->foreign('category_id', 'book_category_fk')->on('categories')->references('id');
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('books');
     }
 };
