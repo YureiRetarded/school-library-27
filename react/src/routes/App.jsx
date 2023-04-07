@@ -4,7 +4,7 @@ import {Outlet} from "react-router-dom";
 
 function App() {
     return (
-        <Container className='bg-light'>
+        <Container className='bg-light wrapper'>
             <NavbarReact/>
             <Outlet/>
         </Container>
