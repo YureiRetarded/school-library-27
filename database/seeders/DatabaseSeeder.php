@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Role;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -20,5 +21,22 @@ class DatabaseSeeder extends Seeder
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);
+        $roles = [
+            [
+                'name' => 'Обычный пользователь',
+                'access_level' => 1,
+            ],
+            [
+                'name' => 'Библиотекарь',
+                'access_level' => 5,
+            ],
+            [
+                'name' => 'Администратор',
+                'access_level' => 9,
+            ],
+        ];
+        foreach ($roles as $role){
+            Role::create($role);
+        }
     }
 }
