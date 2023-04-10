@@ -5,6 +5,8 @@ import Home from "./Home.jsx";
 import Catalog from "./Catalog.jsx";
 import Login from "./Login.jsx";
 import Register from "./Register.jsx";
+import LogOut from "./LogOut.jsx";
+import Profile from "./Profile.jsx";
 
 export const router = createBrowserRouter(
     [{
@@ -28,7 +30,16 @@ export const router = createBrowserRouter(
             {
                 path: 'register',
                 element: <Register/>,
+            },
+            {
+                path: 'logOut',
+                element: <LogOut/>,
+            },
+            {
+                path: 'profile',
+                element: <Profile/>
             }
+
         ]
     }]
 );

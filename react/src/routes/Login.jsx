@@ -3,14 +3,19 @@ import {Button, Form} from "react-bootstrap";
 import axios from "axios";
 import {useDispatch, useSelector} from "react-redux";
 import {setAccessLevel, setId, setToken} from "../store/userSlice.js";
-import Error from "../ui/error.jsx";
+import ErrorField from "../ui/ErrorField.jsx";
+import {useNavigate} from "react-router-dom";
 
 
 const Login = () => {
-    const user = useSelector(state => state.user);
-    const [errors, setError] = useState({login: '', password: '', global: ''})
+    //Dispatch для изменения состояния пользователя
     const dispatch = useDispatch()
+    //Состояния ошибок
+    const [errors, setError] = useState({login: '', password: '', global: ''})
+    //Состояние полей формы
     const [form, setForm] = useState({login: '', password: ''})
+    const navigate = useNavigate();
+    //Проверка логина
     const checkValidLogin = (e) => {
         setForm({...form, login: e.target.value})
         setError({...errors, login: ''})
@@ -20,6 +25,7 @@ const Login = () => {
             setError({...errors, login: 'Длина логина не может превышать 32 символа!'})
         }
     }
+    //Проверка пароля
     const checkValidPassword = (e) => {
         setForm({...form, password: e.target.value})
         setError({...errors, password: ''})
@@ -29,6 +35,7 @@ const Login = () => {
             setError({...errors, password: 'Длина пароля не может превышать 64 символа!'})
         }
     }
+    //Отправка формы и её проверка
     const login = () => {
         setError({login: '', password: '', global: ''})
         if (form.login.length === 0 && form.password.length === 0) {
@@ -43,6 +50,7 @@ const Login = () => {
                     dispatch(setId(response.data.data.id));
                     dispatch(setAccessLevel(response.data.data.access_level));
                     dispatch(setToken(response.data.data.token));
+                    return navigate('/profile')
                 } else {
                     for (const [name, value] of Object.entries(response.data.data)) {
                         switch (name.toString()) {
@@ -70,7 +78,7 @@ const Login = () => {
                     <Form.Control type='text' onChange={checkValidLogin}>
                     </Form.Control>
                     {errors.login !== '' &&
-                        <Error message={errors.login}/>
+                        <ErrorField message={errors.login}/>
                     }
                 </Form.Group>
                 <Form.Group>
@@ -78,14 +86,14 @@ const Login = () => {
                     <Form.Control type='password' onChange={checkValidPassword}>
                     </Form.Control>
                     {errors.password !== '' &&
-                        <Error message={errors.password}/>
+                        <ErrorField message={errors.password}/>
                     }
                 </Form.Group>
                 <Form.Group className='d-flex justify-content-center p-3'>
                     <Button onClick={login}>Войти</Button>
                 </Form.Group>
                 {errors.global !== '' &&
-                    <Error message={errors.global}/>
+                    <ErrorField message={errors.global}/>
                 }
             </Form>
         </div>

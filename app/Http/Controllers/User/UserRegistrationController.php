@@ -20,10 +20,15 @@ class UserRegistrationController extends Controller
             'role_id' => 1,
         ];
         $user = User::create($data);
+
+        $token = $user->createToken('user_token');
+        //НЕ работает вызов role если заново не взять user из бд
+        $user = User::find($user['id']);
+        $res = ['id' => $user['id'], 'access_level' => $user->role->access_level, 'token' => $token->plainTextToken];
         return response()->json([
             'success' => true,
-            'message' => 'Ok',
-            'data' => $user,
+            'message' => 'Registration successfully!',
+            'data' => $res,
         ]);
     }
 }

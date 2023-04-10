@@ -1,10 +1,16 @@
 import React, {useState} from 'react';
 import {Button, Form} from "react-bootstrap";
-import Error from "../ui/error.jsx";
+import ErrorField from "../ui/ErrorField.jsx";
 import axios from 'axios';
+import {useDispatch, useSelector} from "react-redux";
+import {setAccessLevel, setId, setToken} from "../store/userSlice.js";
+import {useNavigate} from "react-router-dom";
 
 
 const Register = () => {
+    const dispatch = useDispatch()
+    const navigate = useNavigate();
+    //Состояние полей формы
     const [form, setForm] = useState({
         login: '',
         first_name: '',
@@ -12,6 +18,7 @@ const Register = () => {
         password: '',
         confirm_password: ''
     });
+    //Состояние ошибок
     const [errors, setError] = useState({
         login: '',
         first_name: '',
@@ -19,9 +26,12 @@ const Register = () => {
         password: '',
         confirm_password: '',
     });
+    //Регулярные выражения для проверки полей
     const isValidLoginRegex = /^[a-zA-Z0-9]+$/u;
     const isValidNameRegex = /^[А-Яа-яЁё]+$/u;
     const isValidPasswordRegex = /^[a-zA-Z0-9!@#$%&{}()?]+$/;
+
+    //Проверка логина
     const checkValidLogin = (e) => {
         setForm({...form, login: e.target.value})
         setError({...errors, login: ''})
@@ -35,6 +45,7 @@ const Register = () => {
             setError({...errors, login: 'Длина логина не может превышать 32 символа!'})
         }
     }
+    //Проверка имени
     const checkValidFirstName = (e) => {
         setForm({...form, first_name: e.target.value})
         setError({...errors, first_name: ''})
@@ -47,6 +58,7 @@ const Register = () => {
             setError({...errors, first_name: 'Длина имени не может превышать 16 символов!'})
         }
     }
+    //Проверка фамилии
     const checkValidSecondName = (e) => {
         setForm({...form, second_name: e.target.value})
         setError({...errors, second_name: ''})
@@ -59,6 +71,7 @@ const Register = () => {
             setError({...errors, second_name: 'Длина фамилии не может превышать 16 символов!'})
         }
     }
+    //Проверка пароля
     const checkValidPassword = (e) => {
         setForm({...form, password: e.target.value})
         setError({...errors, password: ''})
@@ -74,6 +87,7 @@ const Register = () => {
             setError({...errors, password: 'Длина пароля не может превышать 64 символа!'})
         }
     }
+    //Проверка подтверждения пароля
     const checkConfirmPassword = (e) => {
         setError({...errors, confirm_password: ''})
         setForm({...form, confirm_password: e.target.value})
@@ -81,6 +95,7 @@ const Register = () => {
             setError({...errors, confirm_password: 'Пароли не совпадают!'})
         }
     }
+    //Отправка формы и её проверка
     const register = () => {
         //Временный костыль
         const error = {login: '', first_name: '', second_name: '', password: '', confirm_password: ''};
@@ -144,7 +159,10 @@ const Register = () => {
                         }
                     }
                 } else {
-                    console.log(response)
+                    dispatch(setId(response.data.data.id));
+                    dispatch(setAccessLevel(response.data.data.access_level));
+                    dispatch(setToken(response.data.data.token));
+                    return navigate('/profile')
                 }
             })
         }
@@ -163,7 +181,7 @@ const Register = () => {
 
                     </Form.Control>
                     {errors.login !== '' &&
-                        <Error message={errors.login}/>
+                        <ErrorField message={errors.login}/>
                     }
                 </Form.Group>
                 <Form.Group>
@@ -175,7 +193,7 @@ const Register = () => {
                     >
                     </Form.Control>
                     {errors.first_name !== '' &&
-                        <Error message={errors.first_name}/>
+                        <ErrorField message={errors.first_name}/>
                     }
                 </Form.Group>
                 <Form.Group>
@@ -187,7 +205,7 @@ const Register = () => {
                     >
                     </Form.Control>
                     {errors.second_name !== '' &&
-                        <Error message={errors.second_name}/>
+                        <ErrorField message={errors.second_name}/>
                     }
                 </Form.Group>
                 <Form.Group>
@@ -199,7 +217,7 @@ const Register = () => {
                     >
                     </Form.Control>
                     {errors.password !== '' &&
-                        <Error message={errors.password}/>
+                        <ErrorField message={errors.password}/>
                     }
                 </Form.Group>
                 <Form.Group>
@@ -211,7 +229,7 @@ const Register = () => {
                     >
                     </Form.Control>
                     {errors.confirm_password !== '' &&
-                        <Error message={errors.confirm_password}/>
+                        <ErrorField message={errors.confirm_password}/>
                     }
                 </Form.Group>
                 <Form.Group className='d-flex justify-content-center p-3'>

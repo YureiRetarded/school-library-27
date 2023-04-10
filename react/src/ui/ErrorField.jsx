@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Error = ({message}) => {
+const ErrorField = ({message}) => {
     return (
         < div className="alert alert-danger" role="alert">
             {message}
@@ -8,4 +8,4 @@ const Error = ({message}) => {
     );
 };
 
-export default Error;
+export default ErrorField;
