@@ -6,7 +6,7 @@ import Catalog from "./Catalog.jsx";
 import Login from "./Login.jsx";
 import Register from "./Register.jsx";
 import LogOut from "./LogOut.jsx";
-import Profile from "./Profile.jsx";
+import ProfilePage from "./ProfilePage.jsx";
 
 export const router = createBrowserRouter(
     [{
@@ -37,7 +37,7 @@ export const router = createBrowserRouter(
             },
             {
                 path: 'profile',
-                element: <Profile/>
+                element: <ProfilePage/>
             }
 
         ]
