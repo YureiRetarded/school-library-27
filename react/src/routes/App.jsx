@@ -1,4 +1,4 @@
-import NavbarReact from "../components/NavbarReact.jsx";
+import NavbarReact from "../components/NavBar/NavbarReact.jsx";
 import Container from "react-bootstrap/Container";
 import {Outlet} from "react-router-dom";
 

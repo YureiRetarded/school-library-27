@@ -3,7 +3,7 @@ import './styles/style.css';
 import ReactDOM from 'react-dom/client'
 import {RouterProvider} from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
-import {router} from "./routes/index.jsx";
+import {router} from "./routes/routes.jsx"
 import {Provider} from "react-redux";
 import {store} from "./store/store.js";
 import axios from 'axios';
