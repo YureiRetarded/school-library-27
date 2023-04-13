@@ -55,10 +55,17 @@ html, #root, .wrapper {
     height: 100vh;
 
 }
-/*.wrapperForm{*/
-/*    height: 100vh;*/
-/*    overflow: hidden;*/
-/*    display: flex;*/
-/*    justify-content: center;*/
-/*    align-items: center;*/
-/*}*/
+
+.bg-sidebar {
+    background-color: #F2F3F5;
+}
+
+.icon-color {
+    color: #1e3150;
+}
+
+.bg-sidebar-text {
+    color: black;
+}
+
+/*style={{color: "#1e3150",}}*/
