@@ -1,7 +1,7 @@
 import React from 'react';
-import SideBar from "../components/LibrarianPanel/SideBar.jsx";
+import SideBar from "../../components/LibrarianPanel/SideBar.jsx";
 import {Outlet} from "react-router-dom";
-import Protected from "../components/Protected.jsx";
+import Protected from "../../components/Protected.jsx";
 
 const LibrarianPanel = () => {
     return (

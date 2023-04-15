@@ -7,13 +7,17 @@ import Login from "./Login.jsx";
 import Register from "./Register.jsx";
 import LogOut from "./LogOut.jsx";
 import ProfilePage from "./ProfilePage.jsx";
-import LibrarianPanel from "./LibrarianPanel.jsx";
-
-import LibrarianHome from "./LibrarianHome.jsx";
+import LibrarianPanel from "./Librarian/LibrarianPanel.jsx";
+import LibrarianHome from "./Librarian/LibrarianHome.jsx";
 import Books from "./Books.jsx";
-import Authors from "./Authors.jsx";
+import AuthorsPage from "./AuthorsPage.jsx";
 import Reports from "./Reports.jsx";
 import Users from "./Users.jsx";
+import LibrarianCountryPage from "./Librarian/Country/LibrarianCountryPage.jsx";
+import CountryIndex from "./Librarian/Country/CountryIndex.jsx";
+import CountryCreate from "./Librarian/Country/CountryCreate.jsx";
+import CountryEdit from "./Librarian/Country/CountryEdit.jsx";
+
 
 export const router = createBrowserRouter(
     [{
@@ -60,8 +64,26 @@ export const router = createBrowserRouter(
 
                     },
                     {
+                        path: 'countries',
+                        element: <LibrarianCountryPage/>,
+                        children: [
+                            {
+                                path: '',
+                                element: <CountryIndex/>
+                            },
+                            {
+                                path: 'create',
+                                element: <CountryCreate/>
+                            },
+                            {
+                                path: ':countryId/edit',
+                                element: <CountryEdit/>
+                            }
+                        ]
+                    },
+                    {
                         path: 'authors',
-                        element: <Authors/>
+                        element: <AuthorsPage/>
                     },
                     {
                         path: 'reports',

@@ -1,5 +1,10 @@
 <?php
 
+use App\Http\Controllers\Country\CountryDestroyController;
+use App\Http\Controllers\Country\CountryIndexController;
+use App\Http\Controllers\Country\CountryReadController;
+use App\Http\Controllers\Country\CountryStoreController;
+use App\Http\Controllers\Country\CountryUpdateController;
 use App\Http\Controllers\User\CheckUserController;
 use App\Http\Controllers\User\UserLoginController;
 use App\Http\Controllers\User\UserRegistrationController;
@@ -20,6 +25,17 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/user', CheckUserController::class);
+    Route::middleware('librarian')->group(function () {
+        Route::prefix('country')->group(function () {
+            Route::get('/', CountryIndexController::class);
+            Route::get('/{id}', CountryReadController::class);
+            Route::patch('/{id}/update', CountryUpdateController::class);
+            Route::post('/create', CountryStoreController::class);
+            Route::delete('/{id}', CountryDestroyController::class);
+        });
+
+    });
+
 }
 );
 Route::post('/registration', UserRegistrationController::class);
