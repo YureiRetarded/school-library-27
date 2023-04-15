@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useSelector} from "react-redux";
 import {useNavigate, useParams} from "react-router-dom";
 import axios from "axios";
-import {Button, Form} from "react-bootstrap";
+import {Button, Form, Spinner} from "react-bootstrap";
 import ErrorField from "../../../ui/ErrorField.jsx";
 
 const CountryEditForm = () => {
@@ -12,7 +12,7 @@ const CountryEditForm = () => {
     const user = useSelector(state => state.user);
     const navigate = useNavigate();
     const {countryId} = useParams();
-
+    const [isLoading, setIsLoading] = useState(false)
 
     useEffect(() => {
         const config = {
@@ -20,7 +20,9 @@ const CountryEditForm = () => {
                 Authorization: 'Bearer ' + user.token
             }
         }
+        setIsLoading(true)
         axios.get(`http://127.0.0.1:8000/api/country/${countryId}`, config).then(response => {
+            setIsLoading(false)
             if (response.data.success) {
                 setForm({id: response.data.data.id, name: response.data.data.name})
             } else {
@@ -68,17 +70,20 @@ const CountryEditForm = () => {
     }
     return (
         <Form>
-            <Form.Group className='mb-3'>
-                <Form.Label>Наименование страны</Form.Label>
-                <Form.Control type='text' placeholder='Введите имя страны' onChange={checkValidName}
-                              value={form.name}></Form.Control>
-                {error !== '' &&
-                    <ErrorField message={error}/>
-                }
-            </Form.Group>
-            <Button variant='primary' onClick={UpdateCountry}>
-                Изменить
-            </Button>
+            {isLoading ? <Spinner animation='border'/> :
+                <div>
+                    <Form.Group className='mb-3'>
+                        <Form.Label>Наименование страны</Form.Label>
+                        <Form.Control type='text' placeholder='Введите имя страны' onChange={checkValidName}
+                                      value={form.name}></Form.Control>
+                        {error !== '' &&
+                            <ErrorField message={error}/>
+                        }
+                    </Form.Group>
+                    <Button variant='primary' onClick={UpdateCountry}>
+                        Изменить
+                    </Button>
+                </div>}
         </Form>
     );
 };
