@@ -8,4 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class Country extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'name',
+    ];
+    protected $hidden = [
+        'updated_at',
+        'created_at',
+    ];
+
+    public function authors()
+    {
+        return $this->hasMany(Author::class);
+    }
+
 }

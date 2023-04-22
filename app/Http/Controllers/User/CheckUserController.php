@@ -10,7 +10,6 @@ class CheckUserController extends Controller
 {
     public function __invoke()
     {
-
         $user = auth('sanctum')->user();
         $res = ['id' => $user['id'], 'access_level' => $user->role->access_level];
         return response()->json([

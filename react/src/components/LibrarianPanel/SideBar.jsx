@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faHouse, faBook, faPenNib, faPrint, faUsers} from "@fortawesome/free-solid-svg-icons";
+import {faHouse, faBook, faPenNib, faPrint, faUsers, faGlobe} from "@fortawesome/free-solid-svg-icons";
 
 const SideBar = () => {
 
@@ -10,14 +10,13 @@ const SideBar = () => {
             <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
                 <ul className="nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start"
                     id="menu">
-                    <li className="nav-item">
-                        <Link to={''} className='nav-link align-middle px-0'>
+                    <li className='nav-item'>
+                        <Link to={''} className='nav-link'>
                             <FontAwesomeIcon size='2xl' icon={faHouse} className='icon-color'/>
                             <span className='ms-1 d-none d-sm-inline bg-sidebar-text'>Главная</span>
                         </Link>
-
                     </li>
-                    <li>
+                    <li className='nav-item'>
                         <Link to={'books'} className='nav-link'>
                             <FontAwesomeIcon size='2xl' icon={faBook} className='icon-color'/>
                             <span className='ms-1 d-none d-sm-inline bg-sidebar-text'>Книги</span>
@@ -27,6 +26,12 @@ const SideBar = () => {
                         <Link to={'authors'} className='nav-link'>
                             <FontAwesomeIcon size='2xl' icon={faPenNib} className='icon-color'/>
                             <span className='ms-1 d-none d-sm-inline bg-sidebar-text'>Авторы</span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to={'countries'} className='nav-link'>
+                            <FontAwesomeIcon size='2xl' icon={faGlobe} className='icon-color'/>
+                            <span className='ms-1 d-none d-sm-inline bg-sidebar-text'>Страны</span>
                         </Link>
                     </li>
                     <li>
