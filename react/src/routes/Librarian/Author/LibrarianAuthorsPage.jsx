@@ -1,7 +1,7 @@
 import React from 'react';
 import {Outlet} from "react-router-dom";
 
-const LibrarianCountryPage = () => {
+const LibrarianAuthorsPage = () => {
     return (
         <div>
             <Outlet/>
@@ -9,4 +9,4 @@ const LibrarianCountryPage = () => {
     );
 };
 
-export default LibrarianCountryPage;
+export default LibrarianAuthorsPage;

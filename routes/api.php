@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Author\AuthorStoreController;
 use App\Http\Controllers\Country\CountryDestroyController;
 use App\Http\Controllers\Country\CountryIndexController;
 use App\Http\Controllers\Country\CountryReadController;
@@ -30,8 +31,11 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('/', CountryIndexController::class);
             Route::get('/{id}', CountryReadController::class);
             Route::patch('/{id}/update', CountryUpdateController::class);
-            Route::post('/create', CountryStoreController::class);
+            Route::post('/', CountryStoreController::class);
             Route::delete('/{id}', CountryDestroyController::class);
+        });
+        Route::prefix('author')->group(function (){
+            Route::post('/', AuthorStoreController::class);
         });
 
     });

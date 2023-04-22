@@ -10,13 +10,17 @@ import ProfilePage from "./ProfilePage.jsx";
 import LibrarianPanel from "./Librarian/LibrarianPanel.jsx";
 import LibrarianHome from "./Librarian/LibrarianHome.jsx";
 import Books from "./Books.jsx";
-import AuthorsPage from "./AuthorsPage.jsx";
+import LibrarianAuthorsPage from "./Librarian/Author/LibrarianAuthorsPage.jsx";
 import Reports from "./Reports.jsx";
 import Users from "./Users.jsx";
 import LibrarianCountryPage from "./Librarian/Country/LibrarianCountryPage.jsx";
 import CountryIndex from "./Librarian/Country/CountryIndex.jsx";
 import CountryCreate from "./Librarian/Country/CountryCreate.jsx";
 import CountryEdit from "./Librarian/Country/CountryEdit.jsx";
+import AuthorIndex from "./Librarian/Author/AuthorIndex.jsx";
+import AuthorEdit from "./Librarian/Author/AuthorEdit.jsx";
+import AuthorCreate from "./Librarian/Author/AuthorCreate.jsx";
+import AuthorRead from "./Librarian/Author/AuthorRead.jsx";
 
 
 export const router = createBrowserRouter(
@@ -83,7 +87,25 @@ export const router = createBrowserRouter(
                     },
                     {
                         path: 'authors',
-                        element: <AuthorsPage/>
+                        element: <LibrarianAuthorsPage/>,
+                        children: [
+                            {
+                                path: '',
+                                element: <AuthorIndex/>
+                            },
+                            {
+                                path: ':authorId',
+                                element: <AuthorRead/>
+                            },
+                            {
+                                path: 'create',
+                                element: <AuthorCreate/>
+                            },
+                            {
+                                path: ':authorId/edit',
+                                element: <AuthorEdit/>
+                            },
+                        ]
                     },
                     {
                         path: 'reports',

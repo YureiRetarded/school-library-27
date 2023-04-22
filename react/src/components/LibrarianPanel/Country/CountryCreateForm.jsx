@@ -35,7 +35,7 @@ const CountryCreateForm = () => {
                     Authorization: 'Bearer ' + user.token
                 }
             }
-            axios.post('http://127.0.0.1:8000/api/country/create', {name: name}, config).then(response => {
+            axios.post('http://127.0.0.1:8000/api/country/', {name: name}, config).then(response => {
                 if (response.data.success) {
                     return navigate('/librarian/countries')
                 } else {

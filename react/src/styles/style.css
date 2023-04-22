@@ -51,10 +51,15 @@ table {
 
 html, #root, .wrapper {
     background-color: var(--bs-light);
-    overflow: hidden;
+    /*overflow: hidden;*/
     height: 100vh;
-
 }
+body{
+    overflow-y: scroll;
+}
+/*.wrapper {*/
+/*    overflow-y: visible;*/
+/*}*/
 
 .bg-sidebar {
     background-color: #F2F3F5;
