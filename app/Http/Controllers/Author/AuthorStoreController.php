@@ -29,13 +29,20 @@ class AuthorStoreController extends Controller
 //            'message' => 'Author data',
 //            'data' => $data,
 //        ]);
-        $image = explode(',', $request['image'])[1];
-        $name = Str::random(240);
-        while (File::where('name', $name)->first()) {
+        if($request['image']){
+//            return response()->json([
+//                'success' => true,
+//                'message' => 'Author data',
+//                'data' => $request['image'],
+//            ]);
+            $image = explode(',', $request['image'])[1];
             $name = Str::random(240);
+            while (File::where('name', $name)->first()) {
+                $name = Str::random(240);
+            }
+            Storage::disk('local')->put($name . '.jpg', base64_decode($image));
+            $file = File::create(['name' => $name]);
         }
-        Storage::disk('local')->put($name . '.jpg', base64_decode($image));
-        $file = File::create(['name' => $name]);
         $author = Author::create($data);
         return response()->json([
             'success' => true,

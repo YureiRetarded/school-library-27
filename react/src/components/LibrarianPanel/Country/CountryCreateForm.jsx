@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 import {Button, Form} from "react-bootstrap";
 import ErrorField from "../../../ui/ErrorField.jsx";
 import {useSelector} from "react-redux";
-import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import CountryService from "../../../API/CountryService.js";
 
 
 const CountryCreateForm = () => {
@@ -26,22 +26,16 @@ const CountryCreateForm = () => {
             setError('Длина наименования страны не может превышать 64 символа!')
         }
     }
-    const createCountry = () => {
+    const createCountry = async () => {
         if (name.trim() === '') {
             setError('Поле не может быть пустым!')
         } else if (error.length === 0) {
-            const config = {
-                headers: {
-                    Authorization: 'Bearer ' + user.token
-                }
+            const response = await CountryService.storeCountry(user, {name: name})
+            if (response.status) {
+                return navigate('/librarian/countries')
+            } else {
+                setError(response.error)
             }
-            axios.post('http://127.0.0.1:8000/api/country/', {name: name}, config).then(response => {
-                if (response.data.success) {
-                    return navigate('/librarian/countries')
-                } else {
-                    setError(response.data.data.name.toString())
-                }
-            })
         }
     }
     return (

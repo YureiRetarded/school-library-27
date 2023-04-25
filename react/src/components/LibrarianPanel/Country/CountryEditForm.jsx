@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {useSelector} from "react-redux";
 import {useNavigate, useParams} from "react-router-dom";
-import axios from "axios";
 import {Button, Form, Spinner} from "react-bootstrap";
 import ErrorField from "../../../ui/ErrorField.jsx";
+import CountryService from "../../../API/CountryService.js";
 
 const CountryEditForm = () => {
     const [form, setForm] = useState({id: 0, name: ''})
@@ -12,23 +12,20 @@ const CountryEditForm = () => {
     const user = useSelector(state => state.user);
     const navigate = useNavigate();
     const {countryId} = useParams();
-    const [isLoading, setIsLoading] = useState(false)
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(() => {
-        const config = {
-            headers: {
-                Authorization: 'Bearer ' + user.token
-            }
-        }
-        setIsLoading(true)
-        axios.get(`http://127.0.0.1:8000/api/country/${countryId}`, config).then(response => {
-            setIsLoading(false)
-            if (response.data.success) {
-                setForm({id: response.data.data.id, name: response.data.data.name})
+        const fetchCountry = async () => {
+            const response = await CountryService.getCountry(user, countryId);
+            if (response.status) {
+                setForm({id: response.data.id, name: response.data.name})
             } else {
                 navigate('/librarian/countries/')
             }
-        })
+
+            setIsLoading(false)
+        }
+        fetchCountry();
     }, [])
 
 
@@ -47,25 +44,16 @@ const CountryEditForm = () => {
         }
     }
 
-    const UpdateCountry = () => {
+    const UpdateCountry = async () => {
         if (form.name.trim() === '') {
             setError('Поле не может быть пустым!')
         } else if (error.length === 0) {
-            const config = {
-                headers: {
-                    Authorization: 'Bearer ' + user.token
-                }
+            const response = await CountryService.updateCountry(user, countryId, form.name);
+            if (response.status) {
+                navigate(-1)
+            } else {
+                setError(response.error)
             }
-            axios.post(`http://127.0.0.1:8000/api/country/${countryId}/update`, {
-                _method: 'PATCH',
-                name: form.name
-            }, config).then(response => {
-                if (response.data.success) {
-                    navigate(-1)
-                } else {
-                    setError(response.data.data.name.toString())
-                }
-            })
         }
     }
     return (

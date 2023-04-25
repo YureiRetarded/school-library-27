@@ -6,6 +6,8 @@ import DatePicker, {registerLocale} from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import axios from "axios";
 import ru from 'date-fns/locale/ru';
+import CountryService from "../../../API/CountryService.js";
+import AuthorService from "../../../API/AuthorService.js";
 
 registerLocale('ru', ru)
 
@@ -54,15 +56,14 @@ const AuthorCreate = () => {
         setImagesURL(newImageUrl)
     }, [image])
     useEffect(() => {
-        const config = {
-            headers: {
-                Authorization: 'Bearer ' + user.token
+        const fetchCountries = async () => {
+            const response = await CountryService.getCountries(user);
+            if (response.status) {
+                setCountries([...response.data])
+                setIsLoading(false)
             }
         }
-        axios.get('http://127.0.0.1:8000/api/country/', config).then(response => {
-            setCountries([...response.data.data])
-            setIsLoading(false)
-        })
+        fetchCountries();
     }, [])
     const checkValidFirstName = (e) => {
         setForm({...form, first_name: e.target.value})
@@ -100,43 +101,31 @@ const AuthorCreate = () => {
             setErrors({...errors, middle_name: 'Длина отчества не может превышать 16 символов!'})
         }
     }
-    const createAuthor = () => {
-        if(haveDateBirthday&&haveDateDeath){
-            setForm({...form,date_birthday:birthday,date_death:death})
-        }
-        else if(haveDateBirthday&&!haveDateDeath){
-            setForm({...form,date_birthday:birthday})
-        }
-        else if(!haveDateBirthday&&haveDateDeath){
-            setForm({...form,date_death:death})
+    const createAuthor = async () => {
+        if (haveDateBirthday && haveDateDeath) {
+            setForm({...form, date_birthday: birthday, date_death: death})
+        } else if (haveDateBirthday && !haveDateDeath) {
+            setForm({...form, date_birthday: birthday})
+        } else if (!haveDateBirthday && haveDateDeath) {
+            setForm({...form, date_death: death})
         }
 
         if (image[0]) {
             const reader = new FileReader();
             reader.readAsDataURL(image[0])
-            reader.onload = () => {
-                const config = {
-                    headers: {
-                        Authorization: 'Bearer ' + user.token
-                    }
-                }
-                axios.post('http://127.0.0.1:8000/api/author/', {
-                    ...form,
-                    image: reader.result
-                }, config).then(response => {
+            reader.onload = async () => {
+
+                const response = await AuthorService.storeAuthor(user, form, await reader.result)
+                if (response.status) {
                     console.log(response)
-                })
+                } else console.log(response)
             }
 
         } else {
-            const config = {
-                headers: {
-                    Authorization: 'Bearer ' + user.token
-                }
-            }
-            axios.post('http://127.0.0.1:8000/api/author/', {...form}, config).then(response => {
+            const response = await AuthorService.storeAuthor(user, form)
+            if (response.status) {
                 console.log(response)
-            })
+            } else console.log(response)
         }
 
 
@@ -182,7 +171,7 @@ const AuthorCreate = () => {
             <Form.Group>
                 <Form.Label>Страна рождения</Form.Label>
                 {isLoading ? <Spinner animation='border'/> :
-                    <Form.Select onChange={e => setForm({...form,country_id: e.target.value})}>
+                    <Form.Select onChange={e => setForm({...form, country_id: e.target.value})}>
                         {countries.map(country =>
                             <option key={country.id} value={country.id}>{country.name}</option>
                         )}

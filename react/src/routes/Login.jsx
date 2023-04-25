@@ -1,10 +1,9 @@
 import React, {useState} from 'react';
 import {Button, Form} from "react-bootstrap";
-import axios from "axios";
-import {useDispatch, useSelector} from "react-redux";
-import {setAccessLevel, setId, setToken} from "../store/userSlice.js";
+import {useDispatch} from "react-redux";
 import ErrorField from "../ui/ErrorField.jsx";
 import {useNavigate} from "react-router-dom";
+import UserService from "../API/UserService.js";
 
 
 const Login = () => {
@@ -36,7 +35,7 @@ const Login = () => {
         }
     }
     //Отправка формы и её проверка
-    const login = () => {
+    const login = async () => {
         setError({login: '', password: '', global: ''})
         if (form.login.length === 0 && form.password.length === 0) {
             setError({...errors, login: 'Поле не может быть пустым!', password: 'Поле не может быть пустым!'})
@@ -45,28 +44,23 @@ const Login = () => {
         } else if (form.login.length !== 0 && form.password.length === 0) {
             setError({...errors, password: 'Поле не может быть пустым!'})
         } else {
-            axios.post('http://127.0.0.1:8000/api/login', form).then(response => {
-                if (response.data.success) {
-                    dispatch(setId(response.data.data.id));
-                    dispatch(setAccessLevel(response.data.data.access_level));
-                    dispatch(setToken(response.data.data.token));
-                    return navigate('/profile')
-                } else {
-                    for (const [name, value] of Object.entries(response.data.data)) {
-                        switch (name.toString()) {
-                            case 'login':
-                                setError({...errors, login: value})
-                                break;
-                            case 'password':
-                                setError({...errors, password: value})
-                                break;
-                            default:
-                                setError({...errors, global: value})
-
-                        }
+            const login = await UserService.userAuthorization(dispatch, form);
+            if (login.status) {
+                return navigate('/profile')
+            } else {
+                for (const [name, value] of Object.entries(login.errors)) {
+                    switch (name.toString()) {
+                        case 'login':
+                            setError({...errors, login: value})
+                            break;
+                        case 'password':
+                            setError({...errors, password: value})
+                            break;
+                        default:
+                            setError({...errors, global: value})
                     }
                 }
-            });
+            }
         }
     }
 

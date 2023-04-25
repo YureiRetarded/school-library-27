@@ -5,6 +5,7 @@ import axios from 'axios';
 import {useDispatch, useSelector} from "react-redux";
 import {setAccessLevel, setId, setToken} from "../store/userSlice.js";
 import {useNavigate} from "react-router-dom";
+import UserService from "../API/UserService.js";
 
 
 const Register = () => {
@@ -96,7 +97,7 @@ const Register = () => {
         }
     }
     //Отправка формы и её проверка
-    const register = () => {
+    const register = async () => {
         //Временный костыль
         const error = {login: '', first_name: '', second_name: '', password: '', confirm_password: ''};
         if (form.login === '') {
@@ -134,39 +135,36 @@ const Register = () => {
             if (value !== '')
                 er = true
         }
+
         if (er) {
             setError({...{}, ...error})
         } else {
-            axios.post('http://127.0.0.1:8000/api/registration', form).then((response) => {
-                if (!response.data.success) {
-                    for (const [name, value] of Object.entries(response.data.data)) {
-                        switch (name.toString()) {
-                            case 'login':
-                                setError({...errors, login: value[0]});
-                                break;
-                            case 'first_name':
-                                setError({...errors, first_name: value[0]});
-                                break;
-                            case 'second_name':
-                                setError({...errors, second_name: value[0]});
-                                break;
-                            case 'password':
-                                setError({...errors, password: value[0]});
-                                break;
-                            case 'confirm_password':
-                                setError({...errors, confirm_password: value[0]});
-                                break;
-                        }
+            const register = await UserService.userRegistration(dispatch, form);
+            if (register.status) {
+                return navigate('/profile')
+            } else {
+                for (const [name, value] of Object.entries(register.errors)) {
+                    switch (name.toString()) {
+                        case 'login':
+                            setError({...errors, login: value[0]});
+                            break;
+                        case 'first_name':
+                            setError({...errors, first_name: value[0]});
+                            break;
+                        case 'second_name':
+                            setError({...errors, second_name: value[0]});
+                            break;
+                        case 'password':
+                            setError({...errors, password: value[0]});
+                            break;
+                        case 'confirm_password':
+                            setError({...errors, confirm_password: value[0]});
+                            break;
                     }
-                } else {
-                    dispatch(setId(response.data.data.id));
-                    dispatch(setAccessLevel(response.data.data.access_level));
-                    dispatch(setToken(response.data.data.token));
-                    return navigate('/profile')
                 }
-            })
-        }
 
+            }
+        }
     }
     return (
         <div className='wrapper'>
