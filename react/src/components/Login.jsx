@@ -1,10 +1,9 @@
 import React, {useState} from 'react';
-import {Button, Form} from "react-bootstrap";
 import {useDispatch} from "react-redux";
-import ErrorField from "../ui/ErrorField.jsx";
 import {useNavigate} from "react-router-dom";
 import UserService from "../API/UserService.js";
-
+import {Button, Form} from "react-bootstrap";
+import ErrorField from "../ui/ErrorField.jsx";
 
 const Login = () => {
     //Dispatch для изменения состояния пользователя
@@ -65,32 +64,30 @@ const Login = () => {
     }
 
     return (
-        <div className='wrapper'>
-            <Form className='col-3 mx-auto my-5'>
-                <Form.Group>
-                    <Form.Label>Логин</Form.Label>
-                    <Form.Control type='text' onChange={checkValidLogin}>
-                    </Form.Control>
-                    {errors.login !== '' &&
-                        <ErrorField message={errors.login}/>
-                    }
-                </Form.Group>
-                <Form.Group>
-                    <Form.Label>Пароль</Form.Label>
-                    <Form.Control type='password' onChange={checkValidPassword}>
-                    </Form.Control>
-                    {errors.password !== '' &&
-                        <ErrorField message={errors.password}/>
-                    }
-                </Form.Group>
-                <Form.Group className='d-flex justify-content-center p-3'>
-                    <Button onClick={login}>Войти</Button>
-                </Form.Group>
-                {errors.global !== '' &&
-                    <ErrorField message={errors.global}/>
+        <Form className='col-3 mx-auto my-5'>
+            <Form.Group>
+                <Form.Label>Логин</Form.Label>
+                <Form.Control type='text' onChange={checkValidLogin}>
+                </Form.Control>
+                {errors.login !== '' &&
+                    <ErrorField message={errors.login}/>
                 }
-            </Form>
-        </div>
+            </Form.Group>
+            <Form.Group>
+                <Form.Label>Пароль</Form.Label>
+                <Form.Control type='password' onChange={checkValidPassword}>
+                </Form.Control>
+                {errors.password !== '' &&
+                    <ErrorField message={errors.password}/>
+                }
+            </Form.Group>
+            <Form.Group className='d-flex justify-content-center p-3'>
+                <Button onClick={login}>Войти</Button>
+            </Form.Group>
+            {errors.global !== '' &&
+                <ErrorField message={errors.global}/>
+            }
+        </Form>
     );
 };
 

@@ -3,16 +3,14 @@ import App from "./App.jsx";
 import ErrorPage from "./ErrorPage.jsx";
 import HomePage from "./HomePage.jsx";
 import CatalogPage from "./CatalogPage.jsx";
-import Login from "./Login.jsx";
-import Register from "./Register.jsx";
 import LogOut from "./LogOut.jsx";
 import ProfilePage from "./ProfilePage.jsx";
 import LibrarianPanel from "./Librarian/LibrarianPanel.jsx";
 import LibrarianHome from "./Librarian/LibrarianHome.jsx";
-import Books from "./Books.jsx";
+import BooksPage from "./BooksPage.jsx";
 import LibrarianAuthorsPage from "./Librarian/Author/LibrarianAuthorsPage.jsx";
-import Reports from "./Reports.jsx";
-import Users from "./Users.jsx";
+import ReportsPage from "./ReportsPage.jsx";
+import UsersPage from "./UsersPage.jsx";
 import LibrarianCountryPage from "./Librarian/Country/LibrarianCountryPage.jsx";
 import CountryIndex from "./Librarian/Country/CountryIndex.jsx";
 import CountryCreate from "./Librarian/Country/CountryCreate.jsx";
@@ -21,6 +19,8 @@ import AuthorIndex from "./Librarian/Author/AuthorIndex.jsx";
 import AuthorEdit from "./Librarian/Author/AuthorEdit.jsx";
 import AuthorCreate from "./Librarian/Author/AuthorCreate.jsx";
 import AuthorRead from "./Librarian/Author/AuthorRead.jsx";
+import LoginPage from "./LoginPage.jsx";
+import RegisteringPage from "./RegisteringPage.jsx";
 
 
 export const router = createBrowserRouter(
@@ -40,11 +40,11 @@ export const router = createBrowserRouter(
             },
             {
                 path: 'login',
-                element: <Login/>,
+                element: <LoginPage/>,
             },
             {
                 path: 'register',
-                element: <Register/>,
+                element: <RegisteringPage/>,
             },
             {
                 path: 'logOut',
@@ -64,7 +64,7 @@ export const router = createBrowserRouter(
                     },
                     {
                         path: 'books',
-                        element: <Books/>
+                        element: <BooksPage/>
 
                     },
                     {
@@ -109,11 +109,11 @@ export const router = createBrowserRouter(
                     },
                     {
                         path: 'reports',
-                        element: <Reports/>
+                        element: <ReportsPage/>
                     },
                     {
                         path: 'users',
-                        element: <Users/>
+                        element: <UsersPage/>
                     }
                 ]
             }

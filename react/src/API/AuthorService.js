@@ -1,7 +1,9 @@
 import axios from "axios";
 
 export default class {
+    //Сохраняем нового автора
     static async storeAuthor(user, data, image = '') {
+        //Вставка токена в заголовок, для авторизации
         const config = {
             headers: {
                 Authorization: 'Bearer ' + user.token

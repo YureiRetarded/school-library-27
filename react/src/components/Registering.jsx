@@ -1,14 +1,11 @@
 import React, {useState} from 'react';
 import {Button, Form} from "react-bootstrap";
 import ErrorField from "../ui/ErrorField.jsx";
-import axios from 'axios';
-import {useDispatch, useSelector} from "react-redux";
-import {setAccessLevel, setId, setToken} from "../store/userSlice.js";
+import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import UserService from "../API/UserService.js";
 
-
-const Register = () => {
+const Registering = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate();
     //Состояние полей формы
@@ -167,75 +164,73 @@ const Register = () => {
         }
     }
     return (
-        <div className='wrapper'>
-            <Form className='col-3 mx-auto my-5'>
-                <Form.Group>
-                    <Form.Label>Логин</Form.Label>
-                    <Form.Control
-                        onChange={checkValidLogin}
-                        type='text'
-                        value={form.login}
-                    >
+        <Form className='col-3 mx-auto my-5'>
+            <Form.Group>
+                <Form.Label>Логин</Form.Label>
+                <Form.Control
+                    onChange={checkValidLogin}
+                    type='text'
+                    value={form.login}
+                >
 
-                    </Form.Control>
-                    {errors.login !== '' &&
-                        <ErrorField message={errors.login}/>
-                    }
-                </Form.Group>
-                <Form.Group>
-                    <Form.Label>Имя</Form.Label>
-                    <Form.Control
-                        onChange={checkValidFirstName}
-                        type='text'
-                        value={form.first_name}
-                    >
-                    </Form.Control>
-                    {errors.first_name !== '' &&
-                        <ErrorField message={errors.first_name}/>
-                    }
-                </Form.Group>
-                <Form.Group>
-                    <Form.Label>Фамилия</Form.Label>
-                    <Form.Control
-                        onChange={checkValidSecondName}
-                        type='text'
-                        value={form.second_name}
-                    >
-                    </Form.Control>
-                    {errors.second_name !== '' &&
-                        <ErrorField message={errors.second_name}/>
-                    }
-                </Form.Group>
-                <Form.Group>
-                    <Form.Label>Пароль</Form.Label>
-                    <Form.Control
-                        onChange={checkValidPassword}
-                        type='password'
-                        value={form.password}
-                    >
-                    </Form.Control>
-                    {errors.password !== '' &&
-                        <ErrorField message={errors.password}/>
-                    }
-                </Form.Group>
-                <Form.Group>
-                    <Form.Label>Подтвердите пароль</Form.Label>
-                    <Form.Control
-                        onChange={checkConfirmPassword}
-                        type='password'
-                        value={form.confirm_password}
-                    >
-                    </Form.Control>
-                    {errors.confirm_password !== '' &&
-                        <ErrorField message={errors.confirm_password}/>
-                    }
-                </Form.Group>
-                <Form.Group className='d-flex justify-content-center p-3'>
-                    <Button onClick={register}>Зарегистрироваться</Button>
-                </Form.Group>
-            </Form>
-        </div>
+                </Form.Control>
+                {errors.login !== '' &&
+                    <ErrorField message={errors.login}/>
+                }
+            </Form.Group>
+            <Form.Group>
+                <Form.Label>Имя</Form.Label>
+                <Form.Control
+                    onChange={checkValidFirstName}
+                    type='text'
+                    value={form.first_name}
+                >
+                </Form.Control>
+                {errors.first_name !== '' &&
+                    <ErrorField message={errors.first_name}/>
+                }
+            </Form.Group>
+            <Form.Group>
+                <Form.Label>Фамилия</Form.Label>
+                <Form.Control
+                    onChange={checkValidSecondName}
+                    type='text'
+                    value={form.second_name}
+                >
+                </Form.Control>
+                {errors.second_name !== '' &&
+                    <ErrorField message={errors.second_name}/>
+                }
+            </Form.Group>
+            <Form.Group>
+                <Form.Label>Пароль</Form.Label>
+                <Form.Control
+                    onChange={checkValidPassword}
+                    type='password'
+                    value={form.password}
+                >
+                </Form.Control>
+                {errors.password !== '' &&
+                    <ErrorField message={errors.password}/>
+                }
+            </Form.Group>
+            <Form.Group>
+                <Form.Label>Подтвердите пароль</Form.Label>
+                <Form.Control
+                    onChange={checkConfirmPassword}
+                    type='password'
+                    value={form.confirm_password}
+                >
+                </Form.Control>
+                {errors.confirm_password !== '' &&
+                    <ErrorField message={errors.confirm_password}/>
+                }
+            </Form.Group>
+            <Form.Group className='d-flex justify-content-center p-3'>
+                <Button onClick={register}>Зарегистрироваться</Button>
+            </Form.Group>
+        </Form>
     );
 };
 
-export default Register;
+export default Registering;
