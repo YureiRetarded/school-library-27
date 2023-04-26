@@ -13,7 +13,6 @@ class UserLoginController extends Controller
 {
     public function __invoke(LoginRequest $request)
     {
-        $user = [];
         if (User::where('login', $request['login'])->first()) {
             $user = User::where('login', $request['login'])->first();
         } else {

@@ -4,71 +4,76 @@ import {useNavigate, useParams} from "react-router-dom";
 import {Button, Form, Spinner} from "react-bootstrap";
 import ErrorField from "../../../ui/ErrorField.jsx";
 import CountryService from "../../../API/CountryService.js";
+import {useFormik} from "formik";
+import * as Yup from "yup";
 
 const CountryEditForm = () => {
-    const [form, setForm] = useState({id: 0, name: ''})
-    const [error, setError] = useState('');
-    const isValidNameRegex = /^[А-Яа-яЁё ]+$/u;
+    //Для аутентификации пользователя в запросе
     const user = useSelector(state => state.user);
+    //Для переадресации на страницу пользователя в случае успеха
     const navigate = useNavigate();
+    //ID странны в адресной строке
     const {countryId} = useParams();
-    const [isLoading, setIsLoading] = useState(true)
-
+    //Состояние загрузки
+    const [isLoading, setIsLoading] = useState(true);
+    const formik = useFormik({
+        //Значение полей по умолчанию
+        initialValues: {
+            name: '',
+        },
+        //Валидация
+        validationSchema: Yup.object({
+            name: Yup.string()
+                .required('Поле не может быть пустым!').min(2, 'Длина наименования страны должна начинаться от 2 символов!').max(64, 'Длина наименования страны не может превышать 64 символа!').matches(/^[А-Яа-яЁё ]+$/u, 'Используйте только русские буквы!'),
+        }),
+        //Отправка
+        onSubmit: values => {
+            const submit = async () => {
+                const response = await CountryService.updateCountry(user, countryId, values);
+                if (response.status) {
+                    return navigate('/librarian/countries');
+                } else {
+                    formik.setFieldError('name', response.error);
+                }
+            }
+            submit();
+        }
+    });
+    //Загрузка наименования текущей страны
     useEffect(() => {
         const fetchCountry = async () => {
             const response = await CountryService.getCountry(user, countryId);
             if (response.status) {
-                setForm({id: response.data.id, name: response.data.name})
+                formik.setFieldValue('name', response.data.name.toString());
             } else {
                 navigate('/librarian/countries/')
             }
-
             setIsLoading(false)
         }
         fetchCountry();
     }, [])
 
 
-    const checkValidName = (e) => {
-        setForm({...form, name: e.target.value})
-        setError('');
-        if (e.target.value.length > 0) {
-            if (!isValidNameRegex.test(e.target.value)) {
-                setError('Используйте только русские буквы!')
-            }
-        }
-        if (e.target.value.length > 0 && e.target.value.length < 2) {
-            setError('Длина наименования страны должна начинаться от 2 символов!')
-        } else if (e.target.value.length > 64) {
-            setError('Длина наименования страны не может превышать 64 символа!')
-        }
-    }
-
-    const UpdateCountry = async () => {
-        if (form.name.trim() === '') {
-            setError('Поле не может быть пустым!')
-        } else if (error.length === 0) {
-            const response = await CountryService.updateCountry(user, countryId, form.name);
-            if (response.status) {
-                navigate(-1)
-            } else {
-                setError(response.error)
-            }
-        }
-    }
     return (
-        <Form>
+        <Form onSubmit={formik.handleSubmit}>
             {isLoading ? <Spinner animation='border'/> :
                 <div>
                     <Form.Group className='mb-3'>
                         <Form.Label>Наименование страны</Form.Label>
-                        <Form.Control type='text' placeholder='Введите имя страны' onChange={checkValidName}
-                                      value={form.name}></Form.Control>
-                        {error !== '' &&
-                            <ErrorField message={error}/>
+                        <Form.Control
+                            type='text'
+                            name='name'
+                            onChange={formik.handleChange}
+                            value={formik.values.name}
+                            onBlur={formik.handleBlur}
+                            onKeyDown={e => {
+                                e.key === 'Enter' && e.preventDefault();
+                            }}></Form.Control>
+                        {formik.touched.name && formik.errors.name &&
+                            <ErrorField message={formik.errors.name}/>
                         }
                     </Form.Group>
-                    <Button variant='primary' onClick={UpdateCountry}>
+                    <Button variant='primary' type='submit'>
                         Изменить
                     </Button>
                 </div>}

@@ -4,231 +4,164 @@ import ErrorField from "../ui/ErrorField.jsx";
 import {useDispatch} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import UserService from "../API/UserService.js";
+import {useFormik} from "formik";
+import * as Yup from "yup";
 
 const Registering = () => {
-    const dispatch = useDispatch()
+    //Dispatch для сервиса API
+    const dispatch = useDispatch();
+    //Для переадресации на страницу пользователя в случае успеха
     const navigate = useNavigate();
-    //Состояние полей формы
-    const [form, setForm] = useState({
-        login: '',
-        first_name: '',
-        second_name: '',
-        password: '',
-        confirm_password: ''
+    //Состояния общей ошибки
+    const [error, setError] = useState({
+        global: '',
     });
-    //Состояние ошибок
-    const [errors, setError] = useState({
-        login: '',
-        first_name: '',
-        second_name: '',
-        password: '',
-        confirm_password: '',
-    });
-    //Регулярные выражения для проверки полей
-    const isValidLoginRegex = /^[a-zA-Z0-9]+$/u;
-    const isValidNameRegex = /^[А-Яа-яЁё]+$/u;
-    const isValidPasswordRegex = /^[a-zA-Z0-9!@#$%&{}()?]+$/;
-
-    //Проверка логина
-    const checkValidLogin = (e) => {
-        setForm({...form, login: e.target.value})
-        setError({...errors, login: ''})
-        if (e.target.value.length > 0) {
-            if (!isValidLoginRegex.test(e.target.value)) {
-                setError({...errors, login: 'Используйте только цифры и латинские буквы!'})
-            }
-        }
-
-        if (e.target.value.length > 32) {
-            setError({...errors, login: 'Длина логина не может превышать 32 символа!'})
-        }
-    }
-    //Проверка имени
-    const checkValidFirstName = (e) => {
-        setForm({...form, first_name: e.target.value})
-        setError({...errors, first_name: ''})
-        if (e.target.value.length > 0) {
-            if (!isValidNameRegex.test(e.target.value)) {
-                setError({...errors, first_name: 'Используйте только русские буквы!'})
-            }
-        }
-        if (e.target.value.length > 16) {
-            setError({...errors, first_name: 'Длина имени не может превышать 16 символов!'})
-        }
-    }
-    //Проверка фамилии
-    const checkValidSecondName = (e) => {
-        setForm({...form, second_name: e.target.value})
-        setError({...errors, second_name: ''})
-        if (e.target.value.length > 0) {
-            if (!isValidNameRegex.test(e.target.value)) {
-                setError({...errors, second_name: 'Используйте только русские буквы!'})
-            }
-        }
-        if (e.target.value.length > 16) {
-            setError({...errors, second_name: 'Длина фамилии не может превышать 16 символов!'})
-        }
-    }
-    //Проверка пароля
-    const checkValidPassword = (e) => {
-        setForm({...form, password: e.target.value})
-        setError({...errors, password: ''})
-        if (e.target.value.length > 0) {
-            if (!isValidPasswordRegex.test(e.target.value)) {
-                setError({
-                    ...errors,
-                    password: 'Используйте только цифры, латинские буквы и спец символы(!@#$%&{}()?)!'
-                })
-            }
-        }
-        if (e.target.value.length > 64) {
-            setError({...errors, password: 'Длина пароля не может превышать 64 символа!'})
-        }
-    }
-    //Проверка подтверждения пароля
-    const checkConfirmPassword = (e) => {
-        setError({...errors, confirm_password: ''})
-        setForm({...form, confirm_password: e.target.value})
-        if (e.target.value.length > 0 && form.password !== e.target.value) {
-            setError({...errors, confirm_password: 'Пароли не совпадают!'})
-        }
-    }
-    //Отправка формы и её проверка
-    const register = async () => {
-        //Временный костыль
-        const error = {login: '', first_name: '', second_name: '', password: '', confirm_password: ''};
-        if (form.login === '') {
-            error.login = 'Поле не может быть пустым!'
-        } else if (form.login.length < 6) {
-            error.login = 'Длина логина должна начинаться от 6 символов!'
-        }
-        if (form.first_name === '') {
-            error.first_name = 'Поле не может быть пустым!'
-        } else if (form.first_name.length < 2) {
-            error.first_name = 'Длина имени должна начинаться от 2 символов!'
-        }
-        if (form.second_name === '') {
-            error.second_name = 'Поле не может быть пустым!'
-        } else if (form.second_name.length < 2) {
-            error.second_name = 'Длина фамилии должна начинаться от 2 символов!'
-        }
-        if (form.password === '') {
-            error.password = 'Поле не может быть пустым!'
-        } else if (form.password.length < 6) {
-            error.password = 'Длина пароля должна начинаться от 6 символов!'
-        }
-        if (form.confirm_password === '') {
-            error.confirm_password = 'Поле не может быть пустым!'
-        }
-        if (form.confirm_password !== form.password) {
-            error.confirm_password = 'Пароли должны совпадать!'
-        }
-        let er = false;
-        for (const [name, value] of Object.entries(errors)) {
-            if (value !== '')
-                er = true
-        }
-        for (const [name, value] of Object.entries(error)) {
-            if (value !== '')
-                er = true
-        }
-
-        if (er) {
-            setError({...{}, ...error})
-        } else {
-            const register = await UserService.userRegistration(dispatch, form);
-            if (register.status) {
-                return navigate('/profile')
-            } else {
-                for (const [name, value] of Object.entries(register.errors)) {
-                    switch (name.toString()) {
-                        case 'login':
-                            setError({...errors, login: value[0]});
-                            break;
-                        case 'first_name':
-                            setError({...errors, first_name: value[0]});
-                            break;
-                        case 'second_name':
-                            setError({...errors, second_name: value[0]});
-                            break;
-                        case 'password':
-                            setError({...errors, password: value[0]});
-                            break;
-                        case 'confirm_password':
-                            setError({...errors, confirm_password: value[0]});
-                            break;
+    //Валидация и отправка полей
+    const formik = useFormik({
+        //Значение полей по умолчанию
+        initialValues: {
+            login: '',
+            first_name: '',
+            second_name: '',
+            password: '',
+            confirm_password: '',
+        },
+        //Валидация
+        validationSchema: Yup.object({
+            login: Yup.string()
+                .required('Поле не может быть пустым!').min(6, 'Длина логина должна начинаться от 6 символов!').max(16, 'Длина логина не может превышать 32 символа!').matches(/^[a-zA-Z0-9]+$/u, 'Используйте только цифры и латинские буквы!'),
+            first_name: Yup.string()
+                .required('Поле не может быть пустым!').min(2, 'Длина имени должна начинаться от 2 символов!').max(16, 'Длина имени не может превышать 16 символов!').matches(/^[А-Яа-яЁё]+$/u, 'Используйте только русские буквы!'),
+            second_name: Yup.string()
+                .required('Поле не может быть пустым!').min(2, 'Длина фамилии должна начинаться от 2 символов!').max(16, 'Длина фамилии не может превышать 16 символов!').matches(/^[А-Яа-яЁё]+$/u, 'Используйте только русские буквы!'),
+            password: Yup.string()
+                .required('Поле не может быть пустым!').min(6, 'Длина пароля должна начинаться от 6 символов!').max(64, 'Длина пароля не может превышать 64 символа!').matches(/^[a-zA-Z0-9!@#$%&{}()?]+$/, 'Используйте только цифры, латинские буквы и спец символы(!@#$%&{}()?)!'),
+            confirm_password: Yup.string()
+                .required('Поле не может быть пустым!').min(6, 'Длина пароля должна начинаться от 6 символов!').max(64, 'Длина пароля не может превышать 64 символа!').matches(/^[a-zA-Z0-9!@#$%&{}()?]+$/, 'Используйте только цифры, латинские буквы и спец символы(!@#$%&{}()?)!').oneOf([Yup.ref('password'), null], 'Пароли не совпадают!'),
+        }),
+        //Отправка
+        onSubmit: values => {
+            const submit = async () => {
+                const response = await UserService.userRegistration(dispatch, values);
+                if (response.status) {
+                    return navigate('/profile')
+                } else {
+                    for (const [name, value] of Object.entries(response.errors)) {
+                        switch (name.toString()) {
+                            case 'login':
+                                formik.setFieldError('login', value.toString())
+                                break;
+                            case 'first_name':
+                                formik.setFieldError('first_name', value.toString())
+                                break;
+                            case 'second_name':
+                                formik.setFieldError('second_name', value.toString())
+                                break;
+                            case 'password':
+                                formik.setFieldError('password', value.toString())
+                                break;
+                            case 'confirm_password':
+                                formik.setFieldError('confirm_password', value.toString())
+                                break;
+                            default:
+                                setError({global: value})
+                        }
                     }
-                }
 
+                }
             }
+            submit();
         }
-    }
+    });
     return (
-        <Form className='col-3 mx-auto my-5'>
+        <Form className='col-3 mx-auto my-5' onSubmit={formik.handleSubmit}>
             <Form.Group>
                 <Form.Label>Логин</Form.Label>
                 <Form.Control
-                    onChange={checkValidLogin}
                     type='text'
-                    value={form.login}
-                >
+                    name='login'
+                    onChange={formik.handleChange}
+                    value={formik.values.login}
+                    //onBlur={formik.handleBlur}
+                    onKeyDown={e => {
+                        e.key === 'Enter' && e.preventDefault()
+                    }}>
 
                 </Form.Control>
-                {errors.login !== '' &&
-                    <ErrorField message={errors.login}/>
+                {formik.touched.login && formik.errors.login &&
+                    <ErrorField message={formik.errors.login}/>
                 }
             </Form.Group>
             <Form.Group>
                 <Form.Label>Имя</Form.Label>
                 <Form.Control
-                    onChange={checkValidFirstName}
                     type='text'
-                    value={form.first_name}
-                >
+                    name='first_name'
+                    onChange={formik.handleChange}
+                    value={formik.values.first_name}
+                    onBlur={formik.handleBlur}
+                    onKeyDown={e => {
+                        e.key === 'Enter' && e.preventDefault()
+                    }}>
                 </Form.Control>
-                {errors.first_name !== '' &&
-                    <ErrorField message={errors.first_name}/>
+                {formik.touched.first_name && formik.errors.first_name &&
+                    <ErrorField message={formik.errors.first_name}/>
                 }
             </Form.Group>
             <Form.Group>
                 <Form.Label>Фамилия</Form.Label>
                 <Form.Control
-                    onChange={checkValidSecondName}
                     type='text'
-                    value={form.second_name}
-                >
+                    name='second_name'
+                    onChange={formik.handleChange}
+                    value={formik.values.second_name}
+                    onBlur={formik.handleBlur}
+                    onKeyDown={e => {
+                        e.key === 'Enter' && e.preventDefault()
+                    }}>
                 </Form.Control>
-                {errors.second_name !== '' &&
-                    <ErrorField message={errors.second_name}/>
+                {formik.touched.second_name && formik.errors.second_name &&
+                    <ErrorField message={formik.errors.second_name}/>
                 }
             </Form.Group>
             <Form.Group>
                 <Form.Label>Пароль</Form.Label>
                 <Form.Control
-                    onChange={checkValidPassword}
                     type='password'
-                    value={form.password}
-                >
+                    name='password'
+                    onChange={formik.handleChange}
+                    value={formik.values.password}
+                    onBlur={formik.handleBlur}
+                    onKeyDown={e => {
+                        e.key === 'Enter' && e.preventDefault()
+                    }}>
                 </Form.Control>
-                {errors.password !== '' &&
-                    <ErrorField message={errors.password}/>
+                {formik.touched.password && formik.errors.password &&
+                    <ErrorField message={formik.errors.password}/>
                 }
             </Form.Group>
             <Form.Group>
                 <Form.Label>Подтвердите пароль</Form.Label>
                 <Form.Control
-                    onChange={checkConfirmPassword}
                     type='password'
-                    value={form.confirm_password}
-                >
+                    name='confirm_password'
+                    onChange={formik.handleChange}
+                    value={formik.values.confirm_password}
+                    onBlur={formik.handleBlur}
+                    onKeyDown={e => {
+                        e.key === 'Enter' && e.preventDefault()
+                    }}>
                 </Form.Control>
-                {errors.confirm_password !== '' &&
-                    <ErrorField message={errors.confirm_password}/>
+                {formik.touched.confirm_password && formik.errors.confirm_password &&
+                    <ErrorField message={formik.errors.confirm_password}/>
                 }
             </Form.Group>
             <Form.Group className='d-flex justify-content-center p-3'>
-                <Button onClick={register}>Зарегистрироваться</Button>
+                <Button variant='primary' type='submit'>Зарегистрироваться</Button>
             </Form.Group>
+            {error.global &&
+                <ErrorField message={error.global}/>
+            }
         </Form>
     );
 };
