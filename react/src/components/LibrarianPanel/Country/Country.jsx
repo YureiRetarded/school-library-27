@@ -2,8 +2,8 @@ import React, {useEffect, useState} from 'react';
 import CountryTool from "./CountryTool.jsx";
 import CountryList from "./CountryList.jsx";
 import {useSelector} from "react-redux";
-import {Spinner} from "react-bootstrap";
 import CountryService from "../../../API/CountryService.js";
+import CountyItemPlaceholder from "./CountyItemPlaceholder.jsx";
 
 const Country = () => {
     const user = useSelector(state => state.user)
@@ -23,7 +23,7 @@ const Country = () => {
     return (
         <div>
             <CountryTool/>
-            {isLoading ? <Spinner animation='border'/> :
+            {isLoading ? <CountyItemPlaceholder/> :
                 <CountryList countries={countries} destroyCountry={destroyCountry}/>}
         </div>
     );

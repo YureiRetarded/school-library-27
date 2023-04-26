@@ -3,7 +3,6 @@ import {Button} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTrashCan, faPen} from "@fortawesome/free-solid-svg-icons";
 import {useSelector} from "react-redux";
-import axios from "axios";
 import {useNavigate} from "react-router-dom";
 import CountryService from "../../../API/CountryService.js";
 

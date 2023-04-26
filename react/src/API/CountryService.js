@@ -65,14 +65,14 @@ export default class CountryService {
         };
         const response = await axios.post(`http://127.0.0.1:8000/api/country/${id}/update`, {
             _method: 'PATCH',
-            name: data
+            name:data.name
         }, config);
         if (response.data.success) {
             //Возвращаем истину
             return {status: true, data: []};
         } else {
             //Возвращаем ошибку
-            return {status: false, error: response.data.data.toString()};
+            return {status: false, error: response.data.data.name};
         }
     }
 

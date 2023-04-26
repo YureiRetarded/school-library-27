@@ -4,88 +4,93 @@ import {useNavigate} from "react-router-dom";
 import UserService from "../API/UserService.js";
 import {Button, Form} from "react-bootstrap";
 import ErrorField from "../ui/ErrorField.jsx";
+import {useFormik} from "formik";
+import * as Yup from 'yup';
 
 const Login = () => {
-    //Dispatch для изменения состояния пользователя
-    const dispatch = useDispatch()
-    //Состояния ошибок
-    const [errors, setError] = useState({login: '', password: '', global: ''})
-    //Состояние полей формы
-    const [form, setForm] = useState({login: '', password: ''})
+    //Dispatch для сервиса API
+    const dispatch = useDispatch();
+    //Для переадресации на страницу пользователя в случае успеха
     const navigate = useNavigate();
-    //Проверка логина
-    const checkValidLogin = (e) => {
-        setForm({...form, login: e.target.value})
-        setError({...errors, login: ''})
-        if (e.target.value.length > 0 && e.target.value.length < 6) {
-            setError({...errors, login: 'Длина логина должна начинаться от 6 символов!'})
-        } else if (e.target.value.length > 32) {
-            setError({...errors, login: 'Длина логина не может превышать 32 символа!'})
-        }
-    }
-    //Проверка пароля
-    const checkValidPassword = (e) => {
-        setForm({...form, password: e.target.value})
-        setError({...errors, password: ''})
-        if (e.target.value.length > 0 && e.target.value.length < 6) {
-            setError({...errors, password: 'Длина пароля должна начинаться от 6 символов!'})
-        } else if (e.target.value.length > 64) {
-            setError({...errors, password: 'Длина пароля не может превышать 64 символа!'})
-        }
-    }
-    //Отправка формы и её проверка
-    const login = async () => {
-        setError({login: '', password: '', global: ''})
-        if (form.login.length === 0 && form.password.length === 0) {
-            setError({...errors, login: 'Поле не может быть пустым!', password: 'Поле не может быть пустым!'})
-        } else if (form.login.length === 0 && form.password.length !== 0) {
-            setError({...errors, login: 'Поле не может быть пустым!'})
-        } else if (form.login.length !== 0 && form.password.length === 0) {
-            setError({...errors, password: 'Поле не может быть пустым!'})
-        } else {
-            const login = await UserService.userAuthorization(dispatch, form);
-            if (login.status) {
-                return navigate('/profile')
-            } else {
-                for (const [name, value] of Object.entries(login.errors)) {
-                    switch (name.toString()) {
-                        case 'login':
-                            setError({...errors, login: value})
-                            break;
-                        case 'password':
-                            setError({...errors, password: value})
-                            break;
-                        default:
-                            setError({...errors, global: value})
+    //Состояния общей ошибки
+    const [error, setError] = useState({global: ''});
+
+    //Валидация и отправка полей
+    const formik = useFormik({
+        //Значение полей по умолчанию
+        initialValues: {
+            login: '',
+            password: '',
+        },
+        //Валидация
+        validationSchema: Yup.object({
+            login: Yup.string()
+                .required('Поле не может быть пустым!').min(6, 'Длина логина должна начинаться от 6 символов!').max(16, 'Длина логина не может превышать 32 символа!').matches(/^[a-zA-Z0-9]+$/u, 'Используйте только цифры и латинские буквы!'),
+            password: Yup.string()
+                .required('Поле не может быть пустым!').min(6, 'Длина пароля должна начинаться от 6 символов!').max(64, 'Длина пароля не может превышать 64 символа!').matches(/^[a-zA-Z0-9!@#$%&{}()?]+$/, 'Используйте только цифры, латинские буквы и спец символы(!@#$%&{}()?)!'),
+        }),
+        //Отправка
+        onSubmit: values => {
+            const submit = async () => {
+                const response = await UserService.userAuthorization(dispatch, values);
+                if (response.status) {
+                    return navigate('/profile');
+                } else {
+                    for (const [name, value] of Object.entries(response.errors)) {
+                        switch (name.toString()) {
+                            case 'login':
+                                formik.setFieldError('login', value.toString());
+                                break;
+                            case 'password':
+                                formik.setFieldError('password', value.toString());
+                                break;
+                            default:
+                                setError({global: value});
+                        }
                     }
                 }
             }
+            submit();
         }
-    }
-
+    });
     return (
-        <Form className='col-3 mx-auto my-5'>
+        <Form className='col-3 mx-auto my-5' onSubmit={formik.handleSubmit}>
             <Form.Group>
                 <Form.Label>Логин</Form.Label>
-                <Form.Control type='text' onChange={checkValidLogin}>
+                <Form.Control
+                    type='text'
+                    name='login'
+                    onChange={formik.handleChange}
+                    value={formik.values.login}
+                    onBlur={formik.handleBlur}
+                    onKeyDown={e => {
+                        e.key === 'Enter' && e.preventDefault()
+                    }}>
                 </Form.Control>
-                {errors.login !== '' &&
-                    <ErrorField message={errors.login}/>
+                {formik.touched.login && formik.errors.login &&
+                    <ErrorField message={formik.errors.login}/>
                 }
             </Form.Group>
             <Form.Group>
                 <Form.Label>Пароль</Form.Label>
-                <Form.Control type='password' onChange={checkValidPassword}>
+                <Form.Control
+                    type='password'
+                    name='password'
+                    onChange={formik.handleChange}
+                    value={formik.values.password}
+                    onKeyDown={e => {
+                        e.key === 'Enter' && e.preventDefault()
+                    }}>
                 </Form.Control>
-                {errors.password !== '' &&
-                    <ErrorField message={errors.password}/>
+                {formik.touched.password && formik.errors.password &&
+                    <ErrorField message={formik.errors.password}/>
                 }
             </Form.Group>
             <Form.Group className='d-flex justify-content-center p-3'>
-                <Button onClick={login}>Войти</Button>
+                <Button variant='primary' type='submit'>Войти</Button>
             </Form.Group>
-            {errors.global !== '' &&
-                <ErrorField message={errors.global}/>
+            {error.global &&
+                <ErrorField message={error.global}/>
             }
         </Form>
     );
