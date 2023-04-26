@@ -1,15 +1,19 @@
 import React, {useEffect} from 'react';
 import {useDispatch, useSelector} from "react-redux";
-import {setAccessLevel, setId, setToken} from "../store/userSlice.js";
 import {Navigate} from "react-router-dom";
+import UserService from "../API/UserService.js";
 
 const LogOut = () => {
-    const dispatch = useDispatch()
+    //Взятие состояния пользователя
+    const user = useSelector(state => state.user);
+    //Dispatch для сервиса API
+    const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(setId(0))
-        dispatch(setAccessLevel(0))
-        dispatch(setToken(0))
-    }, [])
+        const logout = async () => {
+            await UserService.userLogout(user, dispatch);
+        }
+        logout();
+    }, []);
     return (
         <Navigate to='/login' replace={true}/>
     );

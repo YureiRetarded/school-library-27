@@ -10,7 +10,7 @@ import * as Yup from "yup";
 const CountryEditForm = () => {
     //Для аутентификации пользователя в запросе
     const user = useSelector(state => state.user);
-    //Для переадресации на страницу пользователя в случае успеха
+    //Для переадресации на страницу в случае успеха
     const navigate = useNavigate();
     //ID странны в адресной строке
     const {countryId} = useParams();
@@ -46,12 +46,12 @@ const CountryEditForm = () => {
             if (response.status) {
                 formik.setFieldValue('name', response.data.name.toString());
             } else {
-                navigate('/librarian/countries/')
+                navigate('/librarian/countries/');
             }
-            setIsLoading(false)
+            setIsLoading(false);
         }
         fetchCountry();
-    }, [])
+    }, []);
 
 
     return (

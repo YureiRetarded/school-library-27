@@ -6,19 +6,24 @@ import CountryService from "../../../API/CountryService.js";
 import CountyItemPlaceholder from "./CountyItemPlaceholder.jsx";
 
 const Country = () => {
-    const user = useSelector(state => state.user)
-    const [countries, setCountries] = useState([])
-    const [isLoading, setIsLoading] = useState(true)
+    //Для аутентификации пользователя в запросе
+    const user = useSelector(state => state.user);
+    //Странны
+    const [countries, setCountries] = useState([]);
+    //Состояние загрузки
+    const [isLoading, setIsLoading] = useState(true);
+    //Загружаем страны
     useEffect(() => {
         const fetchCountries = async () => {
-            const response = await CountryService.getCountries(user)
-            setCountries(response.data)
-            setIsLoading(false)
+            const response = await CountryService.getCountries(user);
+            setCountries(response.data);
+            setIsLoading(false);
         }
         fetchCountries();
-    }, [])
+    }, []);
+    //Удаляем страну из константы
     const destroyCountry = (id) => {
-        setCountries(countries.filter(country => country.id !== id))
+        setCountries(countries.filter(country => country.id !== id));
     }
     return (
         <div>

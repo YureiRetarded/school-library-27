@@ -7,14 +7,17 @@ import {useNavigate} from "react-router-dom";
 import CountryService from "../../../API/CountryService.js";
 
 const CountryItem = ({country, destroyCountry}) => {
+    //Для аутентификации пользователя в запросе
     const user = useSelector(state => state.user)
+    //Для возможности отправки на страницу редактирования
     const navigate = useNavigate();
     const destroy = async () => {
         const response = await CountryService.deleteCountry(user, country.id);
         if (response.status) {
-            destroyCountry(country.id)
+            destroyCountry(country.id);
         }
     }
+    //Отправка на страницу редактирования
     const edit = () => {
         navigate(`/librarian/countries/${country.id}/edit`);
     }

@@ -14,7 +14,6 @@ const Login = () => {
     const navigate = useNavigate();
     //Состояния общей ошибки
     const [error, setError] = useState({global: ''});
-
     //Валидация и отправка полей
     const formik = useFormik({
         //Значение полей по умолчанию
