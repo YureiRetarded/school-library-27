@@ -61,7 +61,8 @@ export default class UserService {
             return false;
         }
     }
-
+    //Разлогинивания пользователя
+    //Для того чтобы база не переполнялась токенами которые больше не будут использоваться, мы его удаляем
     static async userLogout(user, dispatch) {
         const config = {
             headers: {
@@ -69,6 +70,7 @@ export default class UserService {
             }
         };
         const response = await axios.post('http://127.0.0.1:8000/api/logout', {tokenID: user.token.split('|')[0]}, config);
+        //В случае успеха, данные пользователя обнуляются
         if (response.status) {
             dispatch(setId(0));
             dispatch(setAccessLevel(0));

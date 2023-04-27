@@ -9,11 +9,9 @@ export default class {
                 Authorization: 'Bearer ' + user.token
             }
         };
-        const response = await axios.post('http://127.0.0.1:8000/api/author/', {
-            ...data,
-            image: image,
-        }, config);
+        const response = await axios.post('http://127.0.0.1:8000/api/author/', data, config);
         if (response.data.success) {
+            console.log(response)
             //Возвращаем истину
             return {status: true, data: []};
         } else {

@@ -20,22 +20,13 @@ class AuthorStoreController extends Controller
             'middle_name' => $request['middle_name'],
             'bio' => $request['bio'],
             'country_id' => intval($request['country_id']),
-            'date_birthday' => date('Y-m-d', strtotime($request['date_birthday'])),
-            'date_death' => date('Y-m-d', strtotime($request['date_death'])),
+            'date_birthday' => isset($request['date_birthday'])?date('Y-m-d', strtotime($request['date_birthday'])):null,
+            'date_death' => isset($request['date_death'])?date('Y-m-d', strtotime($request['date_death'])):null,
+            'photo' => $request['photo'],
         ];
 
-//        return response()->json([
-//            'success' => true,
-//            'message' => 'Author data',
-//            'data' => $data,
-//        ]);
-        if($request['image']){
-//            return response()->json([
-//                'success' => true,
-//                'message' => 'Author data',
-//                'data' => $request['image'],
-//            ]);
-            $image = explode(',', $request['image'])[1];
+        if (isset($data['photo'])){
+            $image = explode(',', $data['photo'])[1];
             $name = Str::random(240);
             while (File::where('name', $name)->first()) {
                 $name = Str::random(240);

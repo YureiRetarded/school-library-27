@@ -45,13 +45,13 @@ const AuthorCreateForm = () => {
         //Валидация
         validationSchema: Yup.object({
             second_name: Yup.string()
-                .required('Поле не может быть пустым!').min(2, 'Длина фамилии должна начинаться от 2 символов!').max(32, 'Длина фамилии не может превышать 32 символов!').matches(/^([А-Яа-яЁё-]+\s)*[А-Яа-яЁё-]+$/u, 'Используйте только русские буквы!'),
+                .notRequired().min(2, 'Длина фамилии должна начинаться от 2 символов!').max(32, 'Длина фамилии не может превышать 32 символов!').matches(/^([А-Яа-яЁё-]+\s)*[А-Яа-яЁё-]+$/u, 'Используйте только русские буквы!'),
             first_name: Yup.string()
-                .notRequired().min(2, 'Длина имени должна начинаться от 2 символов!').max(32, 'Длина имени не может превышать 32 символов!').matches(/^([А-Яа-яЁё-]+\s)*[А-Яа-яЁё-]+$/u, 'Используйте только русские буквы!'),
+                .required('Поле не может быть пустым!').min(2, 'Длина имени должна начинаться от 2 символов!').max(32, 'Длина имени не может превышать 32 символов!').matches(/^([А-Яа-яЁё-]+\s)*[А-Яа-яЁё-]+$/u, 'Используйте только русские буквы!'),
             middle_name: Yup.string()
                 .notRequired().min(2, 'Длина отчества должна начинаться от 2 символов!').max(32, 'Длина отчества не может превышать 32 символов!').matches(/^([А-Яа-яЁё-]+\s)*[А-Яа-яЁё-]+$/u, 'Используйте только русские буквы!'),
             bio: Yup.string()
-                .notRequired().max(65000, 'Длина биографии не может превышать 65000 символов!').matches(/^([А-Яа-яЁё-]+\s)*[А-Яа-яЁё-]+$/u, 'Используйте только русские буквы!'),
+                .notRequired().max(65000, 'Длина биографии не может превышать 65000 символов!'),
             country_id: Yup.number()
                 .required('Обязательно выберите страну!'),
             date_birthday: Yup.date()
@@ -64,6 +64,7 @@ const AuthorCreateForm = () => {
             const submit = async () => {
                 const response = await AuthorService.storeAuthor(user, values);
                 if (response.status) {
+                    console.log('Успех')
                     //Перевести на страницу автора
                 } else {
                     for (const [name, value] of Object.entries(response.errors)) {
@@ -133,6 +134,7 @@ const AuthorCreateForm = () => {
             if (response.status) {
                 setCountries([...response.data]);
                 setIsLoading(false);
+                await formik.setFieldValue('country_id', response.data[0].id)
             }
         }
         fetchCountries();
