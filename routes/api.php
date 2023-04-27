@@ -8,6 +8,7 @@ use App\Http\Controllers\Country\CountryStoreController;
 use App\Http\Controllers\Country\CountryUpdateController;
 use App\Http\Controllers\User\CheckUserController;
 use App\Http\Controllers\User\UserLoginController;
+use App\Http\Controllers\User\UserLogoutController;
 use App\Http\Controllers\User\UserRegistrationController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,6 +27,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/user', CheckUserController::class);
+    Route::post('/logout', UserLogoutController::class);
     Route::middleware('librarian')->group(function () {
         Route::prefix('country')->group(function () {
             Route::get('/', CountryIndexController::class);
@@ -34,14 +36,11 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post('/', CountryStoreController::class);
             Route::delete('/{id}', CountryDestroyController::class);
         });
-        Route::prefix('author')->group(function (){
+        Route::prefix('author')->group(function () {
             Route::post('/', AuthorStoreController::class);
         });
-
     });
-
-}
-);
+});
 Route::post('/registration', UserRegistrationController::class);
 Route::post('/login', UserLoginController::class);
 

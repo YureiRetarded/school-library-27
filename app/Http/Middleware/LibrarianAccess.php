@@ -16,9 +16,11 @@ class LibrarianAccess
      */
     public function handle(Request $request, Closure $next)
     {
+        //Проверяем достаточно ли у пользователя уровень доступа для запросов библиотекаря
         if (auth('sanctum')->user()->role->access_level >= 5) {
             return $next($request);
         }
+        //Возвращаем ошибку
         return response()->json([
             'success' => false,
             'message' => 'Access denied',

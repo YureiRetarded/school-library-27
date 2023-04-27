@@ -4,6 +4,7 @@ import {Link} from "react-router-dom";
 import {useSelector} from "react-redux";
 
 const NavLinks = () => {
+    //Для проверки уровня доступа пользователя
     const user = useSelector(state => state.user);
     return (
         <Nav>

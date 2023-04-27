@@ -1,37 +1,34 @@
 import React, {useEffect, useState} from 'react';
 import CountryTool from "./CountryTool.jsx";
 import CountryList from "./CountryList.jsx";
-import axios from "axios";
 import {useSelector} from "react-redux";
-import {Spinner} from "react-bootstrap";
+import CountryService from "../../../API/CountryService.js";
+import CountyItemPlaceholder from "./CountyItemPlaceholder.jsx";
 
 const Country = () => {
-    const user = useSelector(state => state.user)
-    const [countries, setCountries] = useState([])
-    const [isLoading, setIsLoading] = useState(false)
+    //Для аутентификации пользователя в запросе
+    const user = useSelector(state => state.user);
+    //Странны
+    const [countries, setCountries] = useState([]);
+    //Состояние загрузки
+    const [isLoading, setIsLoading] = useState(true);
+    //Загружаем страны
     useEffect(() => {
-
-        const config = {
-            headers: {
-                Authorization: 'Bearer ' + user.token
-            }
+        const fetchCountries = async () => {
+            const response = await CountryService.getCountries(user);
+            setCountries(response.data);
+            setIsLoading(false);
         }
-        setIsLoading(true)
-        axios.get('http://127.0.0.1:8000/api/country', config).then(response => {
-            setIsLoading(false)
-            if (response.data.success) {
-                setCountries(response.data.data)
-            }
-        })
-
-    }, [])
+        fetchCountries();
+    }, []);
+    //Удаляем страну из константы
     const destroyCountry = (id) => {
-        setCountries(countries.filter(country => country.id !== id))
+        setCountries(countries.filter(country => country.id !== id));
     }
     return (
         <div>
             <CountryTool/>
-            {isLoading ? <Spinner animation='border'/> :
+            {isLoading ? <CountyItemPlaceholder/> :
                 <CountryList countries={countries} destroyCountry={destroyCountry}/>}
         </div>
     );

@@ -1,86 +1,80 @@
 import React, {useEffect, useState} from 'react';
 import {useSelector} from "react-redux";
 import {useNavigate, useParams} from "react-router-dom";
-import axios from "axios";
 import {Button, Form, Spinner} from "react-bootstrap";
 import ErrorField from "../../../ui/ErrorField.jsx";
+import CountryService from "../../../API/CountryService.js";
+import {useFormik} from "formik";
+import * as Yup from "yup";
 
 const CountryEditForm = () => {
-    const [form, setForm] = useState({id: 0, name: ''})
-    const [error, setError] = useState('');
-    const isValidNameRegex = /^[А-Яа-яЁё ]+$/u;
+    //Для аутентификации пользователя в запросе
     const user = useSelector(state => state.user);
+    //Для переадресации на страницу в случае успеха
     const navigate = useNavigate();
+    //ID странны в адресной строке
     const {countryId} = useParams();
-    const [isLoading, setIsLoading] = useState(false)
-
-    useEffect(() => {
-        const config = {
-            headers: {
-                Authorization: 'Bearer ' + user.token
-            }
-        }
-        setIsLoading(true)
-        axios.get(`http://127.0.0.1:8000/api/country/${countryId}`, config).then(response => {
-            setIsLoading(false)
-            if (response.data.success) {
-                setForm({id: response.data.data.id, name: response.data.data.name})
-            } else {
-                navigate('/librarian/countries/')
-            }
-        })
-    }, [])
-
-
-    const checkValidName = (e) => {
-        setForm({...form, name: e.target.value})
-        setError('');
-        if (e.target.value.length > 0) {
-            if (!isValidNameRegex.test(e.target.value)) {
-                setError('Используйте только русские буквы!')
-            }
-        }
-        if (e.target.value.length > 0 && e.target.value.length < 2) {
-            setError('Длина наименования страны должна начинаться от 2 символов!')
-        } else if (e.target.value.length > 64) {
-            setError('Длина наименования страны не может превышать 64 символа!')
-        }
-    }
-
-    const UpdateCountry = () => {
-        if (form.name.trim() === '') {
-            setError('Поле не может быть пустым!')
-        } else if (error.length === 0) {
-            const config = {
-                headers: {
-                    Authorization: 'Bearer ' + user.token
-                }
-            }
-            axios.post(`http://127.0.0.1:8000/api/country/${countryId}/update`, {
-                _method: 'PATCH',
-                name: form.name
-            }, config).then(response => {
-                if (response.data.success) {
-                    navigate(-1)
+    //Состояние загрузки
+    const [isLoading, setIsLoading] = useState(true);
+    const formik = useFormik({
+        //Значение полей по умолчанию
+        initialValues: {
+            name: '',
+        },
+        //Валидация
+        validationSchema: Yup.object({
+            name: Yup.string()
+                .required('Поле не может быть пустым!').min(2, 'Длина наименования страны должна начинаться от 2 символов!').max(64, 'Длина наименования страны не может превышать 64 символа!').matches(/^[А-Яа-яЁё ]+$/u, 'Используйте только русские буквы!'),
+        }),
+        //Отправка
+        onSubmit: values => {
+            const submit = async () => {
+                const response = await CountryService.updateCountry(user, countryId, values);
+                if (response.status) {
+                    return navigate('/librarian/countries');
                 } else {
-                    setError(response.data.data.name.toString())
+                    formik.setFieldError('name', response.error);
                 }
-            })
+            }
+            submit();
         }
-    }
+    });
+    //Загрузка наименования текущей страны
+    useEffect(() => {
+        const fetchCountry = async () => {
+            const response = await CountryService.getCountry(user, countryId);
+            if (response.status) {
+                formik.setFieldValue('name', response.data.name.toString());
+            } else {
+                navigate('/librarian/countries/');
+            }
+            setIsLoading(false);
+        }
+        fetchCountry();
+    }, []);
+
+
     return (
-        <Form>
+        <Form onSubmit={formik.handleSubmit}>
             {isLoading ? <Spinner animation='border'/> :
                 <div>
                     <Form.Group className='mb-3'>
                         <Form.Label>Наименование страны</Form.Label>
-                        <Form.Control type='text' placeholder='Введите имя страны' onChange={checkValidName}
-                                      value={form.name}></Form.Control>
-                        {error !== '' &&
-                            <ErrorField message={error}/>
+                        <Form.Control
+                            type='text'
+                            name='name'
+                            onChange={formik.handleChange}
+                            value={formik.values.name}
+                            onBlur={formik.handleBlur}
+                            isInvalid={formik.touched.name && formik.errors.name}
+                            onKeyDown={e => {
+                                e.key === 'Enter' && e.preventDefault();
+                            }}></Form.Control>
+                        {formik.touched.name && formik.errors.name &&
+                            <ErrorField message={formik.errors.name}/>
                         }
                     </Form.Group>
-                    <Button variant='primary' onClick={UpdateCountry}>
+                    <Button variant='primary' type='submit'>
                         Изменить
                     </Button>
                 </div>}

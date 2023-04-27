@@ -1,11 +1,11 @@
 import React from 'react';
 
-const Users = () => {
+const AuthorEditForm = () => {
     return (
         <div>
-            Пользователи
+            
         </div>
     );
 };
 
-export default Users;
+export default AuthorEditForm;

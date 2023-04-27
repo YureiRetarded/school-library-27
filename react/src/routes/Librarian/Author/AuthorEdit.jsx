@@ -1,9 +1,10 @@
 import React from 'react';
+import AuthorEditForm from "../../../components/LibrarianPanel/Author/AuthorEditForm.jsx";
 
 const AuthorEdit = () => {
     return (
         <div>
-            Редактирование автора
+            <AuthorEditForm/>
         </div>
     );
 };

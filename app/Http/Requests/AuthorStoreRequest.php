@@ -17,13 +17,14 @@ class AuthorStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'first_name' => 'nullable|min:2|max:16|regex:/^[А-Яа-яЁё]+$/u',
-            'second_name' => 'nullable|max:16',
-            'middle_name' => 'nullable|max:16',
-            'bio' => 'nullable',
-            'country_id' => 'nullable',
-            'date_birthday' => 'nullable',
-            'date_death' => 'nullable',
+            'first_name' => 'required|max:32|regex:/^([А-Яа-яЁё-]+\s)*[А-Яа-яЁё-]+$/u',
+            'second_name' => 'nullable|max:32|regex:/^([А-Яа-яЁё-]+\s)*[А-Яа-яЁё-]+$/u',
+            'middle_name' => 'nullable|max:32|regex:/^([А-Яа-яЁё-]+\s)*[А-Яа-яЁё-]+$/u',
+            'bio' => 'nullable|max:65000',
+            'country_id' => 'required|integer',
+            'date_birthday' => 'nullable|date',
+            'date_death' => 'nullable|date',
+            'photo' => 'nullable|string'
         ];
     }
 

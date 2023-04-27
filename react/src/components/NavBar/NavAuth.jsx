@@ -8,7 +8,6 @@ const NavAuth = () => {
     //Вывод ссылок в зависимости от авторизации пользователя
     return (
         <Nav>
-
             {user.access_level > 0 ? (
                 <React.Fragment>
                     <Link to={'profile'} className="nav-link">Профиль</Link>

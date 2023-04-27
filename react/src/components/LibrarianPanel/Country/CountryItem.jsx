@@ -3,23 +3,21 @@ import {Button} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faTrashCan, faPen} from "@fortawesome/free-solid-svg-icons";
 import {useSelector} from "react-redux";
-import axios from "axios";
 import {useNavigate} from "react-router-dom";
+import CountryService from "../../../API/CountryService.js";
 
 const CountryItem = ({country, destroyCountry}) => {
+    //Для аутентификации пользователя в запросе
     const user = useSelector(state => state.user)
+    //Для возможности отправки на страницу редактирования
     const navigate = useNavigate();
-    const destroy = () => {
-        const config = {
-            headers: {
-                Authorization: 'Bearer ' + user.token
-            }
+    const destroy = async () => {
+        const response = await CountryService.deleteCountry(user, country.id);
+        if (response.status) {
+            destroyCountry(country.id);
         }
-        axios.post('http://127.0.0.1:8000/api/country/' + country.id, {_method: 'DELETE'}, config).then(response => {
-                destroyCountry(country.id)
-            }
-        )
     }
+    //Отправка на страницу редактирования
     const edit = () => {
         navigate(`/librarian/countries/${country.id}/edit`);
     }
