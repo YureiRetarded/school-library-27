@@ -82,7 +82,8 @@ const Registering = () => {
                     name='login'
                     onChange={formik.handleChange}
                     value={formik.values.login}
-                    //onBlur={formik.handleBlur}
+                    onBlur={formik.handleBlur}
+                    isInvalid={formik.touched.login && formik.errors.login}
                     onKeyDown={e => {
                         e.key === 'Enter' && e.preventDefault()
                     }}>
@@ -100,6 +101,7 @@ const Registering = () => {
                     onChange={formik.handleChange}
                     value={formik.values.first_name}
                     onBlur={formik.handleBlur}
+                    isInvalid={formik.touched.first_name && formik.errors.first_name}
                     onKeyDown={e => {
                         e.key === 'Enter' && e.preventDefault()
                     }}>
@@ -116,6 +118,7 @@ const Registering = () => {
                     onChange={formik.handleChange}
                     value={formik.values.second_name}
                     onBlur={formik.handleBlur}
+                    isInvalid={formik.touched.second_name && formik.errors.second_name}
                     onKeyDown={e => {
                         e.key === 'Enter' && e.preventDefault()
                     }}>
@@ -132,6 +135,7 @@ const Registering = () => {
                     onChange={formik.handleChange}
                     value={formik.values.password}
                     onBlur={formik.handleBlur}
+                    isInvalid={formik.touched.password && formik.errors.password}
                     onKeyDown={e => {
                         e.key === 'Enter' && e.preventDefault()
                     }}>
@@ -148,6 +152,7 @@ const Registering = () => {
                     onChange={formik.handleChange}
                     value={formik.values.confirm_password}
                     onBlur={formik.handleBlur}
+                    isInvalid={formik.touched.confirm_password && formik.errors.confirm_password}
                     onKeyDown={e => {
                         e.key === 'Enter' && e.preventDefault()
                     }}>

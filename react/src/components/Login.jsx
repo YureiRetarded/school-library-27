@@ -62,6 +62,7 @@ const Login = () => {
                     onChange={formik.handleChange}
                     value={formik.values.login}
                     onBlur={formik.handleBlur}
+                    isInvalid={formik.touched.login && formik.errors.login}
                     onKeyDown={e => {
                         e.key === 'Enter' && e.preventDefault()
                     }}>
@@ -77,6 +78,7 @@ const Login = () => {
                     name='password'
                     onChange={formik.handleChange}
                     value={formik.values.password}
+                    isInvalid={formik.touched.password && formik.errors.password}
                     onKeyDown={e => {
                         e.key === 'Enter' && e.preventDefault()
                     }}>

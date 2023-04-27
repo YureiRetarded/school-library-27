@@ -47,6 +47,7 @@ const CountryCreateForm = () => {
                     onChange={formik.handleChange}
                     value={formik.values.name}
                     onBlur={formik.handleBlur}
+                    isInvalid={formik.touched.name && formik.errors.name}
                     onKeyDown={e => {
                         e.key === 'Enter' && e.preventDefault();
                     }}>
