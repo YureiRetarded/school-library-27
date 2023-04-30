@@ -9,20 +9,28 @@ import "react-datepicker/dist/react-datepicker.css";
 import ru from 'date-fns/locale/ru';
 import {useFormik} from "formik";
 import * as Yup from "yup";
+import ModalAuthorStore from "../../../ui/ModalAuthorStore.jsx";
 
 //Установка языка и локали в data-picker
-registerLocale('ru', ru)
+registerLocale('ru', ru);
 
 
 const AuthorCreateForm = () => {
     //Для аутентификации пользователя в запросе
     const user = useSelector(state => state.user);
+    //Показать модальное окно
+    const [show, setShow] = useState(false);
+    const [isErrorUpload, setIsErrorUpload] = useState(false);
+    //Калбек для закрытия модального окна
+    const handleClose = () => setShow(false);
     //Состояние для отрисовки загруженного изображения на странице
     const [imagesURL, setImagesURL] = useState();
     //Список стран
     const [countries, setCountries] = useState([]);
     //Состояние загрузки стран
     const [isLoading, setIsLoading] = useState(true);
+    //Состояние загрузки формы
+    const [isUploading, setIsUploading] = useState(false);
     //Состояния общей ошибки
     const [error, setError] = useState({
         global: '',
@@ -61,40 +69,45 @@ const AuthorCreateForm = () => {
         }),
         //Отправка
         onSubmit: values => {
+            //Выставляем состояние загрузки и обнуляем ошибки
+            setIsUploading(true);
+            setShow(true);
+            setIsErrorUpload(false);
             const submit = async () => {
                 const response = await AuthorService.storeAuthor(user, values);
                 if (response.status) {
-                    console.log('Успех')
-                    //Перевести на страницу автора
+                    setIsUploading(false);
                 } else {
+                    setIsErrorUpload(true);
+                    setIsUploading(false);
                     for (const [name, value] of Object.entries(response.errors)) {
                         switch (name.toString()) {
                             case 'first_name':
-                                formik.setFieldError('first_name', value.toString())
+                                formik.setFieldError('first_name', value.toString());
                                 break;
                             case 'second_name':
-                                formik.setFieldError('second_name', value.toString())
+                                formik.setFieldError('second_name', value.toString());
                                 break;
                             case 'middle_name':
-                                formik.setFieldError('middle_name', value.toString())
+                                formik.setFieldError('middle_name', value.toString());
                                 break;
                             case 'country_id':
-                                formik.setFieldError('country_id', value.toString())
+                                formik.setFieldError('country_id', value.toString());
                                 break;
                             case 'bio':
-                                formik.setFieldError('bio', value.toString())
+                                formik.setFieldError('bio', value.toString());
                                 break;
                             case 'photo':
-                                formik.setFieldError('photo', value.toString())
+                                formik.setFieldError('photo', value.toString());
                                 break;
                             case 'date_birthday':
-                                formik.setFieldError('date_birthday', value.toString())
+                                formik.setFieldError('date_birthday', value.toString());
                                 break;
                             case 'date_death':
-                                formik.setFieldError('date_death', value.toString())
+                                formik.setFieldError('date_death', value.toString());
                                 break;
                             default:
-                                setError({global: value})
+                                setError({global: value});
                         }
                     }
                 }
@@ -149,6 +162,7 @@ const AuthorCreateForm = () => {
     }, [haveDateDeath]);
     return (
         <Form onSubmit={formik.handleSubmit}>
+            <ModalAuthorStore show={show} handleClose={handleClose} isLoading={isUploading} isError={isErrorUpload}/>
             <Form.Group className='mb-3'>
                 <Form.Label>Фамилия</Form.Label>
                 <Form.Control

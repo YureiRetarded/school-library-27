@@ -11,4 +11,9 @@ class File extends Model
         'name',
     ];
     use HasFactory;
+
+    public function author()
+    {
+        return $this->belongsToMany(Author::class, 'author_photo');
+    }
 }

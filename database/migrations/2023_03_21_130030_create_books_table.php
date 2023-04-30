@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->text('description');
             $table->unsignedBigInteger('category_id');
             $table->index('category_id', 'book_category_idx');
-            $table->foreign('category_id', 'book_category_fk')->on('categories')->references('id');
+            $table->foreign('category_id', 'book_category_fk')->on('categories')->references('id')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -16,9 +16,9 @@ return new class extends Migration {
             $table->id();
             $table->unsignedBigInteger('book_id');
             $table->index('book_id', 'book_rating_idx');
-            $table->foreign('book_id', 'book_rating_fk')->on('books')->references('id');
+            $table->foreign('book_id', 'book_rating_fk')->on('books')->references('id')->onDelete('cascade');
             $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id', 'rating_user_fk')->on('users')->references('id');
+            $table->foreign('user_id', 'rating_user_fk')->on('users')->references('id')->onDelete('cascade');
             $table->integer('grade');
             $table->timestamps();
         });
