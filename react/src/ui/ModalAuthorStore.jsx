@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button, Modal, Spinner} from "react-bootstrap";
 
-const ModalAuthorStore = ({show, handleClose, isLoading, isError}) => {
+const ModalAuthorStore = ({show, handleClose, isLoading, isError,sendToIndex, sendToPage}) => {
     return (
         <Modal
             show={show}
@@ -30,10 +30,10 @@ const ModalAuthorStore = ({show, handleClose, isLoading, isError}) => {
             {!isLoading &&
                 (!isError ?
                         <Modal.Footer>
-                            <Button variant="primary" onClick={handleClose}>
+                            <Button variant="primary" onClick={sendToIndex}>
                                 Список авторов
                             </Button>
-                            <Button variant="primary" onClick={handleClose}>
+                            <Button variant="primary" onClick={sendToPage}>
                                 Страница автора
                             </Button>
                         </Modal.Footer> :

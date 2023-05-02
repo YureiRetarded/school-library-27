@@ -3,7 +3,7 @@ import {Placeholder} from "react-bootstrap";
 import {faTrashCan, faPen} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
-const CountyItemPlaceholder = () => {
+const CountryItemPlaceholder = () => {
     return (
         <div className='card my-1'>
             <div className='card-body'>
@@ -23,4 +23,4 @@ const CountyItemPlaceholder = () => {
     );
 };
 
-export default CountyItemPlaceholder;
+export default CountryItemPlaceholder;

@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Author\AuthorDestroyController;
+use App\Http\Controllers\Author\AuthorIndexController;
+use App\Http\Controllers\Author\AuthorReadController;
 use App\Http\Controllers\Author\AuthorStoreController;
 use App\Http\Controllers\Country\CountryDestroyController;
 use App\Http\Controllers\Country\CountryIndexController;
@@ -37,7 +40,10 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::delete('/{id}', CountryDestroyController::class);
         });
         Route::prefix('author')->group(function () {
+            Route::get('/', AuthorIndexController::class);
             Route::post('/', AuthorStoreController::class);
+            Route::get('/{id}', AuthorReadController::class);
+            Route::delete('/{id}', AuthorDestroyController::class);
         });
     });
 });

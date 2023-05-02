@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\AuthorStoreRequest;
 use App\Models\Author;
 use App\Models\File;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
@@ -27,7 +26,7 @@ class AuthorStoreController extends Controller
             'photo' => $request['photo'],
         ];
         //Переменная для файла
-        $file='';
+        $file = '';
         //Проверка на наличие изображения
         if (isset($data['photo'])) {
             //Берём картинку в base64
@@ -40,9 +39,9 @@ class AuthorStoreController extends Controller
                 $name = Str::random(240);
             }
             //Сжимаем и конвертируем в webp, после сохраняем на диск
-            Storage::disk('ftp')->put('images/' . $name . '.webp', Image::make(base64_decode($image))->stream('webp', 1));
+            Storage::disk('public')->put('images/' . $name . '.webp', Image::make(base64_decode($image))->resize('159', '232')->stream('webp', 10));
             //Создаём запись о файле в БД
-            $file=File::create(['name' => $name.'.webp']);
+            $file = File::create(['name' => $name . '.webp']);
         }
         //Сохраняем автора
         $author = Author::create($data);
@@ -50,7 +49,7 @@ class AuthorStoreController extends Controller
         //На вопрос: 'Почему мы не сохраняем автора перед сохранением изображения?', для того чтобы, при ошибке сохранения изображения, не производилось сохранения автора.
         //А зачем именно так? А потому что, пользователь с высокой вероятностью нажмёт кнопку сохранить повторно.
         //Проверка на дублирования авторов будет позже...
-        if ($file!==''){
+        if ($file !== '') {
             $author->image()->sync($file->id);
         }
         return response()->json([

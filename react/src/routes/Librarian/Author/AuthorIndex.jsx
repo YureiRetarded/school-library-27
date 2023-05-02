@@ -1,10 +1,10 @@
 import React from 'react';
-import AuthorTool from "../../../components/LibrarianPanel/Author/AuthorTool.jsx";
+import Author from "../../../components/LibrarianPanel/Author/Author.jsx";
 
 const AuthorIndex = () => {
     return (
         <div>
-            <AuthorTool/>
+            <Author/>
         </div>
     );
 };

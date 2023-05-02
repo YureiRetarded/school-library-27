@@ -22,7 +22,7 @@ return new class extends Migration {
             $table->text('bio')->nullable();
             $table->unsignedBigInteger('country_id')->nullable();
             $table->index('country_id', 'author_country_idx');
-            $table->foreign('country_id', 'author_country_fk')->on('countries')->references('id');
+            $table->foreign('country_id', 'author_country_fk')->on('countries')->references('id')->onDelete('cascade');
             $table->timestamps();
         });
     }

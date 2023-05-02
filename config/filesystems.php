@@ -43,6 +43,18 @@ return [
             'visibility' => 'public',
             'throw' => false,
         ],
+//        'public' => [
+//            'driver' => 'ftp',
+//            'host' => env('FTP_HOST'),
+//            'username' => env('FTP_USERNAME'),
+//            'password' => env('FTP_PASSWORD'),
+//            'port' => intval(env('FTP_PORT', 21)),
+//            'ssl' => false,
+//            'root' => storage_path('/'),
+//            'url' => env('APP_URL').'/storage',
+//            'visibility' => 'public',
+//            'throw' => false,
+//        ],
 
         's3' => [
             'driver' => 's3',
@@ -84,8 +96,8 @@ return [
     */
 
     'links' => [
-        public_path('images') => storage_path('app/public/images'),
-        public_path('books') => storage_path('app/public/books'),
+        public_path('images') => storage_path('app/images'),
+        //public_path('books') => storage_path('app/public/books'),
     ],
 
 ];

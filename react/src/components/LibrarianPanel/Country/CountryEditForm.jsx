@@ -39,7 +39,7 @@ const CountryEditForm = () => {
             submit();
         }
     });
-    //Загрузка наименования текущей страны
+    //Загрузка данных текущей страны
     useEffect(() => {
         const fetchCountry = async () => {
             const response = await CountryService.getCountry(user, countryId);

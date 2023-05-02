@@ -10,6 +10,7 @@ import ru from 'date-fns/locale/ru';
 import {useFormik} from "formik";
 import * as Yup from "yup";
 import ModalAuthorStore from "../../../ui/ModalAuthorStore.jsx";
+import {useNavigate} from "react-router-dom";
 
 //Установка языка и локали в data-picker
 registerLocale('ru', ru);
@@ -20,6 +21,9 @@ const AuthorCreateForm = () => {
     const user = useSelector(state => state.user);
     //Показать модальное окно
     const [show, setShow] = useState(false);
+    //Для отправки на другие страницы
+    const navigate = useNavigate();
+    //Ошибка при загрузке
     const [isErrorUpload, setIsErrorUpload] = useState(false);
     //Калбек для закрытия модального окна
     const handleClose = () => setShow(false);
@@ -39,6 +43,7 @@ const AuthorCreateForm = () => {
     const [haveDateBirthday, setHaveDateBirthday] = useState(false);
     //Есть ли дата смерти
     const [haveDateDeath, setHaveDateDeath] = useState(false);
+    const [authorId, setAuthorId] = useState(0);
     //Валидация
     const formik = useFormik({
         //Значение полей по умолчанию
@@ -77,6 +82,7 @@ const AuthorCreateForm = () => {
                 const response = await AuthorService.storeAuthor(user, values);
                 if (response.status) {
                     setIsUploading(false);
+                    setAuthorId(response.data.id);
                 } else {
                     setIsErrorUpload(true);
                     setIsUploading(false);
@@ -131,7 +137,7 @@ const AuthorCreateForm = () => {
     //Обработчик загружаемого изображения
     const handleIcon = async (e, setFieldValue) => {
         const file = e.target.files[0];
-        setImagesURL(undefined)
+        setImagesURL(undefined);
         if (file?.size / 1024 / 1024 < 2) {
             setImagesURL(URL.createObjectURL(file));
             const base64 = await convertToBase64(file);
@@ -140,6 +146,15 @@ const AuthorCreateForm = () => {
             formik.setFieldError('photo', 'Фотография должна иметь размер 2 мегабайта или меньше!');
         }
     }
+    //Для отправки на страницу списка авторов
+    const sendToIndex = () => {
+        navigate('/librarian/authors');
+    }
+    //Для отправки на страницу автора
+    const sendToPage = () => {
+        navigate('/librarian/authors/' + authorId);
+    }
+
     //Загрузка стран
     useEffect(() => {
         const fetchCountries = async () => {
@@ -147,7 +162,7 @@ const AuthorCreateForm = () => {
             if (response.status) {
                 setCountries([...response.data]);
                 setIsLoading(false);
-                await formik.setFieldValue('country_id', response.data[0].id)
+                await formik.setFieldValue('country_id', response.data[0].id);
             }
         }
         fetchCountries();
@@ -162,7 +177,13 @@ const AuthorCreateForm = () => {
     }, [haveDateDeath]);
     return (
         <Form onSubmit={formik.handleSubmit}>
-            <ModalAuthorStore show={show} handleClose={handleClose} isLoading={isUploading} isError={isErrorUpload}/>
+            <ModalAuthorStore
+                show={show}
+                handleClose={handleClose}
+                isLoading={isUploading}
+                isError={isErrorUpload}
+                sendToIndex={sendToIndex}
+                sendToPage={sendToPage}/>
             <Form.Group className='mb-3'>
                 <Form.Label>Фамилия</Form.Label>
                 <Form.Control

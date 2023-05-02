@@ -28,4 +28,7 @@ class Author extends Model
     {
         return $this->belongsToMany(File::class, 'author_photo');
     }
+    public function books(){
+        return $this->belongsToMany(Book::class,'author_book');
+    }
 }
