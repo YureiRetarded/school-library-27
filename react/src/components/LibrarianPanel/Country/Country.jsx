@@ -3,12 +3,13 @@ import CountryTool from "./CountryTool.jsx";
 import CountryList from "./CountryList.jsx";
 import {useSelector} from "react-redux";
 import CountryService from "../../../API/CountryService.js";
-import CountyItemPlaceholder from "./CountyItemPlaceholder.jsx";
+import CountryItemPlaceholder from "./CountryItemPlaceholder.jsx";
+import CountryListPlaceholder from "./CountryListPlaceholder.jsx";
 
 const Country = () => {
     //Для аутентификации пользователя в запросе
     const user = useSelector(state => state.user);
-    //Странны
+    //Страны
     const [countries, setCountries] = useState([]);
     //Состояние загрузки
     const [isLoading, setIsLoading] = useState(true);
@@ -28,7 +29,7 @@ const Country = () => {
     return (
         <div>
             <CountryTool/>
-            {isLoading ? <CountyItemPlaceholder/> :
+            {isLoading ? <CountryListPlaceholder/> :
                 <CountryList countries={countries} destroyCountry={destroyCountry}/>}
         </div>
     );

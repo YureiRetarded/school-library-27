@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Country;
 use App\Models\Role;
 use Illuminate\Database\Seeder;
 
@@ -35,8 +36,28 @@ class DatabaseSeeder extends Seeder
                 'access_level' => 9,
             ],
         ];
+        $countries = [
+            [
+                'name'=>'Россия'
+            ],
+            [
+                'name'=>'СССР'
+            ],
+            [
+                'name'=>'Российская империя'
+            ],
+            [
+                'name'=>'Казахстан'
+            ],
+            [
+                'name'=>'Белорусь'
+            ],
+        ];
         foreach ($roles as $role){
             Role::create($role);
+        }
+        foreach ($countries as $country){
+            Country::create($country);
         }
     }
 }

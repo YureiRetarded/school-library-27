@@ -10,10 +10,18 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 
-class AuthorStoreController extends Controller
+class AuthorUpdateController extends Controller
 {
-    public function __invoke(AuthorStoreRequest $request)
+    public function __invoke(AuthorStoreRequest $request, $id)
     {
+        //Поиск автора по идентификатору
+        $author = Author::find($id);
+        if (!$author) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Author not found',
+            ]);
+        }
         //Вытягиваем данные из запроса
         $data = [
             'first_name' => $request['first_name'],
@@ -24,6 +32,7 @@ class AuthorStoreController extends Controller
             'date_birthday' => isset($request['date_birthday']) ? date('Y-m-d', strtotime($request['date_birthday'])) : null,
             'date_death' => isset($request['date_death']) ? date('Y-m-d', strtotime($request['date_death'])) : null,
             'photo' => $request['photo'],
+            'image_delete' => $request['image_delete'],
         ];
         //Переменная для файла
         $file = '';
@@ -43,18 +52,31 @@ class AuthorStoreController extends Controller
             //Создаём запись о файле в БД
             $file = File::create(['name' => $name . '.webp']);
         }
-        //Сохраняем автора
-        $author = Author::create($data);
-        //Связываем автора и изображение
-        //На вопрос: 'Почему мы не сохраняем автора перед сохранением изображения?', для того чтобы, при ошибке сохранения изображения, не производилось сохранения автора.
-        //А зачем именно так? А потому что, пользователь с высокой вероятностью нажмёт кнопку сохранить повторно.
-        //Проверка на дублирования авторов будет позже...
+        //Проверяем есть ли у автора, фотографии
+        //Удаляем предыдущий файл с диска и из БД
+        if ($data['image_delete'] || isset($data['photo'])) {
+            if (count($author->image) > 0) {
+                //В случае если они есть
+                $images = $author->image;
+                foreach ($images as $image) {
+                    //Если фотография обнаружена в хранилище, удаляем её
+                    if (Storage::disk('public')->exists('images/' . $image->name)) {
+                        Storage::disk('public')->delete('images/' . $image->name);
+                    }
+                    //Удаляем записи о фотографиях из бд
+                    File::find($image->id)->delete();
+                }
+            }
+        }
+        $author->update($data);
+        $author->save();
+        $author->fresh();
         if ($file !== '') {
             $author->image()->sync($file->id);
         }
         return response()->json([
             'success' => true,
-            'message' => 'Author was added',
+            'message' => 'Author was updated',
             'data' => $author,
         ]);
     }

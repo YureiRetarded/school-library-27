@@ -15,8 +15,8 @@ return new class extends Migration {
         Schema::create('author_photo', function (Blueprint $table) {
             $table->unsignedBigInteger('author_id');
             $table->unsignedBigInteger('file_id');
-            $table->foreign('author_id', 'author_author_photo_fk')->on('authors')->references('id');
-            $table->foreign('file_id', 'author_photo_file_fk')->on('files')->references('id');
+            $table->foreign('author_id', 'author_author_photo_fk')->on('authors')->references('id')->onDelete('cascade');
+            $table->foreign('file_id', 'author_photo_file_fk')->on('files')->references('id')->onDelete('cascade');
             $table->timestamps();
         });
     }

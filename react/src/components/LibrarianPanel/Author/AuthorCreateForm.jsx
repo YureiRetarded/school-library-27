@@ -9,20 +9,32 @@ import "react-datepicker/dist/react-datepicker.css";
 import ru from 'date-fns/locale/ru';
 import {useFormik} from "formik";
 import * as Yup from "yup";
+import ModalAuthorStore from "../../../ui/ModalAuthorStore.jsx";
+import {useNavigate} from "react-router-dom";
 
 //Установка языка и локали в data-picker
-registerLocale('ru', ru)
+registerLocale('ru', ru);
 
 
 const AuthorCreateForm = () => {
     //Для аутентификации пользователя в запросе
     const user = useSelector(state => state.user);
+    //Показать модальное окно
+    const [show, setShow] = useState(false);
+    //Для отправки на другие страницы
+    const navigate = useNavigate();
+    //Ошибка при загрузке
+    const [isErrorUpload, setIsErrorUpload] = useState(false);
+    //Калбек для закрытия модального окна
+    const handleClose = () => setShow(false);
     //Состояние для отрисовки загруженного изображения на странице
     const [imagesURL, setImagesURL] = useState();
     //Список стран
     const [countries, setCountries] = useState([]);
     //Состояние загрузки стран
     const [isLoading, setIsLoading] = useState(true);
+    //Состояние загрузки формы
+    const [isUploading, setIsUploading] = useState(false);
     //Состояния общей ошибки
     const [error, setError] = useState({
         global: '',
@@ -31,6 +43,7 @@ const AuthorCreateForm = () => {
     const [haveDateBirthday, setHaveDateBirthday] = useState(false);
     //Есть ли дата смерти
     const [haveDateDeath, setHaveDateDeath] = useState(false);
+    const [authorId, setAuthorId] = useState(0);
     //Валидация
     const formik = useFormik({
         //Значение полей по умолчанию
@@ -61,40 +74,46 @@ const AuthorCreateForm = () => {
         }),
         //Отправка
         onSubmit: values => {
+            //Выставляем состояние загрузки и обнуляем ошибки
+            setIsUploading(true);
+            setShow(true);
+            setIsErrorUpload(false);
             const submit = async () => {
                 const response = await AuthorService.storeAuthor(user, values);
                 if (response.status) {
-                    console.log('Успех')
-                    //Перевести на страницу автора
+                    setIsUploading(false);
+                    setAuthorId(response.data.id);
                 } else {
+                    setIsErrorUpload(true);
+                    setIsUploading(false);
                     for (const [name, value] of Object.entries(response.errors)) {
                         switch (name.toString()) {
                             case 'first_name':
-                                formik.setFieldError('first_name', value.toString())
+                                formik.setFieldError('first_name', value.toString());
                                 break;
                             case 'second_name':
-                                formik.setFieldError('second_name', value.toString())
+                                formik.setFieldError('second_name', value.toString());
                                 break;
                             case 'middle_name':
-                                formik.setFieldError('middle_name', value.toString())
+                                formik.setFieldError('middle_name', value.toString());
                                 break;
                             case 'country_id':
-                                formik.setFieldError('country_id', value.toString())
+                                formik.setFieldError('country_id', value.toString());
                                 break;
                             case 'bio':
-                                formik.setFieldError('bio', value.toString())
+                                formik.setFieldError('bio', value.toString());
                                 break;
                             case 'photo':
-                                formik.setFieldError('photo', value.toString())
+                                formik.setFieldError('photo', value.toString());
                                 break;
                             case 'date_birthday':
-                                formik.setFieldError('date_birthday', value.toString())
+                                formik.setFieldError('date_birthday', value.toString());
                                 break;
                             case 'date_death':
-                                formik.setFieldError('date_death', value.toString())
+                                formik.setFieldError('date_death', value.toString());
                                 break;
                             default:
-                                setError({global: value})
+                                setError({global: value});
                         }
                     }
                 }
@@ -118,7 +137,7 @@ const AuthorCreateForm = () => {
     //Обработчик загружаемого изображения
     const handleIcon = async (e, setFieldValue) => {
         const file = e.target.files[0];
-        setImagesURL(undefined)
+        setImagesURL(undefined);
         if (file?.size / 1024 / 1024 < 2) {
             setImagesURL(URL.createObjectURL(file));
             const base64 = await convertToBase64(file);
@@ -127,6 +146,15 @@ const AuthorCreateForm = () => {
             formik.setFieldError('photo', 'Фотография должна иметь размер 2 мегабайта или меньше!');
         }
     }
+    //Для отправки на страницу списка авторов
+    const sendToIndex = () => {
+        navigate('/librarian/authors');
+    }
+    //Для отправки на страницу автора
+    const sendToPage = () => {
+        navigate('/librarian/authors/' + authorId);
+    }
+
     //Загрузка стран
     useEffect(() => {
         const fetchCountries = async () => {
@@ -134,7 +162,7 @@ const AuthorCreateForm = () => {
             if (response.status) {
                 setCountries([...response.data]);
                 setIsLoading(false);
-                await formik.setFieldValue('country_id', response.data[0].id)
+                await formik.setFieldValue('country_id', response.data[0].id);
             }
         }
         fetchCountries();
@@ -149,6 +177,13 @@ const AuthorCreateForm = () => {
     }, [haveDateDeath]);
     return (
         <Form onSubmit={formik.handleSubmit}>
+            <ModalAuthorStore
+                show={show}
+                handleClose={handleClose}
+                isLoading={isUploading}
+                isError={isErrorUpload}
+                sendToIndex={sendToIndex}
+                sendToPage={sendToPage}/>
             <Form.Group className='mb-3'>
                 <Form.Label>Фамилия</Form.Label>
                 <Form.Control
