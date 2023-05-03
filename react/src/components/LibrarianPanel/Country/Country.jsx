@@ -3,7 +3,6 @@ import CountryTool from "./CountryTool.jsx";
 import CountryList from "./CountryList.jsx";
 import {useSelector} from "react-redux";
 import CountryService from "../../../API/CountryService.js";
-import CountryItemPlaceholder from "./CountryItemPlaceholder.jsx";
 import CountryListPlaceholder from "./CountryListPlaceholder.jsx";
 
 const Country = () => {

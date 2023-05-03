@@ -1,13 +1,13 @@
 import React, {useState} from 'react';
-import {Button} from "react-bootstrap";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faTrashCan, faPen} from "@fortawesome/free-solid-svg-icons";
 import {useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
-import CountryService from "../../../API/CountryService.js";
+import CategoryService from "../../../API/CategoryService.js";
 import ModalCountryDelete from "../../../ui/ModalCountryDelete.jsx";
+import {Button} from "react-bootstrap";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faPen, faTrashCan} from "@fortawesome/free-solid-svg-icons";
 
-const CountryItem = ({country, destroyCountry}) => {
+const CategoryItem = ({category, destroyCategory}) => {
     //Для аутентификации пользователя в запросе
     const user = useSelector(state => state.user)
     //Для возможности отправки на страницу редактирования
@@ -18,17 +18,17 @@ const CountryItem = ({country, destroyCountry}) => {
     const handleClose = () => setShow(false);
     //Функция для вызова модального окна
     const handleOpen = () => setShow(true);
-    //Функция для удаления страны из бд
+    //Функция для удаления категории из бд
     const destroy = async () => {
-        const response = await CountryService.deleteCountry(user, country.id);
+        const response = await CategoryService.deleteCategory(user, category.id);
         if (response.status) {
-            destroyCountry(country.id);
+            destroyCategory(category.id);
             handleClose();
         }
     }
     //Отправка на страницу редактирования
     const edit = () => {
-        navigate(`/librarian/countries/${country.id}/edit`);
+        navigate(`/librarian/categories/${category.id}/edit`);
     }
     return (
         <div className='card my-1'>
@@ -39,7 +39,7 @@ const CountryItem = ({country, destroyCountry}) => {
             />
             <div className='card-body'>
                 <div className='card-title d-flex justify-content-between align-items-center'>
-                    {country.name}
+                    {category.name}
                     <div className='d-flex justify-content-between align-items-center'>
                         <Button onClick={edit} variant='primary'>
                             <FontAwesomeIcon icon={faPen}/>
@@ -54,4 +54,4 @@ const CountryItem = ({country, destroyCountry}) => {
     );
 };
 
-export default CountryItem;
+export default CategoryItem;

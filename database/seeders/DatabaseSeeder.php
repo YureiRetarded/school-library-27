@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Category;
 use App\Models\Country;
 use App\Models\Role;
 use Illuminate\Database\Seeder;
@@ -38,26 +39,43 @@ class DatabaseSeeder extends Seeder
         ];
         $countries = [
             [
-                'name'=>'Россия'
+                'name' => 'Россия'
             ],
             [
-                'name'=>'СССР'
+                'name' => 'СССР'
             ],
             [
-                'name'=>'Российская империя'
+                'name' => 'Российская империя'
             ],
             [
-                'name'=>'Казахстан'
+                'name' => 'Казахстан'
             ],
             [
-                'name'=>'Белорусь'
+                'name' => 'Белорусь'
             ],
         ];
-        foreach ($roles as $role){
+        $categories = [
+            [
+                'name' => 'Художественная литература'
+            ],
+            [
+                'name' => 'Научная литература'
+            ],
+            [
+                'name' => 'Учебник'
+            ],
+            [
+                'name' => 'Документ'
+            ],
+        ];
+        foreach ($roles as $role) {
             Role::create($role);
         }
-        foreach ($countries as $country){
+        foreach ($countries as $country) {
             Country::create($country);
+        }
+        foreach ($categories as $category) {
+            Category::create($category);
         }
     }
 }
