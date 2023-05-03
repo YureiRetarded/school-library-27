@@ -12,7 +12,7 @@ const CountryEditForm = () => {
     const user = useSelector(state => state.user);
     //Для переадресации на страницу в случае успеха
     const navigate = useNavigate();
-    //ID странны в адресной строке
+    //ID страны в адресной строке
     const {countryId} = useParams();
     //Состояние загрузки
     const [isLoading, setIsLoading] = useState(true);

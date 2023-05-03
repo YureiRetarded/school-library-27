@@ -9,7 +9,7 @@ import CountryListPlaceholder from "./CountryListPlaceholder.jsx";
 const Country = () => {
     //Для аутентификации пользователя в запросе
     const user = useSelector(state => state.user);
-    //Странны
+    //Страны
     const [countries, setCountries] = useState([]);
     //Состояние загрузки
     const [isLoading, setIsLoading] = useState(true);

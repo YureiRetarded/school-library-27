@@ -4,6 +4,7 @@ use App\Http\Controllers\Author\AuthorDestroyController;
 use App\Http\Controllers\Author\AuthorIndexController;
 use App\Http\Controllers\Author\AuthorReadController;
 use App\Http\Controllers\Author\AuthorStoreController;
+use App\Http\Controllers\Author\AuthorUpdateController;
 use App\Http\Controllers\Country\CountryDestroyController;
 use App\Http\Controllers\Country\CountryIndexController;
 use App\Http\Controllers\Country\CountryReadController;
@@ -35,14 +36,15 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::prefix('country')->group(function () {
             Route::get('/', CountryIndexController::class);
             Route::get('/{id}', CountryReadController::class);
-            Route::patch('/{id}/update', CountryUpdateController::class);
             Route::post('/', CountryStoreController::class);
+            Route::patch('/{id}/update', CountryUpdateController::class);
             Route::delete('/{id}', CountryDestroyController::class);
         });
         Route::prefix('author')->group(function () {
             Route::get('/', AuthorIndexController::class);
-            Route::post('/', AuthorStoreController::class);
             Route::get('/{id}', AuthorReadController::class);
+            Route::post('/', AuthorStoreController::class);
+            Route::patch('/{id}/update', AuthorUpdateController::class);
             Route::delete('/{id}', AuthorDestroyController::class);
         });
     });

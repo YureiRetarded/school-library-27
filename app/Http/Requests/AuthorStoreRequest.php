@@ -24,7 +24,8 @@ class AuthorStoreRequest extends FormRequest
             'country_id' => 'required|integer',
             'date_birthday' => 'nullable|date',
             'date_death' => 'nullable|date',
-            'photo' => 'nullable|string'
+            'photo' => 'nullable|string',
+            'image_delete' => 'nullable|bool',
         ];
     }
 
@@ -40,11 +41,20 @@ class AuthorStoreRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required' => 'Поле не может быть пустым!',
-            'name.unique' => 'Такая страна уже есть!',
-            'name.min' => 'Длина наименование страны должна начинаться от 2 символов!',
-            'name.max' => 'Длина наименование страны не может превышать 64 символа!',
-            'name.regex' => 'Используйте только русские буквы!',
+            'first_name.required' => 'Поле не может быть пустым!',
+            'first_name.min' => 'Длина имени должна начинаться от 2 символов!',
+            'first_name.max' => 'Длина имени не может превышать 32 символа!',
+            'first_name.regex' => 'Используйте только русские буквы!',
+            'second_name.min' => 'Длина фамилии должна начинаться от 2 символов!',
+            'second_name.max' => 'Длина фамилии не может превышать 32 символа!',
+            'second_name.regex' => 'Используйте только русские буквы!',
+            'middle_name.min' => 'Длина отчества должна начинаться от 2 символов!',
+            'middle_name.max' => 'Длина отчества не может превышать 32 символа!',
+            'middle_name.regex' => 'Используйте только русские буквы!',
+            'bio.max' => 'Длинна биография не может превышать 65000 символов! ',
+            'country_id.required' => 'Страна обязательно должна быть выбрана!',
+            'country_id.integer' => 'Должен быть идентификатор страны!',
+
         ];
     }
 }
