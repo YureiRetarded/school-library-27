@@ -61,6 +61,7 @@ export default class UserService {
             return false;
         }
     }
+
     //Разлогинивания пользователя
     //Для того чтобы база не переполнялась токенами которые больше не будут использоваться, мы его удаляем
     static async userLogout(user, dispatch) {

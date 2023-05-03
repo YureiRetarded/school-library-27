@@ -26,6 +26,7 @@ export default class {
 
 
     }
+
     //Обновление автора
     static async updateAuthor(user, data, id) {
         //Вставка токена в заголовок, для авторизации
@@ -51,6 +52,7 @@ export default class {
 
 
     }
+
     //Получение авторов
     static async getAuthors(user) {
         //Вставка токена в заголовок, для авторизации
@@ -68,6 +70,7 @@ export default class {
             return {status: false, error: response.statusText};
         }
     }
+
     //Получение автора
     static async getAuthor(user, id) {
         //Вставка токена в заголовок, для авторизации
@@ -85,6 +88,7 @@ export default class {
             return {status: false, error: response.statusText};
         }
     }
+
     //Удаление автора
     static async deleteAuthor(user, id) {
         //Вставка токена в заголовок, для авторизации

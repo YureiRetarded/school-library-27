@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faHouse, faBook, faPenNib, faPrint, faUsers, faGlobe} from "@fortawesome/free-solid-svg-icons";
+import {faHouse, faBook, faPenNib, faPrint, faUsers, faGlobe, faPassport} from "@fortawesome/free-solid-svg-icons";
 
 const SideBar = () => {
 
@@ -32,6 +32,12 @@ const SideBar = () => {
                         <Link to={'countries'} className='nav-link'>
                             <FontAwesomeIcon size='2xl' icon={faGlobe} className='icon-color'/>
                             <span className='ms-1 d-none d-sm-inline bg-sidebar-text'>Страны</span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to={'categories'} className='nav-link'>
+                            <FontAwesomeIcon size='2xl' icon={faPassport} className='icon-color'/>
+                            <span className='ms-1 d-none d-sm-inline bg-sidebar-text'>Категории</span>
                         </Link>
                     </li>
                     <li>

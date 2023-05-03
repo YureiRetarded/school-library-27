@@ -5,6 +5,11 @@ use App\Http\Controllers\Author\AuthorIndexController;
 use App\Http\Controllers\Author\AuthorReadController;
 use App\Http\Controllers\Author\AuthorStoreController;
 use App\Http\Controllers\Author\AuthorUpdateController;
+use App\Http\Controllers\Category\CategoryDestroyController;
+use App\Http\Controllers\Category\CategoryIndexController;
+use App\Http\Controllers\Category\CategoryReadController;
+use App\Http\Controllers\Category\CategoryStoreController;
+use App\Http\Controllers\Category\CategoryUpdateController;
 use App\Http\Controllers\Country\CountryDestroyController;
 use App\Http\Controllers\Country\CountryIndexController;
 use App\Http\Controllers\Country\CountryReadController;
@@ -39,6 +44,13 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post('/', CountryStoreController::class);
             Route::patch('/{id}/update', CountryUpdateController::class);
             Route::delete('/{id}', CountryDestroyController::class);
+        });
+        Route::prefix('category')->group(function () {
+            Route::get('/', CategoryIndexController::class);
+            Route::get('/{id}', CategoryReadController::class);
+            Route::post('/', CategoryStoreController::class);
+            Route::patch('/{id}/update', CategoryUpdateController::class);
+            Route::delete('/{id}', CategoryDestroyController::class);
         });
         Route::prefix('author')->group(function () {
             Route::get('/', AuthorIndexController::class);
