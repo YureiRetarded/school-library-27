@@ -25,6 +25,11 @@ import LibrarianCategoriesPage from "./Librarian/Category/LibrarianCategoriesPag
 import CategoryIndex from "./Librarian/Category/CategoryIndex.jsx";
 import CategoryCreate from "./Librarian/Category/CategoryCreate.jsx";
 import CategoryEdit from "./Librarian/Category/CategoryEdit.jsx";
+import LibrarianBookPage from "./Librarian/Book/LibrarianBookPage.jsx";
+import BookIndex from "./Librarian/Book/BookIndex.jsx";
+import BookRead from "./Librarian/Book/BookRead.jsx";
+import BookCreate from "./Librarian/Book/BookCreate.jsx";
+import BookEdit from "./Librarian/Book/BookEdit.jsx";
 
 
 export const router = createBrowserRouter(
@@ -126,6 +131,28 @@ export const router = createBrowserRouter(
                             {
                                 path: ':authorId/edit',
                                 element: <AuthorEdit/>
+                            },
+                        ]
+                    },
+                    {
+                        path: 'books',
+                        element: <LibrarianBookPage/>,
+                        children: [
+                            {
+                                path: '',
+                                element: <BookIndex/>
+                            },
+                            {
+                                path: ':bookId',
+                                element: <BookRead/>
+                            },
+                            {
+                                path: 'create',
+                                element: <BookCreate/>
+                            },
+                            {
+                                path: ':bookId/edit',
+                                element: <BookEdit/>
                             },
                         ]
                     },
