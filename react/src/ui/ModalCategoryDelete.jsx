@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button, Modal} from "react-bootstrap";
 
-const ModalAuthorDelete = ({show, handleClose, handeDelete}) => {
+const ModalCategoryDelete = ({show, handleClose, handeDelete}) => {
     return (
         <Modal
             show={show}
@@ -15,7 +15,7 @@ const ModalAuthorDelete = ({show, handleClose, handeDelete}) => {
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                Вы точно уверены, что хотите удалить этого автора?
+                Вы точно уверены, что хотите удалить эту категории? Будут также все книги, привязанные к этой стране!
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="primary" onClick={handleClose}>
@@ -29,4 +29,4 @@ const ModalAuthorDelete = ({show, handleClose, handeDelete}) => {
     );
 };
 
-export default ModalAuthorDelete;
+export default ModalCategoryDelete;

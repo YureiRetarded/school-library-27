@@ -11,7 +11,7 @@ class AuthorIndexController extends Controller
 {
     public function __invoke()
     {
-        //Для того чтобы frond-end не вызывал, производил запросы связанные с названием стран и получения url изображения
+        //Для того чтобы frond-end не производил запросы связанные с названием стран и получения url изображения
         //Мы сразу, перед отправкой данных об авторах суём их в коллекцию
         $authors = Author::all();
         foreach ($authors as $author) {

@@ -2,10 +2,10 @@ import React, {useState} from 'react';
 import {useSelector} from "react-redux";
 import {useNavigate} from "react-router-dom";
 import CategoryService from "../../../API/CategoryService.js";
-import ModalCountryDelete from "../../../ui/ModalCountryDelete.jsx";
 import {Button} from "react-bootstrap";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faPen, faTrashCan} from "@fortawesome/free-solid-svg-icons";
+import ModalCategoryDelete from "../../../ui/ModalCategoryDelete.jsx";
 
 const CategoryItem = ({category, destroyCategory}) => {
     //Для аутентификации пользователя в запросе
@@ -32,7 +32,7 @@ const CategoryItem = ({category, destroyCategory}) => {
     }
     return (
         <div className='card my-1'>
-            <ModalCountryDelete
+            <ModalCategoryDelete
                 show={show}
                 handleClose={handleClose}
                 handeDelete={destroy}

@@ -90,3 +90,44 @@ body {
     max-width: 159px;
     background: gray;
 }
+
+.menu-list-wrapper {
+    border: 1px black solid;
+    border-radius: 5px;
+}
+
+.menu-list-wrapper-category {
+    border-bottom: 1px black solid;
+}
+
+.menu-list-wrapper-items {
+    max-height: 400px;
+    overflow: scroll;
+    overflow-x: hidden;
+}
+
+.menu-list-wrapper-items-available {
+    border-right: 1px black solid;
+}
+
+.menu-item {
+    border: 1px black solid;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 5px;
+    display: flex;
+    cursor: pointer;
+}
+
+.menu-item-selected {
+    flex-direction: row-reverse;
+}
+
+.menu-item-text {
+    width: 100%;
+    text-align: center;
+}
+
+.menu-item-arrow {
+    align-self: center;
+}

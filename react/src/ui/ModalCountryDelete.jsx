@@ -1,9 +1,7 @@
 import React from 'react';
-import {Button, Modal, Spinner} from "react-bootstrap";
+import {Button, Modal} from "react-bootstrap";
 
 const ModalAuthorDelete = ({show, handleClose, handeDelete}) => {
-    //Функция для вызова сразу всех необходимых функций
-
     return (
         <Modal
             show={show}
@@ -17,7 +15,8 @@ const ModalAuthorDelete = ({show, handleClose, handeDelete}) => {
                 </Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                Вы точно уверены, что хотите удалить эту страну? Будут также удалены все авторы, привязанные к этой стране!
+                Вы точно уверены, что хотите удалить эту страну? Будут также удалены все авторы, привязанные к этой
+                стране!
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="primary" onClick={handleClose}>

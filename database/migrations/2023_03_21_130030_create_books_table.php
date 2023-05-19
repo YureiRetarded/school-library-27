@@ -15,8 +15,8 @@ return new class extends Migration {
         Schema::create('books', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->date('date_crated');
-            $table->text('description');
+            $table->date('date_created')->nullable();
+            $table->text('description')->nullable();
             $table->unsignedBigInteger('category_id');
             $table->index('category_id', 'book_category_idx');
             $table->foreign('category_id', 'book_category_fk')->on('categories')->references('id')->onDelete('cascade');

@@ -5,6 +5,11 @@ use App\Http\Controllers\Author\AuthorIndexController;
 use App\Http\Controllers\Author\AuthorReadController;
 use App\Http\Controllers\Author\AuthorStoreController;
 use App\Http\Controllers\Author\AuthorUpdateController;
+use App\Http\Controllers\Book\BookDestroyController;
+use App\Http\Controllers\Book\BookIndexController;
+use App\Http\Controllers\Book\BookReadController;
+use App\Http\Controllers\Book\BookStoreController;
+use App\Http\Controllers\Book\BookUpdateController;
 use App\Http\Controllers\Category\CategoryDestroyController;
 use App\Http\Controllers\Category\CategoryIndexController;
 use App\Http\Controllers\Category\CategoryReadController;
@@ -58,6 +63,13 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::post('/', AuthorStoreController::class);
             Route::patch('/{id}/update', AuthorUpdateController::class);
             Route::delete('/{id}', AuthorDestroyController::class);
+        });
+        Route::prefix('book')->group(function () {
+            Route::get('/', BookIndexController::class);
+            Route::get('/{id}', BookReadController::class);
+            Route::post('/', BookStoreController::class);
+            Route::patch('/{id}/update', BookUpdateController::class);
+            Route::delete('/{id}', BookDestroyController::class);
         });
     });
 });

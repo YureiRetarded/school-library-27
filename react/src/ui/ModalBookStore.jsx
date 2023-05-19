@@ -1,7 +1,7 @@
 import React from 'react';
 import {Button, Modal, Spinner} from "react-bootstrap";
 
-const ModalAuthorStore = ({show, handleClose, isLoading, isError, sendToIndex, sendToPage}) => {
+const ModalBookStore = ({show, handleClose, isLoading, isError, sendToIndex, sendToPage}) => {
     return (
         <Modal
             show={show}
@@ -21,7 +21,7 @@ const ModalAuthorStore = ({show, handleClose, isLoading, isError, sendToIndex, s
             </Modal.Header>
             <Modal.Body>
                 {isLoading ?
-                    'Пожалуйста подождите, идёт загрузка данных автора на сервер!' :
+                    'Пожалуйста подождите, идёт загрузка данных книги на сервер!' :
                     (isError ?
                         'Произошла ошибка, пожалуйста обратитесь за помощью к Вашему администратору.' :
                         'Выберите следующие действие:')
@@ -31,10 +31,10 @@ const ModalAuthorStore = ({show, handleClose, isLoading, isError, sendToIndex, s
                 (!isError ?
                         <Modal.Footer>
                             <Button variant="primary" onClick={sendToIndex}>
-                                Список авторов
+                                Список книг
                             </Button>
                             <Button variant="primary" onClick={sendToPage}>
-                                Страница автора
+                                Страница книги
                             </Button>
                         </Modal.Footer> :
                         <Modal.Footer>
@@ -48,4 +48,4 @@ const ModalAuthorStore = ({show, handleClose, isLoading, isError, sendToIndex, s
     );
 };
 
-export default ModalAuthorStore;
+export default ModalBookStore;
