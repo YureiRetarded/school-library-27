@@ -31,4 +31,9 @@ class Book extends Model
     {
         return $this->belongsToMany(Author::class, 'author_book');
     }
+
+    public function file()
+    {
+        return $this->belongsTo(File::class);
+    }
 }
