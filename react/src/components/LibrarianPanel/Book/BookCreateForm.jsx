@@ -254,14 +254,14 @@ const BookCreateForm = () => {
                 <Form.Label>Книга</Form.Label>
                 <Form.Control type="file"
                               accept="application/pdf"
-                              isInvalid={formik.touched.name && formik.errors.pdf}
+                              isInvalid={formik.touched.pdf && formik.errors.pdf}
                               onChange={(e) => handleDocument(e, formik.setFieldValue)}/>
-                {formik.touched.name && formik.errors.pdf &&
+                {formik.touched.pdf && formik.errors.pdf &&
                     <ErrorField message={formik.errors.pdf}/>
                 }
             </Form.Group>
             <Form.Group className="mb-3">
-                <Form.Label>Фотография автора</Form.Label>
+                <Form.Label>Обложка книги</Form.Label>
                 <Form.Control type="file"
                               accept="image/png,image/jpeg"
                               isInvalid={formik.errors.photo}

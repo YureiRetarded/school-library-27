@@ -131,3 +131,19 @@ body {
 .menu-item-arrow {
     align-self: center;
 }
+
+.book {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.book-app {
+    flex-grow: 1;
+}
+
+.book-paginate {
+
+}
+
