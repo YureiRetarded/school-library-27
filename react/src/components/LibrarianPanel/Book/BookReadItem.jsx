@@ -43,7 +43,7 @@ const BookReadItem = () => {
             setIsLoading(false);
         };
         fetchBook();
-    }, [])
+    }, []);
 
     return (
         <div>

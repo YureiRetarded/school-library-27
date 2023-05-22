@@ -26,15 +26,15 @@ const BookItem = ({book, destroyBook}) => {
             destroyBook(book.id);
             handleClose();
         }
-    }
+    };
     //Перейти на страницу книги
     const read = () => {
         navigate(`/librarian/books/${book.id}`);
-    }
+    };
     //Перейти на страницу редактирования
     const edit = () => {
         navigate(`/librarian/books/${book.id}/edit`);
-    }
+    };
     return (
         <Card className='mb-2'>
             <ModalBookDelete
@@ -54,7 +54,7 @@ const BookItem = ({book, destroyBook}) => {
                         <Card.Footer className='bg-light m-0 p-0'>
                             <div>Категория: {book.category_name}</div>
                             <div>   {book.date_created && ('Дата написания: ' + book.date_created)}</div>
-                            <div>{book.authors.length>1?'Авторы:':'Автор:'}</div>
+                            <div>{book.authors.length > 1 ? 'Авторы:' : 'Автор:'}</div>
                             <AuthorsBookList authors={book.authors}/>
                         </Card.Footer>
                     </div>

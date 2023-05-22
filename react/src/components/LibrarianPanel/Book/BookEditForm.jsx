@@ -117,7 +117,7 @@ const BookEditForm = () => {
                 reject(error);
             }
         });
-    }
+    };
     //Обработчик загружаемого изображения
     const handleIcon = async (e, setFieldValue) => {
         const file = e.target.files[0];
@@ -129,14 +129,14 @@ const BookEditForm = () => {
         } else {
             formik.setFieldError('photo', 'Фотография должна иметь размер 2 мегабайта или меньше!');
         }
-    }
+    };
     //Удаление фотографии
     const deletePhoto = () => {
         setImagesURL(undefined)
         setHavePhoto(false)
         formik.setFieldValue('image_delete', true);
         formik.setFieldValue('photo', '')
-    }
+    };
     const handleDocument = async (e, setFieldValue) => {
         const file = e.target.files[0];
         if (file?.size / 1024 / 1024 < 50) {
@@ -145,19 +145,19 @@ const BookEditForm = () => {
         } else {
             formik.setFieldError('pdf', 'Книга должна иметь размер меньше 50 мегабайт!');
         }
-    }
+    };
     //Для отправки на страницу списка авторов
 
     const setSelectedAuthor = (selected) => {
         formik.setFieldValue('authors', selected)
-    }
+    };
     const sendToIndex = () => {
         navigate('/librarian/books');
-    }
+    };
     //Для отправки на страницу автора
     const sendToPage = () => {
         navigate('/librarian/books/' + bookId);
-    }
+    };
     //Загрузка категорий
     useEffect(() => {
         const fetchCategories = async () => {

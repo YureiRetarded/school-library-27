@@ -132,7 +132,7 @@ const AuthorEditForm = () => {
                 reject(error);
             }
         });
-    }
+    };
     //Обработчик загружаемого изображения
     const handleIcon = async (e, setFieldValue) => {
         const file = e.target.files[0];
@@ -145,22 +145,22 @@ const AuthorEditForm = () => {
         } else {
             formik.setFieldError('photo', 'Фотография должна иметь размер 2 мегабайта или меньше!');
         }
-    }
+    };
     //Удаление фотографии
     const deletePhoto = () => {
         setImagesURL(undefined)
         setHavePhoto(false)
         formik.setFieldValue('image_delete', true);
         formik.setFieldValue('photo', '')
-    }
+    };
     //Для отправки на страницу списка авторов
     const sendToIndex = () => {
         navigate('/librarian/authors');
-    }
+    };
     //Для отправки на страницу автора
     const sendToPage = () => {
         navigate('/librarian/authors/' + authorId);
-    }
+    };
     //Загрузка стран
     useEffect(() => {
         const fetchCountries = async () => {

@@ -56,7 +56,7 @@ export default class {
 
     }
 
-    //Получение книг
+    //Получение всех книг
     static async getBooks(user) {
         //Вставка токена в заголовок, для авторизации
         const config = {
@@ -64,7 +64,25 @@ export default class {
                 Authorization: 'Bearer ' + user.token
             }
         };
-        const response = await axios.get(`http://127.0.0.1:8000/api/book/`, config);
+        const response = await axios.get(`http://127.0.0.1:8000/api/book_all`, config);
+        if (response.data.success) {
+            //Возвращаем книги
+            return {status: true, data: response.data.data};
+        } else {
+            //Возвращаем ошибку
+            return {status: false, error: response.statusText};
+        }
+    }
+
+    //Получение книг по страницам
+    static async getBooksByPage(user, page) {
+        //Вставка токена в заголовок, для авторизации
+        const config = {
+            headers: {
+                Authorization: 'Bearer ' + user.token
+            }
+        };
+        const response = await axios.get(`http://127.0.0.1:8000/api/book?page=${page}`, config);
         if (response.data.success) {
             //Возвращаем книги
             return {status: true, data: response.data.data};

@@ -18,37 +18,37 @@ const BookReadFile = () => {
     //Текущая страница
     const [pageNumber, setPageNumber] = useState(1);
     //Книга в base64
-    const [base64Book, setBase64Book] = useState('')
+    const [base64Book, setBase64Book] = useState('');
     //Состояние загрузки
-    const [isLoading, setIsLoading] = useState(true)
+    const [isLoading, setIsLoading] = useState(true);
     //Переход на первую страницу
     const firstPage = () => {
         if (pageNumber !== 1)
             setPageNumber(1);
-    }
+    };
     //Переход на предыдущую страницу
     const prevPage = () => {
         if (pageNumber !== 1)
             setPageNumber(pageNumber - 1);
-    }
+    };
     //Переход на следующую страницу
     const nextPage = () => {
         if (pageNumber !== numPages)
             setPageNumber(pageNumber + 1);
-    }
+    };
     //Переход на последнюю страницу
     const lastPage = () => {
         if (pageNumber !== numPages)
             setPageNumber(numPages);
-    }
+    };
     //Переход на текущую страницу - 2
     const pageNumberMinusTwo = () => {
         setPageNumber(pageNumber - 2);
-    }
+    };
     //Переход на текущую страницу + 2
     const pageNumberPlusTwo = () => {
         setPageNumber(pageNumber + 2);
-    }
+    };
     //Загрузка книги
     useEffect(() => {
         const fetchBook = async () => {
@@ -58,16 +58,16 @@ const BookReadFile = () => {
                 setIsLoading(false)
 
             } else {
-                console.log(response)
+                console.log(response);
             }
         };
         fetchBook();
-    }, [])
+    }, []);
 
     //Когда книга загружена
-    function onDocumentLoadSuccess({numPages}) {
+    function onDocumentLoadSuccess(numPages) {
         setNumPages(numPages);
-    }
+    };
 
     return (
         <div>

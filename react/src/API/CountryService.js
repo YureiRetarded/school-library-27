@@ -9,7 +9,25 @@ export default class CountryService {
                 Authorization: 'Bearer ' + user.token
             }
         };
-        const response = await axios.get('http://127.0.0.1:8000/api/country', config);
+        const response = await axios.get('http://127.0.0.1:8000/api/country_all', config);
+        if (response.data.success) {
+            //Возвращаем страны
+            return {status: true, data: response.data.data, error: []};
+        } else {
+            //Возвращаем текст ошибки
+            return {status: false, error: response.statusText};
+        }
+    }
+
+    //Получение всех стран по страницам
+    static async getCountriesByPage(user, page) {
+        //Вставка токена в заголовок, для авторизации
+        const config = {
+            headers: {
+                Authorization: 'Bearer ' + user.token
+            }
+        };
+        const response = await axios.get(`http://127.0.0.1:8000/api/country?page=${page}`, config);
         if (response.data.success) {
             //Возвращаем страны
             return {status: true, data: response.data.data, error: []};

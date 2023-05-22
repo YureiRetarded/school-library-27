@@ -13,7 +13,7 @@ class AuthorIndexController extends Controller
     {
         //Для того чтобы frond-end не производил запросы связанные с названием стран и получения url изображения
         //Мы сразу, перед отправкой данных об авторах суём их в коллекцию
-        $authors = Author::all();
+        $authors = Author::paginate(3);
         foreach ($authors as $author) {
             //Вставляем имя автора
             $author['country_name'] = $author->country->name;
