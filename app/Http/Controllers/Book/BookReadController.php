@@ -29,9 +29,6 @@ class BookReadController extends Controller
                 'message' => 'Book file not found',
             ]);
         }
-        //Берём файл и обязательно конвертируем в base64 иначе json пошлёт нас
-        $base64 = Storage::disk('ftp')->get('books/' . $book->file->name);
-        $book['file_base64'] = base64_encode($base64);
         //По умолчанию отправляется url картинки, которая используется для отображения авторов без картинок
         $book['imageURL'] = '127.0.0.1:8000/storage/images/no-image.webp';
         if (count($book->image) > 0) {

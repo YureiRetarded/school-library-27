@@ -8,6 +8,7 @@ use App\Http\Controllers\Author\AuthorUpdateController;
 use App\Http\Controllers\Book\BookDestroyController;
 use App\Http\Controllers\Book\BookIndexController;
 use App\Http\Controllers\Book\BookReadController;
+use App\Http\Controllers\Book\BookReadFileController;
 use App\Http\Controllers\Book\BookStoreController;
 use App\Http\Controllers\Book\BookUpdateController;
 use App\Http\Controllers\Category\CategoryDestroyController;
@@ -38,6 +39,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::post('/registration', UserRegistrationController::class);
+Route::post('/login', UserLoginController::class);
 
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/user', CheckUserController::class);
@@ -67,13 +70,13 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::prefix('book')->group(function () {
             Route::get('/', BookIndexController::class);
             Route::get('/{id}', BookReadController::class);
+            Route::get('/{id}/file', BookReadFileController::class);
             Route::post('/', BookStoreController::class);
             Route::patch('/{id}/update', BookUpdateController::class);
             Route::delete('/{id}', BookDestroyController::class);
         });
     });
 });
-Route::post('/registration', UserRegistrationController::class);
-Route::post('/login', UserLoginController::class);
+
 
 

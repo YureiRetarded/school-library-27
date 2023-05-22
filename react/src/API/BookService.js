@@ -49,6 +49,7 @@ export default class {
             }
         } catch (error) {
             //Возвращаем ошибку
+            console.log(error)
             return {status: false, errors: []};
         }
 
@@ -82,6 +83,24 @@ export default class {
             }
         };
         const response = await axios.get(`http://127.0.0.1:8000/api/book/${id}`, config);
+        if (response.data.success) {
+            //Возвращаем книгу
+            return {status: true, data: response.data.data};
+        } else {
+            //Возвращаем ошибку
+            return {status: false, error: response.statusText};
+        }
+    }
+
+    //Получение файл книги
+    static async getBookFile(user, id) {
+        //Вставка токена в заголовок, для авторизации
+        const config = {
+            headers: {
+                Authorization: 'Bearer ' + user.token
+            }
+        };
+        const response = await axios.get(`http://127.0.0.1:8000/api/book/${id}/file`, config);
         if (response.data.success) {
             //Возвращаем книгу
             return {status: true, data: response.data.data};

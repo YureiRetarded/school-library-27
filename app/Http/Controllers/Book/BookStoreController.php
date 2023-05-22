@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Book;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\BookRequest;
+use App\Http\Requests\BookStoreRequest;
 use App\Models\Author;
 use App\Models\Book;
 use Illuminate\Support\Str;
@@ -13,7 +13,7 @@ use Intervention\Image\Facades\Image;
 
 class BookStoreController extends Controller
 {
-    public function __invoke(BookRequest $request)
+    public function __invoke(BookStoreRequest $request)
     {
         //Вытягиваем данные из запроса
         $data = [
@@ -49,7 +49,7 @@ class BookStoreController extends Controller
                 $name = Str::random(240);
             }
             //Сжимаем и конвертируем в webp, после сохраняем на диск
-            Storage::disk('public')->put('images/' . $name . '.webp', Image::make(base64_decode($image))->resize('159', '232')->stream('webp', 10));
+            Storage::disk('public')->put('images/' . $name . '.webp', Image::make(base64_decode($image))->resize('159', '232')->stream('webp', 50));
             //Создаём запись о файле в БД
             $file_image = File::create(['name' => $name . '.webp']);
         }
@@ -67,10 +67,8 @@ class BookStoreController extends Controller
         Storage::disk('ftp')->put('books/' . $name . '.pdf', base64_decode($document));
         //Создаём запись о файле в БД
         $file_book = File::create(['name' => $name . '.pdf']);
-
         //Сохраняем автора
         $data['file_id'] = $file_book->id;
-
         $book = Book::create($data);
         $book->authors()->sync($data['authors']);
         if ($file_image !== '')

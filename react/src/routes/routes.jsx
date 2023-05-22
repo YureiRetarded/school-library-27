@@ -30,6 +30,7 @@ import BookIndex from "./Librarian/Book/BookIndex.jsx";
 import BookRead from "./Librarian/Book/BookRead.jsx";
 import BookCreate from "./Librarian/Book/BookCreate.jsx";
 import BookEdit from "./Librarian/Book/BookEdit.jsx";
+import BookDocument from "./Librarian/Book/BookDocument.jsx";
 
 
 export const router = createBrowserRouter(
@@ -144,7 +145,11 @@ export const router = createBrowserRouter(
                             },
                             {
                                 path: ':bookId',
-                                element: <BookRead/>
+                                element: <BookRead/>,
+                            },
+                            {
+                                path: ':bookId/read',
+                                element: <BookDocument/>,
                             },
                             {
                                 path: 'create',

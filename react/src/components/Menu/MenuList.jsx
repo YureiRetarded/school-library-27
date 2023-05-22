@@ -2,14 +2,13 @@ import React, {useEffect, useState} from 'react';
 import {Col, Row, Container} from "react-bootstrap";
 import MenuItem from "./MenuItem.jsx";
 
-const MenuList = ({elements, getSelected}) => {
+const MenuList = ({elements, getSelected, selectedElements = []}) => {
     //Массив доступных объектов
-    const [available, setAvailable] = useState([...elements]);
+    const [available, setAvailable] = useState(selectedElements.length>0?[...elements.filter(element=>!selectedElements.includes(element.id))]:[...elements]);
     //Массив выбранных объектов
-    const [selected, setSelected] = useState([]);
+    const [selected, setSelected] = useState(selectedElements.length>0?[...elements.filter(element=>selectedElements.includes(element.id))]:[]);
     //Экземпляр сортировщика
     const collator = new Intl.Collator('ru-RU');
-
     //Функция для перемещения объекта в массив выбранных
     const toSelected = (id) => {
         const item = (available.filter(element => element.id === id))[0];

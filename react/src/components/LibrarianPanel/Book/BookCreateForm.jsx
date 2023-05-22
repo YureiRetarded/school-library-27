@@ -115,7 +115,7 @@ const BookCreateForm = () => {
             }
         });
     }
-    // //Обработчик загружаемого изображения
+    //Обработчик загружаемого изображения
     const handleIcon = async (e, setFieldValue) => {
         const file = e.target.files[0];
         setImagesURL(undefined);
@@ -127,9 +127,9 @@ const BookCreateForm = () => {
             formik.setFieldError('photo', 'Фотография должна иметь размер 2 мегабайта или меньше!');
         }
     }
+    //Обработчик загружаемого файла книги
     const handleDocument = async (e, setFieldValue) => {
         const file = e.target.files[0];
-        setImagesURL(undefined);
         if (file?.size / 1024 / 1024 < 50) {
             const base64 = await convertToBase64(file);
             setFieldValue('pdf', base64);
