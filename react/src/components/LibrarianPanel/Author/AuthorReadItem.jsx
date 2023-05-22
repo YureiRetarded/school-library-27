@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {useSelector} from "react-redux";
 import {useParams} from "react-router-dom";
 import AuthorService from "../../../API/AuthorService.js";
-import {Col, Image, Row} from "react-bootstrap";
+import {Col, Image, Row, Spinner} from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 
 const AuthorReadItem = () => {
@@ -47,7 +47,8 @@ const AuthorReadItem = () => {
 
     return (
         <div>
-            {!isLoading &&
+            {isLoading ?
+                <Spinner animation="border" variant="dark"/> :
                 <div>
                     <Container>
                         <Row>

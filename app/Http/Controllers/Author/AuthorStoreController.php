@@ -39,7 +39,7 @@ class AuthorStoreController extends Controller
                 $name = Str::random(240);
             }
             //Сжимаем и конвертируем в webp, после сохраняем на диск
-            Storage::disk('public')->put('images/' . $name . '.webp', Image::make(base64_decode($image))->resize('159', '232')->stream('webp', 10));
+            Storage::disk('public')->put('images/' . $name . '.webp', Image::make(base64_decode($image))->resize('159', '232')->stream('webp', 50));
             //Создаём запись о файле в БД
             $file = File::create(['name' => $name . '.webp']);
         }
