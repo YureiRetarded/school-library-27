@@ -51,6 +51,7 @@ const BookCreateForm = () => {
             category_id: 1,
             photo: '',
             pdf: '',
+            authors: []
         },
         //Валидация
         validationSchema: Yup.object({
@@ -63,7 +64,9 @@ const BookCreateForm = () => {
             date_created: Yup.date()
                 .notRequired(),
             pdf: Yup.string()
-                .required('Обязательно выберите книгу')
+                .required('Обязательно выберите книгу'),
+            authors: Yup.array()
+                .min(1, 'Обязательно выберите автора')
         }),
         //Отправка
         onSubmit: values => {
@@ -114,7 +117,7 @@ const BookCreateForm = () => {
                 reject(error);
             }
         });
-    }
+    };
     //Обработчик загружаемого изображения
     const handleIcon = async (e, setFieldValue) => {
         const file = e.target.files[0];
@@ -126,7 +129,7 @@ const BookCreateForm = () => {
         } else {
             formik.setFieldError('photo', 'Фотография должна иметь размер 2 мегабайта или меньше!');
         }
-    }
+    };
     //Обработчик загружаемого файла книги
     const handleDocument = async (e, setFieldValue) => {
         const file = e.target.files[0];
@@ -136,19 +139,19 @@ const BookCreateForm = () => {
         } else {
             formik.setFieldError('pdf', 'Книга должна иметь размер меньше 50 мегабайт!');
         }
-    }
+    };
     //Для отправки на страницу списка авторов
 
     const setSelectedAuthor = (selected) => {
         formik.setFieldValue('authors', selected)
-    }
+    };
     const sendToIndex = () => {
         navigate('/librarian/books');
-    }
+    };
     //Для отправки на страницу автора
     const sendToPage = () => {
         navigate('/librarian/books/' + bookId);
-    }
+    };
     //Загрузка категорий
     useEffect(() => {
         const fetchCategories = async () => {
@@ -235,6 +238,9 @@ const BookCreateForm = () => {
                 <Form.Label>Автор(ы) книги</Form.Label>
                 {isAuthorsLoading ? <Spinner animation='border'/> :
                     <MenuList elements={authors} getSelected={setSelectedAuthor}/>}
+                {formik.touched.description && formik.errors.authors &&
+                    <ErrorField message={formik.errors.authors}/>
+                }
             </Form.Group>
             <Form.Group className='mb-1'>
                 <Form.Check

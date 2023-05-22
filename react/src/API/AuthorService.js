@@ -53,7 +53,7 @@ export default class {
 
     }
 
-    //Получение авторов
+    //Получение всех авторов
     static async getAuthors(user) {
         //Вставка токена в заголовок, для авторизации
         const config = {
@@ -61,7 +61,25 @@ export default class {
                 Authorization: 'Bearer ' + user.token
             }
         };
-        const response = await axios.get(`http://127.0.0.1:8000/api/author/`, config);
+        const response = await axios.get(`http://127.0.0.1:8000/api/author_all`, config);
+        if (response.data.success) {
+            //Возвращаем авторов
+            return {status: true, data: response.data.data};
+        } else {
+            //Возвращаем ошибку
+            return {status: false, error: response.statusText};
+        }
+    }
+
+    //Получение всех по страницам
+    static async getAuthorsByPage(user, page) {
+        //Вставка токена в заголовок, для авторизации
+        const config = {
+            headers: {
+                Authorization: 'Bearer ' + user.token
+            }
+        };
+        const response = await axios.get(`http://127.0.0.1:8000/api/author?page=${page}`, config);
         if (response.data.success) {
             //Возвращаем авторов
             return {status: true, data: response.data.data};

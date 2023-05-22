@@ -25,11 +25,11 @@ const CategoryItem = ({category, destroyCategory}) => {
             destroyCategory(category.id);
             handleClose();
         }
-    }
+    };
     //Отправка на страницу редактирования
     const edit = () => {
         navigate(`/librarian/categories/${category.id}/edit`);
-    }
+    };
     return (
         <div className='card my-1'>
             <ModalCategoryDelete

@@ -9,7 +9,25 @@ export default class CategoryService {
                 Authorization: 'Bearer ' + user.token
             }
         };
-        const response = await axios.get('http://127.0.0.1:8000/api/category', config);
+        const response = await axios.get('http://127.0.0.1:8000/api/category_all', config);
+        if (response.data.success) {
+            //Возвращаем категории
+            return {status: true, data: response.data.data, error: []};
+        } else {
+            //Возвращаем текст ошибки
+            return {status: false, error: response.statusText};
+        }
+    }
+
+    //Получение всех категорий по страницам
+    static async getCategoriesByPages(user, page) {
+        //Вставка токена в заголовок, для авторизации
+        const config = {
+            headers: {
+                Authorization: 'Bearer ' + user.token
+            }
+        };
+        const response = await axios.get(`http://127.0.0.1:8000/api/category?page=${page}`, config);
         if (response.data.success) {
             //Возвращаем категории
             return {status: true, data: response.data.data, error: []};

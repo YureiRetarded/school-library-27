@@ -25,11 +25,11 @@ const CountryItem = ({country, destroyCountry}) => {
             destroyCountry(country.id);
             handleClose();
         }
-    }
+    };
     //Отправка на страницу редактирования
     const edit = () => {
         navigate(`/librarian/countries/${country.id}/edit`);
-    }
+    };
     return (
         <div className='card my-1'>
             <ModalCountryDelete

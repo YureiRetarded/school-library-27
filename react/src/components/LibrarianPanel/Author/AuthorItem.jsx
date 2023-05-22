@@ -25,15 +25,15 @@ const AuthorItem = ({author, destroyAuthor}) => {
             destroyAuthor(author.id);
             handleClose();
         }
-    }
+    };
     //Перейти на страницу автора
     const read = () => {
         navigate(`/librarian/authors/${author.id}`);
-    }
+    };
     //Перейти на страницу редактирования
     const edit = () => {
         navigate(`/librarian/authors/${author.id}/edit`);
-    }
+    };
     return (
         <Card className='mb-2'>
             <ModalAuthorDelete
