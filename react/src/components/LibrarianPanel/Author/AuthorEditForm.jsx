@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useSelector} from "react-redux";
-import {useNavigate, useParams} from "react-router-dom";
+import {Navigate, useNavigate, useParams} from "react-router-dom";
 import {useFormik} from "formik";
 import * as Yup from "yup";
 import AuthorService from "../../../API/AuthorService.js";
@@ -184,19 +184,21 @@ const AuthorEditForm = () => {
                 response.data.bio && formik.setFieldValue('bio', response.data.bio.toString());
                 response.data.country_id && formik.setFieldValue('country_id', response.data.country_id);
                 if (response.data.date_birthday) {
-                    setHaveDateBirthday(true)
+                    setHaveDateBirthday(true);
                     formik.setFieldValue('date_birthday', new Date(Date.parse(response.data.date_birthday)));
                 }
                 if (response.data.date_death) {
-                    setHaveDateDeath(true)
+                    setHaveDateDeath(true);
                     formik.setFieldValue('date_death', new Date(Date.parse(response.data.date_death)));
                 }
                 if (response.data.imageURL && !response.data.imageURL.includes('no-image.webp')) {
                     setImagesURL('http://' + response.data.imageURL)
-                    setHavePhoto(true)
+                    setHavePhoto(true);
                 }
-                setIsLoading(false)
+            } else {
+                navigate('/librarian/authors/');
             }
+            setIsLoading(false);
         }
         fetchAuthor();
     }, []);

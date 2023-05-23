@@ -7,7 +7,7 @@ import DatePicker from "react-datepicker";
 import AuthorService from "../../../API/AuthorService.js";
 import CategoryService from "../../../API/CategoryService.js";
 import {useSelector} from "react-redux";
-import {useNavigate, useParams} from "react-router-dom";
+import {Navigate, useNavigate, useParams} from "react-router-dom";
 import {useFormik} from "formik";
 import * as Yup from "yup";
 import BookService from "../../../API/BookService.js";
@@ -202,8 +202,10 @@ const BookEditForm = () => {
                     response.data.authors.map(element => ids.push(element.id));
                     formik.setFieldValue('authors', ids)
                 }
-                setIsLoading(false)
+            } else {
+                navigate('/librarian/books/');
             }
+            setIsLoading(false);
         }
         fetchBook();
     }, []);
@@ -317,7 +319,8 @@ const BookEditForm = () => {
                     }
                     {havePhoto &&
                         <Button className='mx-1' variant='danger' onClick={deletePhoto}>Удалить фотографию</Button>}
-                </div>}
+                </div>
+            }
         </Form>
     );
 };

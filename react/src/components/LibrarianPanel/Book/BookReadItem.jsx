@@ -15,6 +15,8 @@ const BookReadItem = () => {
     const {bookId} = useParams();
     //Состояние загрузки
     const [isLoading, setIsLoading] = useState(true);
+    //Найдена ли книга
+    const [isFound, setIsFound] = useState(false);
     const [book, setBook] = useState({
         id: 0,
         name: '',
@@ -39,6 +41,9 @@ const BookReadItem = () => {
                     date_created: response.data.date_created,
                     description: response.data.description
                 });
+                setIsFound(true);
+            } else {
+                setIsFound(false);
             }
             setIsLoading(false);
         };
@@ -50,40 +55,45 @@ const BookReadItem = () => {
             {isLoading ?
                 <Spinner animation="border" variant="dark"/> :
                 <div>
-                    <Container>
-                        <Row>
-                            <Col sm={2} className='author-page-icon'>
-                                <Image src={'http://' + book.imageURL} rounded fluid/>
-                            </Col>
-                            <Col>
-                                <h4>id книги:{book.id}</h4>
-                                <h4>
-                                    {book.name && book.name}
-                                </h4>
-                                {book.category.name &&
-                                    <h4>Категория: {book.category.name}</h4>
-                                }
-                                <h4>
-                                    {book.authors.length > 1 ? 'Авторы:' : 'Автор:'}
-                                    <AuthorsBookList authors={book.authors}/>
-                                </h4>
+                    {isFound ?
+                        <Container>
+                            <Row>
+                                <Col sm={2} className='author-page-icon'>
+                                    <Image src={'http://' + book.imageURL} rounded fluid/>
+                                </Col>
+                                <Col>
+                                    <h4>id книги:{book.id}</h4>
+                                    <h4>
+                                        {book.name && book.name}
+                                    </h4>
+                                    {book.category.name &&
+                                        <h4>Категория: {book.category.name}</h4>
+                                    }
+                                    <h4>
+                                        {book.authors.length > 1 ? 'Авторы:' : 'Автор:'}
+                                        <AuthorsBookList authors={book.authors}/>
+                                    </h4>
 
-                                {book.date_created ?
-                                    <h4>Дата создания: {book.date_created}</h4> :
-                                    <h4>Дата создания: неизвестно</h4>
-                                }
-                                <Link to={'read'} className='btn btn-primary'>Читать</Link>
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col className='author-page-bio'>
-                                {book.description ?
-                                    book.description :
-                                    'Нет более описания.'
-                                }
-                            </Col>
-                        </Row>
-                    </Container>
+                                    {book.date_created ?
+                                        <h4>Дата создания: {book.date_created}</h4> :
+                                        <h4>Дата создания: неизвестно</h4>
+                                    }
+                                    <Link to={'read'} className='btn btn-primary'>Читать</Link>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col className='author-page-bio'>
+                                    {book.description ?
+                                        book.description :
+                                        'Нет более описания.'
+                                    }
+                                </Col>
+                            </Row>
+                        </Container> : <Container>
+                            <h4>
+                                Книга не найдена!
+                            </h4>
+                        </Container>}
                 </div>
             }
         </div>

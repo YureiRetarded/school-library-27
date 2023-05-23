@@ -12,6 +12,8 @@ const AuthorReadItem = () => {
     const {authorId} = useParams();
     //Состояние загрузки
     const [isLoading, setIsLoading] = useState(true);
+    //Найден ли автор
+    const [isFound, setIsFound] = useState(false);
     const [author, setAuthor] = useState({
         id: 0,
         country: [],
@@ -39,6 +41,9 @@ const AuthorReadItem = () => {
                     date_death: response.data.date_death,
                     bio: response.data.bio
                 })
+                setIsFound(true);
+            } else {
+                setIsFound(false);
             }
             setIsLoading(false);
         }
@@ -50,38 +55,44 @@ const AuthorReadItem = () => {
             {isLoading ?
                 <Spinner animation="border" variant="dark"/> :
                 <div>
-                    <Container>
-                        <Row>
-                            <Col sm={2} className='author-page-icon'>
-                                <Image src={'http://' + author.image} rounded fluid/>
-                            </Col>
-                            <Col>
-                                <h4>id автора:{author.id}</h4>
-                                <h4>
-                                    {author.second_name && author.second_name + ' '}
-                                    {author.first_name && author.first_name + ' '}
-                                    {author.middle_name && author.middle_name + ' '}
-                                </h4>
-                                {author.country.name &&
-                                    <h4>Место рождения:{author.country.name}</h4>
-                                }
-                                {author.date_birthday &&
-                                    <h4>Дата рождения:{author.date_birthday}</h4>
-                                }
-                                {author.date_death &&
-                                    <h4>Дата смерти:{author.date_death}</h4>
-                                }
-                            </Col>
-                        </Row>
-                        <Row>
-                            <Col className='author-page-bio'>
-                                {author.bio ?
-                                    author.bio :
-                                    'Нет более подробных сведений.'
-                                }
-                            </Col>
-                        </Row>
-                    </Container>
+                    {isFound ?
+                        <Container>
+                            <Row>
+                                <Col sm={2} className='author-page-icon'>
+                                    <Image src={'http://' + author.image} rounded fluid/>
+                                </Col>
+                                <Col>
+                                    <h4>id автора:{author.id}</h4>
+                                    <h4>
+                                        {author.second_name && author.second_name + ' '}
+                                        {author.first_name && author.first_name + ' '}
+                                        {author.middle_name && author.middle_name + ' '}
+                                    </h4>
+                                    {author.country.name &&
+                                        <h4>Место рождения:{author.country.name}</h4>
+                                    }
+                                    {author.date_birthday &&
+                                        <h4>Дата рождения:{author.date_birthday}</h4>
+                                    }
+                                    {author.date_death &&
+                                        <h4>Дата смерти:{author.date_death}</h4>
+                                    }
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col className='author-page-bio'>
+                                    {author.bio ?
+                                        author.bio :
+                                        'Нет более подробных сведений.'
+                                    }
+                                </Col>
+                            </Row>
+                        </Container> : <Container>
+                            <h4>
+                                Автор не найден!
+                            </h4>
+                        </Container>
+                    }
                 </div>}
         </div>
     );
