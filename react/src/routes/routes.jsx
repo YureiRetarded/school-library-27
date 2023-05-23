@@ -1,6 +1,6 @@
 import {createBrowserRouter} from "react-router-dom";
 import App from "./App.jsx";
-import ErrorPage from "./ErrorPage.jsx";
+import ErrorPageGlobal from "./ErrorPages/ErrorPageGlobal.jsx";
 import HomePage from "./HomePage.jsx";
 import CatalogPage from "./CatalogPage.jsx";
 import LogOut from "./LogOut.jsx";
@@ -31,13 +31,14 @@ import BookRead from "./Librarian/Book/BookRead.jsx";
 import BookCreate from "./Librarian/Book/BookCreate.jsx";
 import BookEdit from "./Librarian/Book/BookEdit.jsx";
 import BookDocument from "./Librarian/Book/BookDocument.jsx";
+import ErrorPageLibrarian from "./ErrorPages/ErrorPageLibrarian.jsx";
 
 
 export const router = createBrowserRouter(
     [{
         path: '/',
         element: <App/>,
-        errorElement: <ErrorPage/>,
+        errorElement: <ErrorPageGlobal/>,
         children: [
             {
                 path: '',
