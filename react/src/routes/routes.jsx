@@ -7,7 +7,7 @@ import LogOut from "./LogOut.jsx";
 import ProfilePage from "./ProfilePage.jsx";
 import LibrarianPanel from "./Librarian/LibrarianPanel.jsx";
 import LibrarianHome from "./Librarian/LibrarianHome.jsx";
-import BooksPage from "./BooksPage.jsx";
+import BookPage from "./BookPage.jsx";
 import LibrarianAuthorsPage from "./Librarian/Author/LibrarianAuthorsPage.jsx";
 import ReportsPage from "./ReportsPage.jsx";
 import UsersPage from "./UsersPage.jsx";
@@ -31,7 +31,7 @@ import BookRead from "./Librarian/Book/BookRead.jsx";
 import BookCreate from "./Librarian/Book/BookCreate.jsx";
 import BookEdit from "./Librarian/Book/BookEdit.jsx";
 import BookDocument from "./Librarian/Book/BookDocument.jsx";
-import ErrorPageLibrarian from "./ErrorPages/ErrorPageLibrarian.jsx";
+import BookPageRead from "../components/BookPageRead.jsx";
 
 
 export const router = createBrowserRouter(
@@ -48,6 +48,14 @@ export const router = createBrowserRouter(
                 path: 'catalog',
                 element: <CatalogPage/>,
 
+            },
+            {
+                path: 'books/:bookId',
+                element:<BookPage/>
+            },
+            {
+                path: 'books/:bookId/read',
+                element:<BookPageRead/>
             },
             {
                 path: 'login',
@@ -75,7 +83,7 @@ export const router = createBrowserRouter(
                     },
                     {
                         path: 'books',
-                        element: <BooksPage/>
+                        element: <BookPage/>
 
                     },
                     {

@@ -147,3 +147,31 @@ body {
 
 }
 
+.catalog {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+}
+
+.catalog-form {
+    min-width: 240px;
+    margin-right: 10px;
+}
+
+.catalog-list {
+    flex-grow: 1;
+}
+
+.search-field {
+    margin-right: 10px;
+}
+
+.search-block {
+    margin-bottom: 10px;
+}
+
+.accordion-body-overflow {
+    max-height: 500px;
+    overflow: scroll;
+    overflow-x: hidden;
+}

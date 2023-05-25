@@ -21,7 +21,7 @@ export default class CountryService {
 
     //Получение всех стран по страницам
     static async getCountriesByPage(user, page) {
-        //Вставка токена в заголовок, для авторизации
+        // Вставка токена в заголовок, для авторизации
         const config = {
             headers: {
                 Authorization: 'Bearer ' + user.token

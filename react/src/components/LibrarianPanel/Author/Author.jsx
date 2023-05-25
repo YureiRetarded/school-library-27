@@ -42,7 +42,9 @@ const Author = () => {
             <AuthorTool/>
             {isLoading ? <AuthorListPlaceholder/> : <div>
                 <AuthorList authors={authors} destroyAuthor={destroyAuthor}/>
-                <Paginator lastPage={lastPage} currentPage={currentPage} callback={changePage}/>
+                <div className='d-flex justify-content-center'>
+                    <Paginator lastPage={lastPage} currentPage={currentPage} callback={changePage}/>
+                </div>
             </div>}
         </div>
     );

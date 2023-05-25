@@ -111,14 +111,8 @@ export default class {
     }
 
     //Получение файл книги
-    static async getBookFile(user, id) {
-        //Вставка токена в заголовок, для авторизации
-        const config = {
-            headers: {
-                Authorization: 'Bearer ' + user.token
-            }
-        };
-        const response = await axios.get(`http://127.0.0.1:8000/api/book/${id}/file`, config);
+    static async getBookFile(id) {
+        const response = await axios.get(`http://127.0.0.1:8000/api/book/${id}/file`);
         if (response.data.success) {
             //Возвращаем книгу
             return {status: true, data: response.data.data};
@@ -140,6 +134,28 @@ export default class {
         if (response.data.success) {
             //Возвращаем истину
             return {status: true, data: []};
+        } else {
+            //Возвращаем ошибку
+            return {status: false, error: []};
+        }
+    }
+
+    static async getBooksWithOutParameters(page) {
+        const response = await axios.get(`http://127.0.0.1:8000/api/books?page=${page}`);
+        if (response.data.success) {
+            //Возвращаем книги
+            return {status: true, data: response.data.data};
+        } else {
+            //Возвращаем ошибку
+            return {status: false, error: []};
+        }
+    }
+
+    static async getBooksWithParameters(page, parameters) {
+        const response = await axios.get(`http://127.0.0.1:8000/api/books?page=${page}${parameters}`);
+        if (response.data.success) {
+            //Возвращаем книги
+            return {status: true, data: response.data.data};
         } else {
             //Возвращаем ошибку
             return {status: false, error: []};

@@ -41,7 +41,9 @@ const Country = () => {
             <CountryTool/>
             {isLoading ? <CountryListPlaceholder/> : <div>
                 <CountryList countries={countries} destroyCountry={destroyCountry}/>
-                <Paginator lastPage={lastPage} currentPage={currentPage} callback={changePage}/>
+                <div className='d-flex justify-content-center'>
+                    <Paginator lastPage={lastPage} currentPage={currentPage} callback={changePage}/>
+                </div>
             </div>}
         </div>
     );
