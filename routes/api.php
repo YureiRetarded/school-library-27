@@ -3,6 +3,7 @@
 use App\Http\Controllers\Author\AuthorAllController;
 use App\Http\Controllers\Author\AuthorDestroyController;
 use App\Http\Controllers\Author\AuthorIndexController;
+use App\Http\Controllers\Author\AuthorParameterController;
 use App\Http\Controllers\Author\AuthorReadController;
 use App\Http\Controllers\Author\AuthorStoreController;
 use App\Http\Controllers\Author\AuthorUpdateController;
@@ -52,13 +53,15 @@ Route::post('/login', UserLoginController::class);
 Route::prefix('category')->group(function () {
     Route::get('/', CategoryIndexController::class);
 });
-Route::prefix('country')->group(function () {
-    Route::get('/', CountryIndexController::class);
-});
 
+Route::get('/authors',AuthorParameterController::class);
+Route::get('/author/{id}', AuthorReadController::class);
 Route::get('/book/{id}/file', BookReadFileController::class);
-Route::get('/catalog', CatalogParametersController::class);
 Route::get('/books', BooksParameterController::class);
+Route::get('/book/{id}', BookReadController::class);
+Route::get('/catalog', CatalogParametersController::class);
+Route::get('/country_all', CountryAllController::class);
+
 //Запросы для авторизированных пользователей
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/user', CheckUserController::class);
@@ -72,7 +75,7 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::patch('/{id}/update', CountryUpdateController::class);
             Route::delete('/{id}', CountryDestroyController::class);
         });
-        Route::get('/country_all', CountryAllController::class);
+
         Route::prefix('category')->group(function () {
             Route::get('/{id}', CategoryReadController::class);
             Route::post('/', CategoryStoreController::class);
@@ -82,7 +85,6 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/category_all', CategoryAllController::class);
         Route::prefix('author')->group(function () {
             Route::get('/', AuthorIndexController::class);
-            Route::get('/{id}', AuthorReadController::class);
             Route::post('/', AuthorStoreController::class);
             Route::patch('/{id}/update', AuthorUpdateController::class);
             Route::delete('/{id}', AuthorDestroyController::class);
@@ -91,8 +93,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::prefix('book')->group(function () {
             Route::get('/', BookIndexController::class);
-            Route::get('/{id}', BookReadController::class);
-
             Route::post('/', BookStoreController::class);
             Route::patch('/{id}/update', BookUpdateController::class);
             Route::delete('/{id}', BookDestroyController::class);

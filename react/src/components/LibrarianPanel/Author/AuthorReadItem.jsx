@@ -27,7 +27,7 @@ const AuthorReadItem = () => {
     });
     useEffect(() => {
         const fetchAuthor = async () => {
-            const response = await AuthorService.getAuthor(user, authorId);
+            const response = await AuthorService.getAuthor(authorId);
             if (response.status) {
                 setAuthor({
                     ...author,
@@ -62,7 +62,7 @@ const AuthorReadItem = () => {
                                     <Image src={'http://' + author.image} rounded fluid/>
                                 </Col>
                                 <Col>
-                                    <h4>id автора:{author.id}</h4>
+                                    {user.id>=5&&<h4>id автора:{author.id}</h4>}
                                     <h4>
                                         {author.second_name && author.second_name + ' '}
                                         {author.first_name && author.first_name + ' '}

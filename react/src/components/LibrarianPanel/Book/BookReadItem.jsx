@@ -29,7 +29,7 @@ const BookReadItem = () => {
     //Загрузка книги
     useEffect(() => {
         const fetchBook = async () => {
-            const response = await BookService.getBook(user, bookId);
+            const response = await BookService.getBook(bookId);
             if (response.status) {
                 setBook({
                     ...book,
@@ -62,7 +62,7 @@ const BookReadItem = () => {
                                     <Image src={'http://' + book.imageURL} rounded fluid/>
                                 </Col>
                                 <Col>
-                                    <h4>id книги:{book.id}</h4>
+                                    {user.id>=5&&<h4>id книги:{book.id}</h4>}
                                     <h4>
                                         {book.name && book.name}
                                     </h4>

@@ -1,16 +1,15 @@
 import React from 'react';
+import CatalogSearch from "../Catalog/CatalogSearch.jsx";
+import CatalogBookListPlaceholder from "../Catalog/CatalogBookListPlaceholder.jsx";
 import Paginator from "../Paginator.jsx";
-import CatalogBookList from "./CatalogBookList.jsx";
-import CatalogSearch from "./CatalogSearch.jsx";
-import CatalogBookListPlaceholder from "./CatalogBookListPlaceholder.jsx";
+import AuthorsElementList from "./AuthorsElementList.jsx";
 
-
-const CatalogList = ({isLoading, books, lastPage, currentPage, changePage, changing}) => {
+const AuthorsList = ({isLoading, authors, lastPage, currentPage, changePage, changing}) => {
     return (
         <div className='catalog-list'>
             <CatalogSearch changing={changing}/>
             {isLoading ? <CatalogBookListPlaceholder/> : <div>
-                <CatalogBookList books={books}/>
+                <AuthorsElementList authors={authors}/>
                 <div className='d-flex justify-content-center'>
                     <Paginator lastPage={lastPage} currentPage={currentPage} callback={changePage}/>
                 </div>
@@ -20,4 +19,4 @@ const CatalogList = ({isLoading, books, lastPage, currentPage, changePage, chang
     );
 };
 
-export default CatalogList;
+export default AuthorsList;

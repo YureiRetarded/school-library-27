@@ -93,14 +93,9 @@ export default class {
     }
 
     //Получение книги
-    static async getBook(user, id) {
+    static async getBook(id) {
         //Вставка токена в заголовок, для авторизации
-        const config = {
-            headers: {
-                Authorization: 'Bearer ' + user.token
-            }
-        };
-        const response = await axios.get(`http://127.0.0.1:8000/api/book/${id}`, config);
+        const response = await axios.get(`http://127.0.0.1:8000/api/book/${id}`);
         if (response.data.success) {
             //Возвращаем книгу
             return {status: true, data: response.data.data};

@@ -30,7 +30,7 @@ const CatalogBookItem = ({book}) => {
                             <div>   {book.date_created && ('Дата написания: ' + book.date_created)}</div>
                             <div>{book.authors.length > 1 ? 'Авторы:' : 'Автор:'}</div>
                             <AuthorsBookList authors={book.authors}/>
-                            {book.description && <div>{cut(book.description, 255)}</div>}
+                            {book?.description && <div>{cut(book.description, 255)}</div>}
                         </Card.Footer>
                     </div>
                 </Col>

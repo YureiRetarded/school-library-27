@@ -48,7 +48,7 @@ class BooksParameterController extends Controller
                 ->havingRaw('count(DISTINCT author_book.author_id)=' . count($data['authors']));
         }
         //Получаем нужные id в пагинации
-        $books = $this->paginate($query->distinct()->get(), 5, '', ["path" => url()->current()])->toArray();
+        $books = $this->paginate($query->distinct()->get(), 4, '', ["path" => url()->current()])->toArray();
         //Временная ошибка в алгоритме
         //Что я заметил, по какой-то причине книги на первой странице хранятся как массив массивов
         //А на второй и выше как ассоциативный массив из-за чего frontend начинает воспринимать его как объект и вылетает

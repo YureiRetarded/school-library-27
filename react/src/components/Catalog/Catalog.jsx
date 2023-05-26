@@ -18,7 +18,7 @@ const Catalog = () => {
     const [searchCategory, setSearchCategory] = useState(null);
     //Поиск по авторам
     const [searchAuthors, setSearchAuthors] = useState([]);
-    //Если параметры для поиска
+    //Есть ли параметры для поиска
     const [haveParameters, setHaveParameters] = useState(false);
     //Загружаем книги
     useEffect(() => {

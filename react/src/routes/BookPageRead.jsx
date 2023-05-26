@@ -1,5 +1,5 @@
 import React from 'react';
-import BookReadFile from "./LibrarianPanel/Book/BookReadFile.jsx";
+import BookReadFile from "../components/LibrarianPanel/Book/BookReadFile.jsx";
 
 const BookPageRead = () => {
     return (
