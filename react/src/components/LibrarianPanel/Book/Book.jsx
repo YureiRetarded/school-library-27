@@ -42,7 +42,9 @@ const Book = () => {
             <BookTool/>
             {isLoading ? <BookListPlaceholder/> : <div>
                 <BookList books={books} destroyBook={destroyBook}/>
-                <Paginator lastPage={lastPage} currentPage={currentPage} callback={changePage}/>
+                <div className='d-flex justify-content-center'>
+                    <Paginator lastPage={lastPage} currentPage={currentPage} callback={changePage}/>
+                </div>
             </div>
             }
         </div>

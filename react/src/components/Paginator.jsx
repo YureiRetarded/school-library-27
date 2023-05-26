@@ -2,6 +2,7 @@ import React from 'react';
 import {Pagination} from "react-bootstrap";
 
 const Paginator = ({lastPage, currentPage, callback}) => {
+
     //Переход на первую страницу
     const toFirstPage = () => {
         if (currentPage !== 1)

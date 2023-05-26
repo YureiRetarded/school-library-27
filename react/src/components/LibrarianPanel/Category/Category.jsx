@@ -1,7 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {useSelector} from "react-redux";
 import CategoryService from "../../../API/CategoryService.js";
-import CategoryTool from "./CategoryTool.jsx";
 import CategoryListPlaceholder from "./CategoryListPlaceholder.jsx";
 import CategoryList from "./CategoryList.jsx";
 import Paginator from "../../Paginator.jsx";
@@ -39,10 +38,11 @@ const Category = () => {
     };
     return (
         <div>
-            <CategoryTool/>
             {isLoading ? <CategoryListPlaceholder/> : <div>
                 <CategoryList categories={categories} destroyCategory={destroyCategory}/>
-                <Paginator lastPage={lastPage} currentPage={currentPage} callback={changePage}/>
+                <div className='d-flex justify-content-center'>
+                    <Paginator lastPage={lastPage} currentPage={currentPage} callback={changePage}/>
+                </div>
             </div>}
         </div>
     );

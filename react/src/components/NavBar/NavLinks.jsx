@@ -12,8 +12,7 @@ const NavLinks = () => {
                 <Link to={'librarian'} className='nav-link'>Панель библиотекаря</Link>
             }
             <Link to={`catalog`} className='nav-link'>Каталог</Link>
-            <Link to={''} className='nav-link'>Авторы</Link>
-            <Link to={''} className='nav-link'>Поиск</Link>
+            <Link to={'authors'} className='nav-link'>Авторы</Link>
         </Nav>
     );
 };

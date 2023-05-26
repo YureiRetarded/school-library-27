@@ -18,6 +18,7 @@ const AuthorsBookList = ({authors}) => {
             {authors[2] &&
                 <span>
                     <AuthorsBookListItem author={authors[2]}/>
+                    {authors[3]&&'...'}
                 </span>}
         </div>
     );

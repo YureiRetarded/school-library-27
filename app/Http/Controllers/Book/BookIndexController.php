@@ -11,7 +11,7 @@ class BookIndexController extends Controller
 {
     public function __invoke()
     {
-        $books = Book::paginate(3);
+        $books = Book::paginate(5);
         foreach ($books as $book) {
             //Вставляем имя автора
             $book['category_name'] = $book->category->name;

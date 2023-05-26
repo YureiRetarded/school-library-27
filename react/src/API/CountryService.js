@@ -2,14 +2,8 @@ import axios from "axios";
 
 export default class CountryService {
     //Получение всех стран
-    static async getCountries(user) {
-        //Вставка токена в заголовок, для авторизации
-        const config = {
-            headers: {
-                Authorization: 'Bearer ' + user.token
-            }
-        };
-        const response = await axios.get('http://127.0.0.1:8000/api/country_all', config);
+    static async getCountries() {
+        const response = await axios.get('http://127.0.0.1:8000/api/country_all');
         if (response.data.success) {
             //Возвращаем страны
             return {status: true, data: response.data.data, error: []};
@@ -21,7 +15,7 @@ export default class CountryService {
 
     //Получение всех стран по страницам
     static async getCountriesByPage(user, page) {
-        //Вставка токена в заголовок, для авторизации
+        // Вставка токена в заголовок, для авторизации
         const config = {
             headers: {
                 Authorization: 'Bearer ' + user.token

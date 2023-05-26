@@ -90,14 +90,8 @@ export default class {
     }
 
     //Получение автора
-    static async getAuthor(user, id) {
-        //Вставка токена в заголовок, для авторизации
-        const config = {
-            headers: {
-                Authorization: 'Bearer ' + user.token
-            }
-        };
-        const response = await axios.get(`http://127.0.0.1:8000/api/author/${id}`, config);
+    static async getAuthor(id) {
+        const response = await axios.get(`http://127.0.0.1:8000/api/author/${id}`);
         if (response.data.success) {
             //Возвращаем автора
             return {status: true, data: response.data.data};
@@ -122,6 +116,16 @@ export default class {
         } else {
             //Возвращаем ошибку
             return {status: false, error: response.data.data.toString()};
+        }
+    }
+    static async getAuthorsWithParameters(page, parameters) {
+        const response = await axios.get(`http://127.0.0.1:8000/api/authors?page=${page}${parameters}`);
+        if (response.data.success) {
+            //Возвращаем авторов
+            return {status: true, data: response.data.data};
+        } else {
+            //Возвращаем ошибку
+            return {status: false, error: []};
         }
     }
 }
