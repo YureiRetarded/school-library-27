@@ -19,7 +19,7 @@ return new class extends Migration {
             $table->foreign('book_id', 'book_rating_fk')->on('books')->references('id')->onDelete('cascade');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id', 'rating_user_fk')->on('users')->references('id')->onDelete('cascade');
-            $table->integer('grade');
+            $table->unsignedTinyInteger('grade');
             $table->timestamps();
         });
     }
@@ -31,6 +31,6 @@ return new class extends Migration {
      */
     public function down()
     {
-        Schema::dropIfExists('raitings');
+        Schema::dropIfExists('ratings');
     }
 };

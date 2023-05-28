@@ -12,10 +12,7 @@ class Country extends Model
     protected $fillable = [
         'name',
     ];
-    protected $hidden = [
-        'updated_at',
-        'created_at',
-    ];
+    public $timestamps = false;
 
     public function authors()
     {
