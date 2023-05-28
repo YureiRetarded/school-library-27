@@ -13,7 +13,7 @@ class Role extends Model
         'access_level',
         'name',
     ];
-
+    public $timestamps = false;
     public function users()
     {
         return $this->hasMany(User::class);
