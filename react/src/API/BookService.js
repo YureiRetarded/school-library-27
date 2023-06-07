@@ -39,7 +39,6 @@ export default class {
                 }
             };
             const response = await axios.post(`http://127.0.0.1:8000/api/book/${id}/update`, {_method: 'PATCH', ...data}, config);
-            console.log(data)
             if (response.data.success) {
                 //Возвращаем истину
                 return {status: true, data: response.data.data};
