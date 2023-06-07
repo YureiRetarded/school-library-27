@@ -94,7 +94,6 @@ export default class {
 
     //Получение книги
     static async getBook(id) {
-        console.log(`http://127.0.0.1:8000/api/book/${id}`)
         const response = await axios.get(`http://127.0.0.1:8000/api/book/${id}`);
         if (response.data.success) {
             //Возвращаем книгу
