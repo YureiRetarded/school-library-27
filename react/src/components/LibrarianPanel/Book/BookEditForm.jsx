@@ -7,7 +7,7 @@ import DatePicker from "react-datepicker";
 import AuthorService from "../../../API/AuthorService.js";
 import CategoryService from "../../../API/CategoryService.js";
 import {useSelector} from "react-redux";
-import {Navigate, useNavigate, useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {useFormik} from "formik";
 import * as Yup from "yup";
 import BookService from "../../../API/BookService.js";
@@ -184,7 +184,7 @@ const BookEditForm = () => {
     //Загрузка автора
     useEffect(() => {
         const fetchBook = async () => {
-            const response = await BookService.getBook(user, bookId);
+            const response = await BookService.getBook(bookId);
             if (response.status) {
                 response.data.name && formik.setFieldValue('name', response.data.name.toString());
                 response.data.description && formik.setFieldValue('description', response.data.description.toString());

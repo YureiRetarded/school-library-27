@@ -39,6 +39,7 @@ export default class {
                 }
             };
             const response = await axios.post(`http://127.0.0.1:8000/api/book/${id}/update`, {_method: 'PATCH', ...data}, config);
+            console.log(data)
             if (response.data.success) {
                 //Возвращаем истину
                 return {status: true, data: response.data.data};
@@ -94,7 +95,7 @@ export default class {
 
     //Получение книги
     static async getBook(id) {
-        //Вставка токена в заголовок, для авторизации
+        console.log(`http://127.0.0.1:8000/api/book/${id}`)
         const response = await axios.get(`http://127.0.0.1:8000/api/book/${id}`);
         if (response.data.success) {
             //Возвращаем книгу

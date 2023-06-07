@@ -14,7 +14,7 @@ import DatePicker from "react-datepicker";
 const AuthorEditForm = () => {
     //Для аутентификации пользователя в запросе
     const user = useSelector(state => state.user);
-    //Для переадресации на страницу пользователя в случае успеха
+    //Для переадресации
     const navigate = useNavigate();
     //ID автора в адресной строке
     const {authorId} = useParams();
@@ -176,7 +176,7 @@ const AuthorEditForm = () => {
     //Загрузка автора
     useEffect(() => {
         const fetchAuthor = async () => {
-            const response = await AuthorService.getAuthor(user, authorId);
+            const response = await AuthorService.getAuthor(authorId);
             if (response.status) {
                 response.data.second_name && formik.setFieldValue('second_name', response.data.second_name.toString());
                 response.data.first_name && formik.setFieldValue('first_name', response.data.first_name.toString());
