@@ -36,4 +36,9 @@ class Book extends Model
     {
         return $this->belongsTo(File::class);
     }
+    public function ratings()
+    {
+        return $this->belongsToMany(Rating::class, 'ratings');
+    }
+
 }
