@@ -28,6 +28,10 @@ use App\Http\Controllers\Country\CountryReadController;
 use App\Http\Controllers\Country\CountryStoreController;
 use App\Http\Controllers\Country\CountryUpdateController;
 use App\Http\Controllers\Global\CatalogParametersController;
+use App\Http\Controllers\Rating\BookRatingController;
+use App\Http\Controllers\Rating\DeleteUserBookRatingController;
+use App\Http\Controllers\Rating\SetUserBookRatingController;
+use App\Http\Controllers\Rating\UserBookRatingController;
 use App\Http\Controllers\User\CheckUserController;
 use App\Http\Controllers\User\UserLoginController;
 use App\Http\Controllers\User\UserLogoutController;
@@ -61,9 +65,13 @@ Route::get('/books', BooksParameterController::class);
 Route::get('/book/{id}', BookReadController::class);
 Route::get('/catalog', CatalogParametersController::class);
 Route::get('/country_all', CountryAllController::class);
+Route::get('/book-rating/{id}',BookRatingController::class);
 
 //Запросы для авторизированных пользователей
 Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/user-book-rating/{id}',UserBookRatingController::class);
+    Route::post('/user-book-rating/{id}',SetUserBookRatingController::class);
+    Route::delete('/user-book-rating/{id}',DeleteUserBookRatingController::class);
     Route::post('/user', CheckUserController::class);
     Route::post('/logout', UserLogoutController::class);
     //Запросы для пользователей с уровнем доступа библиотекаря

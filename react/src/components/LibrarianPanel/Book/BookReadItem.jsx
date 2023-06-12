@@ -7,6 +7,8 @@ import {Link, useParams} from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import {Col, Image, Row, Spinner} from "react-bootstrap";
 import AuthorsBookList from "../../AuthorsBookList.jsx";
+import Rating from "../../Rating.jsx";
+import RatingService from "../../../API/RatingService.js";
 
 const BookReadItem = () => {
     //Для аутентификации пользователя в запросе
@@ -17,6 +19,15 @@ const BookReadItem = () => {
     const [isLoading, setIsLoading] = useState(true);
     //Найдена ли книга
     const [isFound, setIsFound] = useState(false);
+    //Оценки
+    const [rating, setRating] = useState({rating: 0, users: 0});
+    //Выставил ли пользователь оценку
+    const [haveUserRating, setHaveUserRating] = useState(false);
+    //Оценка пользователя
+    const [userRating, setUserRating] = useState(0);
+    //Ключ компонента
+    const [keyRating, setKeyRating] = useState(Date());
+    //Данные книги
     const [book, setBook] = useState({
         id: 0,
         name: '',
@@ -41,15 +52,43 @@ const BookReadItem = () => {
                     date_created: response.data.date_created,
                     description: response.data.description
                 });
+                setIsLoading(false);
                 setIsFound(true);
             } else {
                 setIsFound(false);
             }
-            setIsLoading(false);
-        };
-        fetchBook();
-    }, []);
 
+        };
+        const fetchRating = async () => {
+            const response = user.id > 0 ? await RatingService.getMyBookRating(user, bookId) : await RatingService.getBookRating(bookId);
+            if (response.status) {
+                setRating(response.data);
+                if (user.id > 0) {
+                    setHaveUserRating(response.data.status);
+                    if (response.data.status) {
+                        setUserRating(response.data.userRating);
+                    }
+                }
+            }
+        }
+        fetchBook();
+        fetchRating();
+
+    }, []);
+    const setGrade = async (grade) => {
+        setHaveUserRating(true);
+        setUserRating(grade);
+        setKeyRating(Date());
+        setRating({rating: rating.rating + grade, users: rating.users + 1});
+        await RatingService.setMyRating(user, bookId, grade);
+    }
+    const deleteGrade = async () => {
+        setRating({rating: rating.rating - userRating, users: rating.users - 1});
+        setHaveUserRating(false);
+        setUserRating(0);
+        setKeyRating(Date());
+        await RatingService.delete(user, bookId);
+    }
     return (
         <div>
             {isLoading ?
@@ -62,10 +101,13 @@ const BookReadItem = () => {
                                     <Image src={'http://' + book.imageURL} rounded fluid/>
                                 </Col>
                                 <Col>
-                                    {user.id>=5&&<h4>id книги:{book.id}</h4>}
-                                    <h4>
-                                        {book.name && book.name}
-                                    </h4>
+                                    <div className='book-page-title'>
+                                        <h4 className='book-page-title-text'>
+                                            {book.name && book.name}
+                                        </h4>
+                                        <Rating key={keyRating} rating={rating} haveUserRating={haveUserRating}
+                                                userRating={userRating} setRating={setGrade} deleteGrade={deleteGrade}/>
+                                    </div>
                                     {book.category.name &&
                                         <h4>Категория: {book.category.name}</h4>
                                     }
@@ -79,6 +121,7 @@ const BookReadItem = () => {
                                         <h4>Дата создания: неизвестно</h4>
                                     }
                                     <Link to={'read'} className='btn btn-primary'>Читать</Link>
+
                                 </Col>
                             </Row>
                             <Row>
