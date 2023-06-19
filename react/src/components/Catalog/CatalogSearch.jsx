@@ -2,7 +2,7 @@ import React from 'react';
 import {useFormik} from "formik";
 import {Button, Form} from "react-bootstrap";
 
-const CatalogSearch = ({changing}) => {
+const CatalogSearch = ({changing, placeholder}) => {
     const formik = useFormik({
         //Значение полей по умолчанию
         initialValues: {
@@ -23,7 +23,7 @@ const CatalogSearch = ({changing}) => {
                 <Form.Control
                     type='text'
                     name='name'
-                    placeholder='Наименование книги'
+                    placeholder={placeholder}
                     onChange={formik.handleChange}
                     value={formik.values.name}
                     onBlur={formik.handleBlur}
