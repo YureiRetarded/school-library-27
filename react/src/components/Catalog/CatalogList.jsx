@@ -8,7 +8,7 @@ import CatalogBookListPlaceholder from "./CatalogBookListPlaceholder.jsx";
 const CatalogList = ({isLoading, books, lastPage, currentPage, changePage, changing}) => {
     return (
         <div className='catalog-list'>
-            <CatalogSearch changing={changing}/>
+            <CatalogSearch changing={changing} placeholder={'Наименование книги'}/>
             {isLoading ? <CatalogBookListPlaceholder/> : <div>
                 <CatalogBookList books={books}/>
                 <div className='d-flex justify-content-center'>

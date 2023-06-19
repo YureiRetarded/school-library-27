@@ -7,7 +7,7 @@ import AuthorsElementList from "./AuthorsElementList.jsx";
 const AuthorsList = ({isLoading, authors, lastPage, currentPage, changePage, changing}) => {
     return (
         <div className='catalog-list'>
-            <CatalogSearch changing={changing}/>
+            <CatalogSearch changing={changing} placeholder={'ФИО автора'}/>
             {isLoading ? <CatalogBookListPlaceholder/> : <div>
                 <AuthorsElementList authors={authors}/>
                 <div className='d-flex justify-content-center'>

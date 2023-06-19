@@ -33,7 +33,6 @@ export default class {
 
     //Запись оценки
     static async setMyRating(user, bookId, grade) {
-        console.log('Вызов')
         //Вставка токена в заголовок, для авторизации
         const config = {
             headers: {
@@ -43,7 +42,6 @@ export default class {
         const response = await axios.post(`http://127.0.0.1:8000/api/user-book-rating/${bookId}`, {grade: grade}, config);
         if (response.data.success) {
             //Возвращаем истину
-            console.log(response)
             return {status: true};
         } else {
             //Возвращаем ошибку
