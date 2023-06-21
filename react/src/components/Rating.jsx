@@ -2,11 +2,14 @@ import React, {useState} from 'react';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faStar, faTrash} from "@fortawesome/free-solid-svg-icons";
 import ModalRating from "../ui/ModalRating.jsx";
+import {useNavigate} from "react-router-dom";
 
 
-const Rating = ({rating, setRating, haveUserRating, userRating, deleteGrade}) => {
+const Rating = ({user, rating, setRating, haveUserRating, userRating, deleteGrade}) => {
     //Показать модальное окно
     const [show, setShow] = useState(false);
+    //Для переадресации
+    const navigate=useNavigate();
     //Состояние наведение курсора на компонент
     const [isHovering, setIsHovering] = useState(false);
     //Калбек для закрытия модального окна
@@ -15,6 +18,9 @@ const Rating = ({rating, setRating, haveUserRating, userRating, deleteGrade}) =>
     const callback = (id) => {
         setRating(id);
         handleClose();
+    }
+    const navigateToLoginPage=()=>{
+        navigate('/login')
     }
     const handleShow = () => setShow(true);
     return (
@@ -54,7 +60,7 @@ const Rating = ({rating, setRating, haveUserRating, userRating, deleteGrade}) =>
                                 </div>
                             </div>}
                     </div> :
-                    <div className='button-rating' onClick={handleShow}>
+                    <div className='button-rating' onClick={user.access_level>0?handleShow:navigateToLoginPage}>
                         <div className='button-rating-wrapper'>
                             <div className='button-rating-star'>
                                 <FontAwesomeIcon icon={faStar}/>
