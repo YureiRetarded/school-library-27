@@ -10,7 +10,7 @@ export default class {
                     Authorization: 'Bearer ' + user.token
                 }
             };
-            const response = await axios.post('http://127.0.0.1:8000/api/book/', data, config);
+            const response = await axios.post(import.meta.env.VITE_API_URL+'/book/', data, config);
             if (response.data.success) {
                 //Возвращаем истину
                 return {status: true, data: response.data.data};
@@ -38,7 +38,7 @@ export default class {
                     Authorization: 'Bearer ' + user.token
                 }
             };
-            const response = await axios.post(`http://127.0.0.1:8000/api/book/${id}/update`, {_method: 'PATCH', ...data}, config);
+            const response = await axios.post(import.meta.env.VITE_API_URL+`/book/${id}/update`, {_method: 'PATCH', ...data}, config);
             if (response.data.success) {
                 //Возвращаем истину
                 return {status: true, data: response.data.data};
@@ -64,7 +64,7 @@ export default class {
                 Authorization: 'Bearer ' + user.token
             }
         };
-        const response = await axios.get(`http://127.0.0.1:8000/api/book_all`, config);
+        const response = await axios.get(import.meta.env.VITE_API_URL+`/book_all`, config);
         if (response.data.success) {
             //Возвращаем книги
             return {status: true, data: response.data.data};
@@ -82,7 +82,7 @@ export default class {
                 Authorization: 'Bearer ' + user.token
             }
         };
-        const response = await axios.get(`http://127.0.0.1:8000/api/book?page=${page}`, config);
+        const response = await axios.get(import.meta.env.VITE_API_URL+`/book?page=${page}`, config);
         if (response.data.success) {
             //Возвращаем книги
             return {status: true, data: response.data.data};
@@ -94,7 +94,7 @@ export default class {
 
     //Получение книги
     static async getBook(id) {
-        const response = await axios.get(`http://127.0.0.1:8000/api/book/${id}`);
+        const response = await axios.get(import.meta.env.VITE_API_URL+`/book/${id}`);
         if (response.data.success) {
             //Возвращаем книгу
             return {status: true, data: response.data.data};
@@ -106,7 +106,7 @@ export default class {
 
     //Получение файл книги
     static async getBookFile(id) {
-        const response = await axios.get(`http://127.0.0.1:8000/api/book/${id}/file`);
+        const response = await axios.get(import.meta.env.VITE_API_URL+`/book/${id}/file`);
         if (response.data.success) {
             //Возвращаем книгу
             return {status: true, data: response.data.data};
@@ -124,7 +124,7 @@ export default class {
                 Authorization: 'Bearer ' + user.token
             }
         };
-        const response = await axios.post(`http://127.0.0.1:8000/api/book/${id}`, {_method: 'DELETE'}, config);
+        const response = await axios.post(import.meta.env.VITE_API_URL+`/book/${id}`, {_method: 'DELETE'}, config);
         if (response.data.success) {
             //Возвращаем истину
             return {status: true, data: []};
@@ -135,7 +135,7 @@ export default class {
     }
 
     static async getBooksWithOutParameters(page) {
-        const response = await axios.get(`http://127.0.0.1:8000/api/books?page=${page}`);
+        const response = await axios.get(import.meta.env.VITE_API_URL+`/books?page=${page}`);
         if (response.data.success) {
             //Возвращаем книги
             return {status: true, data: response.data.data};
@@ -146,7 +146,7 @@ export default class {
     }
 
     static async getBooksWithParameters(page, parameters) {
-        const response = await axios.get(`http://127.0.0.1:8000/api/books?page=${page}${parameters}`);
+        const response = await axios.get(import.meta.env.VITE_API_URL+`/books?page=${page}${parameters}`);
         if (response.data.success) {
             //Возвращаем книги
             return {status: true, data: response.data.data};

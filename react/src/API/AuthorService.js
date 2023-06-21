@@ -10,7 +10,7 @@ export default class {
                     Authorization: 'Bearer ' + user.token
                 }
             };
-            const response = await axios.post('http://127.0.0.1:8000/api/author/', data, config);
+            const response = await axios.post(import.meta.env.VITE_API_URL+'/author/', data, config);
             if (response.data.success) {
                 //Возвращаем истину
                 return {status: true, data: response.data.data};
@@ -36,7 +36,7 @@ export default class {
                     Authorization: 'Bearer ' + user.token
                 }
             };
-            const response = await axios.post(`http://127.0.0.1:8000/api/author/${id}/update`, {_method: 'PATCH', ...data}, config);
+            const response = await axios.post(import.meta.env.VITE_API_URL+`/author/${id}/update`, {_method: 'PATCH', ...data}, config);
             if (response.data.success) {
                 //Возвращаем истину
                 return {status: true, data: response.data.data};
@@ -61,7 +61,7 @@ export default class {
                 Authorization: 'Bearer ' + user.token
             }
         };
-        const response = await axios.get(`http://127.0.0.1:8000/api/author_all`, config);
+        const response = await axios.get(import.meta.env.VITE_API_URL+'/author_all', config);
         if (response.data.success) {
             //Возвращаем авторов
             return {status: true, data: response.data.data};
@@ -79,7 +79,7 @@ export default class {
                 Authorization: 'Bearer ' + user.token
             }
         };
-        const response = await axios.get(`http://127.0.0.1:8000/api/author?page=${page}`, config);
+        const response = await axios.get(import.meta.env.VITE_API_URL+`/author?page=${page}`, config);
         if (response.data.success) {
             //Возвращаем авторов
             return {status: true, data: response.data.data};
@@ -91,7 +91,7 @@ export default class {
 
     //Получение автора
     static async getAuthor(id) {
-        const response = await axios.get(`http://127.0.0.1:8000/api/author/${id}`);
+        const response = await axios.get(import.meta.env.VITE_API_URL+`/author/${id}`);
         if (response.data.success) {
             //Возвращаем автора
             return {status: true, data: response.data.data};
@@ -109,7 +109,7 @@ export default class {
                 Authorization: 'Bearer ' + user.token
             }
         };
-        const response = await axios.post(`http://127.0.0.1:8000/api/author/${id}`, {_method: 'DELETE'}, config);
+        const response = await axios.post(import.meta.env.VITE_API_URL+`/author/${id}`, {_method: 'DELETE'}, config);
         if (response.data.success) {
             //Возвращаем истину
             return {status: true, data: []};
@@ -119,7 +119,7 @@ export default class {
         }
     }
     static async getAuthorsWithParameters(page, parameters) {
-        const response = await axios.get(`http://127.0.0.1:8000/api/authors?page=${page}${parameters}`);
+        const response = await axios.get(import.meta.env.VITE_API_URL+`/authors?page=${page}${parameters}`);
         if (response.data.success) {
             //Возвращаем авторов
             return {status: true, data: response.data.data};

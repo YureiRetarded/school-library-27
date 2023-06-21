@@ -7,7 +7,7 @@ export default class UserService {
     //Авторизация пользователя
     static async userAuthorization(dispatch, userData) {
         //Отправка данных из формы
-        const response = await axios.post('http://127.0.0.1:8000/api/login', userData);
+        const response = await axios.post(import.meta.env.VITE_API_URL+'/login', userData);
         if (response.data.success) {
             //В случае успеха, в состояние пользователя записывается уровень доступа, идентификатор и токен доступа,
             //а также возвращается 'истина'
@@ -24,7 +24,7 @@ export default class UserService {
 
     //Регистрация пользователя
     static async userRegistration(dispatch, userData) {
-        const response = await axios.post('http://127.0.0.1:8000/api/registration', userData);
+        const response = await axios.post(import.meta.env.VITE_API_URL+'/registration', userData);
         if (response.data.success) {
             //В случае успеха, в состояние пользователя записывается уровень доступа, идентификатор и токен доступа,
             //а также возвращается 'истина'
@@ -49,7 +49,7 @@ export default class UserService {
                 }
             };
             //В случае, если токен правильный, идёт обновление состояния пользователя
-            const response = await axios.post('http://127.0.0.1:8000/api/user', {token: user.token}, config);
+            const response = await axios.post(import.meta.env.VITE_API_URL+'/user', {token: user.token}, config);
             dispatch(setId(response.data.data.id));
             dispatch(setAccessLevel(response.data.data.access_level));
             return true;
@@ -70,7 +70,7 @@ export default class UserService {
                 Authorization: 'Bearer ' + user.token
             }
         };
-        const response = await axios.post('http://127.0.0.1:8000/api/logout', {tokenID: user.token.split('|')[0]}, config);
+        const response = await axios.post(import.meta.env.VITE_API_URL+'/logout', {tokenID: user.token.split('|')[0]}, config);
         //В случае успеха, данные пользователя обнуляются
         if (response.status) {
             dispatch(setId(0));
