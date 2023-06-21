@@ -25,7 +25,7 @@ const AuthorsFormList = ({countries, changing}) => {
                     <Accordion.Header>Страны</Accordion.Header>
                     <Accordion.Body role="group-countries" aria-labelledby="radio-group"
                                     className='accordion-body-overflow'>
-                        {countries.map(country => <Form.Check>
+                        {countries.map(country =>
                             <Form.Check
                                 name="country"
                                 type="radio"
@@ -33,8 +33,8 @@ const AuthorsFormList = ({countries, changing}) => {
                                 onChange={formik.handleChange}
                                 value={country.id}
                                 label={country.name}
-                            />
-                        </Form.Check>)}
+                                key={country.id}
+                            />)}
                     </Accordion.Body>
                 </Accordion.Item>
             </Accordion>

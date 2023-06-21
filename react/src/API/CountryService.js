@@ -3,7 +3,7 @@ import axios from "axios";
 export default class CountryService {
     //Получение всех стран
     static async getCountries() {
-        const response = await axios.get('http://127.0.0.1:8000/api/country_all');
+        const response = await axios.get(import.meta.env.VITE_API_URL+'/country_all');
         if (response.data.success) {
             //Возвращаем страны
             return {status: true, data: response.data.data, error: []};
@@ -21,7 +21,7 @@ export default class CountryService {
                 Authorization: 'Bearer ' + user.token
             }
         };
-        const response = await axios.get(`http://127.0.0.1:8000/api/country?page=${page}`, config);
+        const response = await axios.get(import.meta.env.VITE_API_URL+`/country?page=${page}`, config);
         if (response.data.success) {
             //Возвращаем страны
             return {status: true, data: response.data.data, error: []};
@@ -39,7 +39,7 @@ export default class CountryService {
                 Authorization: 'Bearer ' + user.token
             }
         };
-        const response = await axios.post('http://127.0.0.1:8000/api/country/', data, config);
+        const response = await axios.post(import.meta.env.VITE_API_URL+'/country/', data, config);
         if (response.data.success) {
             //Возвращаем подтверждения добавления
             return {status: true, error: ''};
@@ -57,7 +57,7 @@ export default class CountryService {
                 Authorization: 'Bearer ' + user.token
             }
         };
-        const response = await axios.get(`http://127.0.0.1:8000/api/country/${id}`, config);
+        const response = await axios.get(import.meta.env.VITE_API_URL+`/country/${id}`, config);
         if (response.data.success) {
             //Возвращаем страну
             return {status: true, data: response.data.data};
@@ -75,7 +75,7 @@ export default class CountryService {
                 Authorization: 'Bearer ' + user.token
             }
         };
-        const response = await axios.post(`http://127.0.0.1:8000/api/country/${id}/update`, {
+        const response = await axios.post(import.meta.env.VITE_API_URL+`/country/${id}/update`, {
             _method: 'PATCH',
             name: data.name
         }, config);
@@ -96,7 +96,7 @@ export default class CountryService {
                 Authorization: 'Bearer ' + user.token
             }
         };
-        const response = await axios.post(`http://127.0.0.1:8000/api/country/${id}`, {_method: 'DELETE'}, config);
+        const response = await axios.post(import.meta.env.VITE_API_URL+`/country/${id}`, {_method: 'DELETE'}, config);
         if (response.data.success) {
             //Возвращаем истину
             return {status: true, data: []};

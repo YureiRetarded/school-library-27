@@ -36,7 +36,7 @@ const CatalogFormList = ({authors, categories, changing}) => {
                     <Accordion.Header>Категории</Accordion.Header>
                     <Accordion.Body role="group-categories" aria-labelledby="radio-group"
                                     className='accordion-body-overflow'>
-                        {categories.map(category => <Form.Check>
+                        {categories.map(category =>
                             <Form.Check
                                 name="category"
                                 type="radio"
@@ -44,8 +44,8 @@ const CatalogFormList = ({authors, categories, changing}) => {
                                 onChange={formik.handleChange}
                                 value={category.id}
                                 label={category.name}
-                            />
-                        </Form.Check>)}
+                                key={category.id}
+                            />)}
                     </Accordion.Body>
                 </Accordion.Item>
             </Accordion>
@@ -54,16 +54,16 @@ const CatalogFormList = ({authors, categories, changing}) => {
                     <Accordion.Header>Авторы</Accordion.Header>
                     <Accordion.Body role="group-authors" aria-labelledby="checkbox-group"
                                     className='accordion-body-overflow'>
-                        {authors.map(author => <Form.Check>
+                        {authors.map(author =>
                             <Form.Check
                                 name="authors"
                                 type="checkbox"
+                                key={author.id}
                                 onChange={formik.handleChange}
                                 checked={checkHave(author.id)}
                                 value={author.id}
                                 label={<CatalogFormListAuthorName author={author}/>}
-                            />
-                        </Form.Check>)}
+                            />)}
                     </Accordion.Body>
                 </Accordion.Item>
             </Accordion>

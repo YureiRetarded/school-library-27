@@ -9,7 +9,7 @@ export default class CategoryService {
                 Authorization: 'Bearer ' + user.token
             }
         };
-        const response = await axios.get('http://127.0.0.1:8000/api/category_all', config);
+        const response = await axios.get(import.meta.env.VITE_API_URL+'/category_all', config);
         if (response.data.success) {
             //Возвращаем категории
             return {status: true, data: response.data.data, error: []};
@@ -27,7 +27,7 @@ export default class CategoryService {
                 Authorization: 'Bearer ' + user.token
             }
         };
-        const response = await axios.get(`http://127.0.0.1:8000/api/category?page=${page}`, config);
+        const response = await axios.get(import.meta.env.VITE_API_URL+`/category?page=${page}`, config);
         if (response.data.success) {
             //Возвращаем категории
             return {status: true, data: response.data.data, error: []};
@@ -45,7 +45,7 @@ export default class CategoryService {
                 Authorization: 'Bearer ' + user.token
             }
         };
-        const response = await axios.post('http://127.0.0.1:8000/api/category/', data, config);
+        const response = await axios.post(import.meta.env.VITE_API_URL+'/category/', data, config);
         if (response.data.success) {
             //Возвращаем подтверждения добавления
             return {status: true, error: ''};
@@ -63,7 +63,7 @@ export default class CategoryService {
                 Authorization: 'Bearer ' + user.token
             }
         };
-        const response = await axios.get(`http://127.0.0.1:8000/api/category/${id}`, config);
+        const response = await axios.get(import.meta.env.VITE_API_URL+`/category/${id}`, config);
         if (response.data.success) {
             //Возвращаем категорию
             return {status: true, data: response.data.data};
@@ -81,7 +81,7 @@ export default class CategoryService {
                 Authorization: 'Bearer ' + user.token
             }
         };
-        const response = await axios.post(`http://127.0.0.1:8000/api/category/${id}/update`, {
+        const response = await axios.post(import.meta.env.VITE_API_URL+`/category/${id}/update`, {
             _method: 'PATCH',
             name: data.name
         }, config);
@@ -102,7 +102,7 @@ export default class CategoryService {
                 Authorization: 'Bearer ' + user.token
             }
         };
-        const response = await axios.post(`http://127.0.0.1:8000/api/category/${id}`, {_method: 'DELETE'}, config);
+        const response = await axios.post(import.meta.env.VITE_API_URL+`/category/${id}`, {_method: 'DELETE'}, config);
         if (response.data.success) {
             //Возвращаем истину
             return {status: true, data: []};
