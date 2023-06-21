@@ -105,7 +105,7 @@ const BookReadItem = () => {
                                         <h4 className='book-page-title-text'>
                                             {book.name && book.name}
                                         </h4>
-                                        <Rating key={keyRating} rating={rating} haveUserRating={haveUserRating}
+                                        <Rating user={user} key={keyRating} rating={rating} haveUserRating={haveUserRating}
                                                 userRating={userRating} setRating={setGrade} deleteGrade={deleteGrade}/>
                                     </div>
                                     {book.category.name &&
