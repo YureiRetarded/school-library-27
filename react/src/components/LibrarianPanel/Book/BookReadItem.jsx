@@ -60,7 +60,7 @@ const BookReadItem = () => {
 
         };
         const fetchRating = async () => {
-            const response = user.id > 0 ? await RatingService.getMyBookRating(user, bookId) : await RatingService.getBookRating(bookId);
+            const response = user.id > 0 ? await RatingService.getUserBookRating(user, bookId) : await RatingService.getBookRating(bookId);
             if (response.status) {
                 setRating(response.data);
                 if (user.id > 0) {
@@ -80,7 +80,7 @@ const BookReadItem = () => {
         setUserRating(grade);
         setKeyRating(Date());
         setRating({rating: rating.rating + grade, users: rating.users + 1});
-        await RatingService.setMyRating(user, bookId, grade);
+        await RatingService.setUserRating(user, bookId, grade);
     }
     const deleteGrade = async () => {
         setRating({rating: rating.rating - userRating, users: rating.users - 1});

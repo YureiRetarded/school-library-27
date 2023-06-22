@@ -6,6 +6,7 @@ namespace Database\Seeders;
 use App\Models\Category;
 use App\Models\Country;
 use App\Models\Role;
+use App\Models\Status;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -68,6 +69,23 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Документ'
             ],
         ];
+        $statuses = [
+            [
+                'name' => 'Читаю'
+            ],
+            [
+                'name' => 'Прочитано'
+            ],
+            [
+                'name' => 'В планах'
+            ],
+            [
+                'name' => 'Брошено'
+            ],
+            [
+                'name' => 'Любимые'
+            ],
+        ];
         foreach ($roles as $role) {
             Role::create($role);
         }
@@ -76,6 +94,9 @@ class DatabaseSeeder extends Seeder
         }
         foreach ($categories as $category) {
             Category::create($category);
+        }
+        foreach ($statuses as $status) {
+            Status::create($status);
         }
     }
 }

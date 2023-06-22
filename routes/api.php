@@ -32,6 +32,10 @@ use App\Http\Controllers\Rating\BookRatingController;
 use App\Http\Controllers\Rating\DeleteUserBookRatingController;
 use App\Http\Controllers\Rating\SetUserBookRatingController;
 use App\Http\Controllers\Rating\UserBookRatingController;
+use App\Http\Controllers\Status\DeleteUserStatusBookController;
+use App\Http\Controllers\Status\SetUserStatusBookController;
+use App\Http\Controllers\Status\StatusesController;
+use App\Http\Controllers\Status\UserStatusBookController;
 use App\Http\Controllers\User\CheckUserController;
 use App\Http\Controllers\User\UserLoginController;
 use App\Http\Controllers\User\UserLogoutController;
@@ -58,20 +62,24 @@ Route::prefix('category')->group(function () {
     Route::get('/', CategoryIndexController::class);
 });
 
-Route::get('/authors',AuthorParameterController::class);
+Route::get('/authors', AuthorParameterController::class);
 Route::get('/author/{id}', AuthorReadController::class);
 Route::get('/book/{id}/file', BookReadFileController::class);
 Route::get('/books', BooksParameterController::class);
 Route::get('/book/{id}', BookReadController::class);
 Route::get('/catalog', CatalogParametersController::class);
 Route::get('/country_all', CountryAllController::class);
-Route::get('/book-rating/{id}',BookRatingController::class);
+Route::get('/book-rating/{id}', BookRatingController::class);
+Route::get('/statuses', StatusesController::class);
 
 //Запросы для авторизированных пользователей
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/user-book-rating/{id}',UserBookRatingController::class);
-    Route::post('/user-book-rating/{id}',SetUserBookRatingController::class);
-    Route::delete('/user-book-rating/{id}',DeleteUserBookRatingController::class);
+    Route::get('/user-book-rating/{id}', UserBookRatingController::class);
+    Route::post('/user-book-rating/{id}', SetUserBookRatingController::class);
+    Route::delete('/user-book-rating/{id}', DeleteUserBookRatingController::class);
+    Route::get('/user-statuses/{id}', UserStatusBookController::class);
+    Route::post('/user-statuses/{id}', SetUserStatusBookController::class);
+    Route::delete('/user-statuses/{id}', DeleteUserStatusBookController::class);
     Route::post('/user', CheckUserController::class);
     Route::post('/logout', UserLogoutController::class);
     //Запросы для пользователей с уровнем доступа библиотекаря
